@@ -1,6 +1,7 @@
 package com.example.server.entity;
 
 import com.example.server.infrastructure.constant.EntityProperties;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,9 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
@@ -24,6 +27,8 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Entity
+@ToString
+@Getter
 @Table(name = "missions")
 public class Missions {
 
@@ -37,7 +42,7 @@ public class Missions {
     @Column(name = "descriptions", length = EntityProperties.LENGTH_DESCRIPTIONS)
     String descriptions;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "employees_missions",
             joinColumns = @JoinColumn(name = "missions_id"),

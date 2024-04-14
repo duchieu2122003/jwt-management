@@ -1,52 +1,81 @@
 package com.example.server;
 
+import com.example.server.entity.Departments;
+import com.example.server.entity.Employees;
+import com.example.server.entity.Missions;
+import com.example.server.infrastructure.constant.Gender;
+import com.example.server.infrastructure.constant.Role;
+import com.example.server.infrastructure.constant.StatusDepartment;
+import com.example.server.infrastructure.constant.StatusEmployee;
+import com.example.server.repositoty.DepartmentsRepository;
+import com.example.server.repositoty.EmployeesRepository;
+import com.example.server.repositoty.MissionsRepository;
+import com.example.server.util.DateConverter;
+import com.example.server.util.EmployeesHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 @Slf4j
 public class ServerApplication {
 
-
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }
 
-
 //    @Autowired
-//    private ServerApplication(DepartmentsRepository departmentsRepository, EmployeesRepository employeesRepository) {
+//    public ServerApplication(DepartmentsRepository departmentsRepository, EmployeesRepository employeesRepository, MissionsRepository missionsRepository) {
 //        this.departmentsRepository = departmentsRepository;
 //        this.employeesRepository = employeesRepository;
+//        this.missionsRepository = missionsRepository;
 //    }
-
 //
-//    @Autowired
-//    private DepartmentsRepository departmentsRepository;
-//    @Autowired
-//    private EmployeesRepository employeesRepository;
-//
-//
-//
+//    private final DepartmentsRepository departmentsRepository;
+//    private final EmployeesRepository employeesRepository;
+//    private final MissionsRepository missionsRepository;
 //
 //    @Bean
 //    ApplicationRunner applicationRunner() {
 //        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 //        return args -> {
+//            List<Missions> listMission = new ArrayList<>();
+//            Missions missions1 = Missions.builder()
+//                    .id("d")
+//                    .name("Dev")
+//                    .descriptions("Coder")
+//                    .build();
+//            Missions missions2 = Missions.builder()
+//                    .id("t")
+//                    .name("Test")
+//                    .descriptions("TESTER")
+//                    .build();
+//            listMission.add(missions1);
+//            listMission.add(missions2);
+//            missionsRepository.saveAll(listMission);
+//
 //            List<Departments> departmentsList = new ArrayList<>();
 //            Departments departments1 = Departments.builder()
 //                    .name("Kế toán")
-//                    .desctiptions("Phòng ban quản lý về phần mềm kế toán")
+//                    .descriptions("Phòng ban quản lý về phần mềm kế toán")
 //                    .status(StatusDepartment.ACTIVE)
 //                    .build();
 //            Departments departments2 = Departments.builder()
 //                    .name("Booking")
-//                    .desctiptions("Phòng ban quản lý về việc đặt book trước ở tất cả dịch vụ")
+//                    .descriptions("Phòng ban quản lý về việc đặt book trước ở tất cả dịch vụ")
 //                    .status(StatusDepartment.ACTIVE)
 //                    .build();
 //            Departments departments3 = Departments.builder()
 //                    .name("Bán hàng")
-//                    .desctiptions("Phòng ban quản lý về phần mềm bán hàng toàn quốc")
+//                    .descriptions("Phòng ban quản lý về phần mềm bán hàng toàn quốc")
 //                    .status(StatusDepartment.ACTIVE)
 //                    .build();
 //            departmentsList.add(departments1);

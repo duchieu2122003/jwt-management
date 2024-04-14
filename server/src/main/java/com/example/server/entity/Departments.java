@@ -32,12 +32,11 @@ public class Departments {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
-
     @Column(name = "name", length = EntityProperties.LENGTH_NAME)
     String name;
 
-    @Column(name = "desctiptions", length = EntityProperties.LENGTH_DESCRIPTIONS)
-    String desctiptions;
+    @Column(name = "descriptions", length = EntityProperties.LENGTH_DESCRIPTIONS)
+    String descriptions;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

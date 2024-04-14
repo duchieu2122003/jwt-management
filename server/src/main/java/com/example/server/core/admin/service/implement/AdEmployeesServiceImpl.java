@@ -1,11 +1,11 @@
 package com.example.server.core.admin.service.implement;
 
+import com.example.server.core.admin.model.request.AdEmployeesCreateRequest;
+import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
+import com.example.server.core.admin.model.request.AdEmployeesUpdateRequest;
+import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
 import com.example.server.core.admin.repository.AdDepartmentsRepository;
 import com.example.server.core.admin.repository.AdEmployeesRepository;
-import com.example.server.core.admin.request.AdEmployeesCreateRequest;
-import com.example.server.core.admin.request.AdEmployeesCustomRequest;
-import com.example.server.core.admin.request.AdEmployeesUpdateRequest;
-import com.example.server.core.admin.response.AdEmployeesCustomResponse;
 import com.example.server.core.admin.service.AdEmployeesService;
 import com.example.server.entity.Departments;
 import com.example.server.entity.Employees;
@@ -23,7 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @author duchieu212
@@ -40,14 +40,6 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     public AdEmployeesServiceImpl(AdEmployeesRepository adEmployeesRepository, AdDepartmentsRepository adDepartmentsRepository) {
         this.adEmployeesRepository = adEmployeesRepository;
         this.adDepartmentsRepository = adDepartmentsRepository;
-    }
-
-    @Override
-    public List<Employees> getAll() {
-        System.err.println("111111111111111111");
-        List<Employees> ge = adEmployeesRepository.findAll();
-        System.err.println("getttttttttt2");
-        return ge;
     }
 
     @Override
@@ -69,6 +61,10 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
             departments = departmentsOptional;
         }
+        Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());
+        if (findEmployees.isPresent()) {
+            throw new RestApiException(Message.EMAIL_EXSITS);
+        }
         Employees employees = Employees.builder()
                 .code(EmployeesHelper.generateEmployeeCode())
                 .firstName(request.getFirstName())
@@ -81,7 +77,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                 .country(request.getCountry())
                 .role(request.getRole())
                 .birthday(request.getBirthday())
-                .password(passwordEncoder.encode("123456a@"))
+                .password(passwordEncoder.encode("1"))
                 .status(StatusEmployee.ACTIVE)
                 .departments(departments)
                 .build();
@@ -98,6 +94,10 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Employees employees = adEmployeesRepository.findById(request.getId())
                 .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());
+        if (findEmployees.isPresent() && !findEmployees.get().getId().equals(request.getId())) {
+            throw new RestApiException(Message.EMAIL_EXSITS);
+        }
         Departments departments = null;
         if (request.getIdDepartments() != null) {
             Departments departmentsOptional = adDepartmentsRepository
@@ -105,6 +105,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
             departments = departmentsOptional;
         }
+
         Employees employeesSave = Employees.builder()
                 .id(employees.getId())
                 .code(employees.getCode())

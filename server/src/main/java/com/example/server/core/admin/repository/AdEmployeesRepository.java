@@ -1,21 +1,23 @@
 package com.example.server.core.admin.repository;
 
-import com.example.server.core.admin.request.AdEmployeesCustomRequest;
-import com.example.server.core.admin.response.AdEmployeesCustomResponse;
-import com.example.server.core.admin.response.AdEmployeesResponse;
+import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
+import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
+import com.example.server.core.admin.model.response.AdEmployeesResponse;
 import com.example.server.entity.Employees;
+import com.example.server.repositoty.EmployeesRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * @author duchieu212
  */
 @Repository
-public interface AdEmployeesRepository extends JpaRepository<Employees, String> {
+public interface AdEmployeesRepository extends EmployeesRepository {
 
     @Query(value = """
              select distinct row_number() over (order by e.code ASC) as stt,
@@ -63,5 +65,7 @@ public interface AdEmployeesRepository extends JpaRepository<Employees, String> 
             WHERE e.id = :#{#id} 
             """, nativeQuery = true)
     AdEmployeesCustomResponse findEmployeesCustomById(@Param("id") String id);
+
+    Optional<Employees> findEmployeesByEmail(String email);
 
 }

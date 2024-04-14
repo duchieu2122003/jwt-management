@@ -1,7 +1,8 @@
-package com.example.server.core.common.model.request;
+package com.example.server.core.admin.model.request;
 
 import com.example.server.infrastructure.constant.EntityProperties;
 import com.example.server.infrastructure.constant.Gender;
+import com.example.server.infrastructure.constant.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,17 +19,15 @@ import java.util.Date;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CoUpdateEmployeeRequest {
-
-    String id;
+public class AdEmployeesCreateRequest {
 
     @NotBlank(message = "Họ đệm không được để trống")
-    @Size(max = EntityProperties.LENGTH_NAME, message = "Họ không được quá 50 ký tự")
-    String lastName;
+    @Size(max = EntityProperties.LENGTH_NAME, message = "Họ không được quá 255 ký tự")
+    String firstName;
 
     @NotBlank(message = "Tên không được để trống")
-    @Size(max = EntityProperties.LENGTH_NAME, message = "Tên không được quá 50 ký tự")
-    String firstName;
+    @Size(max = EntityProperties.LENGTH_NAME, message = "Tên không được quá 255 ký tự")
+    String lastName;
 
     @NotBlank(message = "Email không được để trống")
     @Size(max = EntityProperties.LENGTH_EMAIL, message = "Email không được quá 50 ký tự")
@@ -37,16 +36,22 @@ public class CoUpdateEmployeeRequest {
     @NotNull(message = "Ngày sinh không được để trống")
     Date birthday;
 
-    @NotNull(message = "Giới tính không được để trống")
+    @NotNull(message = "Phải chọn ít nhất 1 giới tính")
     Gender gender;
 
-    @NotBlank(message = "Địa chỉ cụ thể không được để trống")
     String address;
+
+    @NotBlank(message = "Đường không được để trống")
+    String street;
 
     @NotBlank(message = "Thành phố không được để trống")
     String city;
 
     @NotBlank(message = "Quốc gia không được để trống")
     String country;
+
+    Role role = Role.STAFF;
+
+    String idDepartments;
 
 }

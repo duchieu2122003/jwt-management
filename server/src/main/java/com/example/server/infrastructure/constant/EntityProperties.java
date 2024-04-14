@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 public class EntityProperties {
 
     private static final byte LENGTH_ID = 36;
-    public static final short LENGTH_NAME = 255;
+    public static final byte LENGTH_NAME = 50;
     public static final byte LENGTH_CODE = 100;
     public static final byte LENGTH_PASSWORD = 100;
     public static final short LENGTH_DESCRIPTIONS = 1000;

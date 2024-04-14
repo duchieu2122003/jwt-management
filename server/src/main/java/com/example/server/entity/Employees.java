@@ -23,6 +23,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Nationalized;
 
@@ -36,6 +37,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 @Entity
 @Table(name = "employees")
@@ -98,6 +100,6 @@ public class Employees {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     Departments departments;
 
-    @ManyToMany(mappedBy = "employees")
+    @ManyToMany(mappedBy = "employees",cascade = CascadeType.ALL)
     Set<Missions> missions;
 }

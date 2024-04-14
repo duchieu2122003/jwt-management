@@ -26,6 +26,9 @@ public enum Message {
     EMPLOYEE_NOT_EXIST("Tài khoản không tồn tại"),
     EMPLOYEE_NOT_SAVE("Hệ thống lỗi, không thể cập nhật, vui lòng thử lại"),
     DEPARTMENT_NOT_EXSIST("Phòng ban không tồn tại"),
+    DEPARTMENT_NAME_EXSIST("Tên phòng ban đã tồn tại"),
+    EMAIL_EXSITS("Email đã tồn tại, vui lòng dùng email khác"),
+    LOGIN_FAILD("Không tìm thấy tài khoản đang đăng nhập, vui lòng đăng nhập lại"),
     NAME_NOT_EMPTY("Tên không được để trống");
 
 

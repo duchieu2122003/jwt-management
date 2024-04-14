@@ -1,14 +1,14 @@
 package com.example.server.core.common.service.implement;
 
 import com.example.server.core.common.model.request.AuthenticationRequest;
+import com.example.server.core.common.model.request.CoChangePasswordRequest;
 import com.example.server.core.common.model.request.CoUpdateEmployeeRequest;
 import com.example.server.core.common.model.response.AuthenticationResponse;
 import com.example.server.core.common.model.response.CoDetailCustomEmployeeResponse;
-import com.example.server.core.common.model.response.CoDetailEmployeeResponse;
-import com.example.server.core.common.repository.CoEmployeeRepository;
-import com.example.server.core.common.service.CoEmployeeService;
+import com.example.server.core.common.model.response.CoEmployeesInformationResponse;
+import com.example.server.core.common.repository.CoEmployeesRepository;
+import com.example.server.core.common.service.CoEmployeesService;
 import com.example.server.entity.Employees;
-import com.example.server.infrastructure.constant.Gender;
 import com.example.server.infrastructure.constant.Message;
 import com.example.server.infrastructure.exception.RestApiException;
 import com.example.server.infrastructure.security.JwtTokenProvider;
@@ -18,9 +18,9 @@ import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +34,9 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
-public class CoEmployeeImpl implements CoEmployeeService {
+public class CoEmployeesImpl implements CoEmployeesService {
 
-    private final CoEmployeeRepository coEmployeeRepository;
+    private final CoEmployeesRepository coEmployeesRepository;
 
     @NonFinal
     @Value("${identity.secretKey}")
@@ -44,17 +44,19 @@ public class CoEmployeeImpl implements CoEmployeeService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Employees findMyInfor() {
+    public CoEmployeesInformationResponse findMyInformation() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return coEmployeeRepository.findByEmail(email).orElseThrow(() -> new RestApiException("Không tìm thấy tài khoản đang đăng nhập"));
+        Optional<CoEmployeesInformationResponse> employees = Optional.ofNullable(coEmployeesRepository.findEmployeesMyAuth(email)
+                .orElseThrow(() -> new RestApiException(Message.LOGIN_FAILD)));
+        return employees.get();
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        Employees employee = coEmployeeRepository.findByEmail(
+        Employees employee = coEmployeesRepository.findByEmailWithFetchMissions(
                 request.getEmail()).orElseThrow(() -> new RestApiException(Message.EMAIL_NOT_EXIST));
         boolean authenticated = passwordEncoder.matches(request.getPassword(), employee.getPassword());
         if (!authenticated) {
@@ -71,49 +73,48 @@ public class CoEmployeeImpl implements CoEmployeeService {
     }
 
     @Override
-    public CoDetailEmployeeResponse updateEmployeeCurrent(CoUpdateEmployeeRequest request) {
-        Employees employee = coEmployeeRepository.findById(request.getId()).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
-        String fullName = request.getFullName();
-        String firstName = "";
-        String lastName = "";
-        int indexLastSpace = fullName.lastIndexOf(" ");
-        if (indexLastSpace != -1) {
-            firstName = fullName.substring(0, indexLastSpace);
-            lastName = fullName.substring(indexLastSpace + 1);
-        }
+    @Transactional
+    public CoEmployeesInformationResponse updateEmployeeCurrent(CoUpdateEmployeeRequest request) {
+        Employees employee = coEmployeesRepository.findById(request.getId())
+                .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
         employee = Employees.builder()
-                .lastName(lastName)
-                .firstName(firstName)
+                .id(employee.getId())
+                .lastName(request.getLastName())
+                .firstName(request.getFirstName())
                 .email(request.getEmail())
-                .gender(request.getGender() == "MALE" ? Gender.MALE : Gender.FEMALE)
+                .gender(request.getGender())
                 .address(request.getAddress())
                 .city(request.getCity())
                 .country(request.getCountry())
                 .birthday(request.getBirthday())
                 .build();
-        Employees employeeSave = coEmployeeRepository.save(employee);
+        Employees employeeSave = coEmployeesRepository.save(employee);
         if (employeeSave == null) {
             throw new RestApiException(Message.EMPLOYEE_NOT_SAVE);
         }
-        return CoDetailEmployeeResponse.builder()
-                .id(employeeSave.getId())
-                .fullName(employeeSave.getFirstName() + " " + employee.getLastName())
-                .email(employeeSave.getEmail())
-                .address(employeeSave.getAddress())
-                .city(employeeSave.getCity())
-                .country(employeeSave.getCountry())
-                .code(employeeSave.getCode())
-                .birthday(employeeSave.getBirthday())
-                .build();
+        return coEmployeesRepository.findEmployeesMyAuth(request.getEmail()).get();
     }
 
     @Override
     public CoDetailCustomEmployeeResponse detailCustomEmployeeCurrent() {
-        var email = SecurityContextHolder.getContext().getAuthentication();
-        Optional<CoDetailCustomEmployeeResponse> employee = coEmployeeRepository
+        Authentication email = SecurityContextHolder.getContext().getAuthentication();
+        Optional<CoDetailCustomEmployeeResponse> employee = coEmployeesRepository
                 .findEmployeeCustomByEmail(email.getName());
         if (!employee.isPresent())
             throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
         return employee.get();
+    }
+
+    @Override
+    public boolean updatePassword(CoChangePasswordRequest request) {
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Employees> employees = Optional.ofNullable(coEmployeesRepository.findEmployeesByEmail(email)
+                .orElseThrow(() -> new RestApiException(Message.LOGIN_FAILD)));
+        if (passwordEncoder.matches(request.getPasswordOld(), employees.get().getPassword())) {
+            employees.get().setPassword(passwordEncoder.encode(request.getPasswordNew()));
+        }
+        coEmployeesRepository.save(employees.get());
+        return true;
     }
 }
