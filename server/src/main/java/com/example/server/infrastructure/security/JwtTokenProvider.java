@@ -119,7 +119,6 @@ public class JwtTokenProvider {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
-//                    .setAllowedClockSkewSeconds(3600)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();

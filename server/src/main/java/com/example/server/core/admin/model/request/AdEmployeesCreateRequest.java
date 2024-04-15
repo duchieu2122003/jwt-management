@@ -39,6 +39,7 @@ public class AdEmployeesCreateRequest {
     @NotNull(message = "Phải chọn ít nhất 1 giới tính")
     Gender gender;
 
+    @NotBlank(message = "Địa chỉ cụ thể không được để trống")
     String address;
 
     @NotBlank(message = "Đường không được để trống")

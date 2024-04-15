@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
-@CrossOrigin("*")
+@RequestMapping("/api/common")
+@CrossOrigin
 public class SecurityController {
 
     private final CoEmployeesService coEmployeesService;

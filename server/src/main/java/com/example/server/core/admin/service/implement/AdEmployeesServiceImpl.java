@@ -43,7 +43,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     }
 
     @Override
-    public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(AdEmployeesCustomRequest request) {
+    public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<AdEmployeesCustomResponse> page = adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
         return page;
@@ -55,7 +55,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     public AdEmployeesCustomResponse create(AdEmployeesCreateRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Departments departments = null;
-        if (request.getIdDepartments() != null) {
+        if (!request.getIdDepartments().equals("")) {
             Departments departmentsOptional = adDepartmentsRepository
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
@@ -85,7 +85,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         String id = employeesSave.getId();
         AdEmployeesCustomResponse adEmployeesCustomResponse = adEmployeesRepository.findEmployeesCustomById(id);
         if (adEmployeesCustomResponse == null) throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
-        return adEmployeesRepository.findEmployeesCustomById(id);
+        return adEmployeesCustomResponse;
     }
 
     @Override

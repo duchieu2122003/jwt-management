@@ -1,0 +1,29 @@
+<app-common-header></app-common-header>
+<div>
+  <img src="assets/b3.png" class="background-image" height="876" width="1800" alt="">
+  <mat-card class="login-form">
+    <mat-card-title class="login-label" style="color: white;font-family: 'Bodoni MT',serif">Đăng nhập</mat-card-title>
+    <mat-card-content>
+      <p>
+        <mat-form-field class="login-input">
+          <mat-label>Tài khoản</mat-label>
+          <input type="text" matInput [(ngModel)]="request.email" placeholder="Nhập email của bạn" required
+                 (keydown.enter)="onEnterSubmit()">
+        </mat-form-field>
+      <p>
+        <mat-form-field class="login-input">
+          <mat-label>Mật khẩu</mat-label>
+          <input type="{{showPassword?'text':'password' }}" matInput [(ngModel)]="request.password"
+                 placeholder="Nhập mật khẩu của bạn" required (keydown.enter)="onEnterSubmit()">
+          <mat-icon matSuffix (click)="handlePassword()">{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </mat-form-field>
+      </p>
+      <p *ngIf="errorLogin" class="error">
+        {{ errorLogin }}
+      </p>
+      <div class="login-button">
+        <button type="submit" style="width: 50%" mat-raised-button (click)="onSubmit()">Đăng nhập</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

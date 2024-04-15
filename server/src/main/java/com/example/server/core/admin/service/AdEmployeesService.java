@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
  */
 public interface AdEmployeesService {
 
-    Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(AdEmployeesCustomRequest request);
+    Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request);
 
     AdEmployeesCustomResponse create(@Valid AdEmployeesCreateRequest request);
 
