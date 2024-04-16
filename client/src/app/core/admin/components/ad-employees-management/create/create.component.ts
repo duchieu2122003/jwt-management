@@ -1,8 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdDepartmentService} from "../../../service/ad-department.service";
 import {AdEmployeesService} from "../../../service/ad-employees.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialogRef} from "@angular/material/dialog";
+import moment from "moment";
 
 @Component({
   selector: 'app-create',
@@ -15,7 +16,7 @@ export class CreateComponent implements OnInit {
     firstName: string,
     lastName: string,
     email: string,
-    birthday: Date,
+    birthday: string,
     gender: string,
     address: string,
     street: string,
@@ -27,7 +28,7 @@ export class CreateComponent implements OnInit {
     firstName: "",
     lastName: "",
     email: "",
-    birthday: new Date(),
+    birthday: "",
     gender: "MALE",
     address: "",
     street: "",
@@ -37,8 +38,6 @@ export class CreateComponent implements OnInit {
     idDepartments: "",
   }
   listDepartments: any;
-
-  @Output() openModal = new EventEmitter();
 
   constructor(private dialogRef: MatDialogRef<CreateComponent>,
               private adDeparmentService: AdDepartmentService,
@@ -60,10 +59,9 @@ export class CreateComponent implements OnInit {
   }
 
   createEmployees() {
-    console.log(this.objCreate)
+    console.log(this.objCreate.birthday)
     this.adEmployeesSerivice.createEmployees(this.objCreate).subscribe({
       next: (response) => {
-        console.log(response)
         this.toast.success("Thêm thành công", "Thông báo", {
           positionClass: 'toast-top-center',
           timeOut: 3000

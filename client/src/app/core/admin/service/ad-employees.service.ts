@@ -26,5 +26,14 @@ export class AdEmployeesService {
     return this.http.post(api, data);
   }
 
+  updateEmployees(data: any): Observable<any> {
+    return this.http.put(api, data);
+  }
+
+
+  deleteEmployees(data: any): Observable<any> {
+    return this.http.delete(api + "/" + data);
+  }
+
 
 }

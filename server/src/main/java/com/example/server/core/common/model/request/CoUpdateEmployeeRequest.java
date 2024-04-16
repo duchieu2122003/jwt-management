@@ -22,12 +22,12 @@ public class CoUpdateEmployeeRequest {
 
     String id;
 
-    @NotBlank(message = "Họ đệm không được để trống")
-    @Size(max = EntityProperties.LENGTH_NAME, message = "Họ không được quá 50 ký tự")
+    @NotBlank(message = "Tên đệm không được để trống")
+    @Size(max = EntityProperties.LENGTH_NAME, message = "Tên không được quá 50 ký tự")
     String lastName;
 
-    @NotBlank(message = "Tên không được để trống")
-    @Size(max = EntityProperties.LENGTH_NAME, message = "Tên không được quá 50 ký tự")
+    @NotBlank(message = "Họ không được để trống")
+    @Size(max = EntityProperties.LENGTH_NAME, message = "Họ không được quá 50 ký tự")
     String firstName;
 
     @NotBlank(message = "Email không được để trống")
@@ -42,6 +42,9 @@ public class CoUpdateEmployeeRequest {
 
     @NotBlank(message = "Địa chỉ cụ thể không được để trống")
     String address;
+
+    @NotBlank(message = "Đường cụ thể không được để trống")
+    String street;
 
     @NotBlank(message = "Thành phố không được để trống")
     String city;

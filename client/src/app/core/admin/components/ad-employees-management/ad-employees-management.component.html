@@ -1,6 +1,5 @@
 <app-admin-header></app-admin-header>
 <div class="container">
-
   <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
     <span>Quản lý tài khoản</span>
   </div>
@@ -78,6 +77,7 @@
       <th scope="col">Giới tính</th>
       <th scope="col">Địa chỉ</th>
       <th scope="col">Trạng thái</th>
+      <th colspan="2">Hành động</th>
     </tr>
     </thead>
     <tbody>
@@ -91,13 +91,10 @@
       <td>{{ item.fullAddress }}</td>
       <td>{{ item.status == 'ACTIVE' ? 'Làm việc' : 'Nghỉ việc' }}</td>
       <td>
-        <button type="button" class="btn btn-info">Chi tiết</button>
+        <button type="button" class="btn btn-warning" (click)="openShowUpdate(item.id)">Sửa</button>
       </td>
       <td>
-        <button type="button" class="btn btn-warning ">Sửa</button>
-      </td>
-      <td>
-        <button type="button" class="btn btn-danger ">Xóa</button>
+        <button type="button" class="btn btn-danger" (click)="handleDelete(item.id)">Xóa</button>
       </td>
     </tr>
     </tbody>
@@ -105,9 +102,10 @@
   <div class="d-flex justify-content-center">
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item"><a class="page-link">Previous</a></li>
-        <li class="page-item"><a class="page-link">1</a></li>
-        <li class="page-item"><a class="page-link">Next</a></li>
+        <li class="page-item" (click)="handlePrevious()"><a class="page-link">Previous</a></li>
+        <li class="page-item" *ngFor="let i of listTotalsPage" (click)="handleSearchPage(i-1)"><a
+          class="page-link">{{ i }}</a></li>
+        <li class="page-item" (click)="handleNext()"><a class="page-link">Next</a></li>
       </ul>
     </nav>
   </div>

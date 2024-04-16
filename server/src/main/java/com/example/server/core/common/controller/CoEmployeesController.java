@@ -30,12 +30,12 @@ public class CoEmployeesController {
         return new ResponseObject(coEmployeesService.detailCustomEmployeeCurrent());
     }
 
-    @PostMapping("")
+    @PutMapping("")
     public ResponseObject update(@Valid @RequestBody CoUpdateEmployeeRequest request) {
         return new ResponseObject(coEmployeesService.updateEmployeeCurrent(request));
     }
 
-    @PutMapping()
+    @PutMapping("/change-password")
     public ResponseObject changePassword( @RequestBody CoChangePasswordRequest request) {
         return new ResponseObject(coEmployeesService.updatePassword(request));
     }

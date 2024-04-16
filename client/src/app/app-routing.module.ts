@@ -7,24 +7,31 @@ import {
 import {
   MaDepartmentManagementComponent
 } from "./core/manager/components/ma-department-management/ma-department-management.component";
-import {ManagerComponent} from "./core/manager/manager.component";
 import {ForbiddenComponent} from "./page/forbidden/forbidden.component";
-import {HomeComponent} from "./page/home/home.component";
-import {StaffComponent} from "./core/staff/staff.component";
+import {
+  StDepartmentMySelfComponent
+} from "./core/staff/components/st-department-my-self/st-department-my-self.component";
+import {InformationMySelfComponent} from "./core/common/components/information-my-self/information-my-self.component";
+import {ChangePasswordComponent} from "./core/common/components/change-password/change-password.component";
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
+  {path: "", redirectTo: "common/login", pathMatch: 'full'},
   {path: "common/login", component: LoginComponent},
+  {path: "common/information-my-self", component: InformationMySelfComponent},
+
+  {path: "common/change-password", component: ChangePasswordComponent},
 
   {path: "admin", redirectTo: "admin/employees-management", pathMatch: "full"},
   {path: "admin/employees-management", component: AdEmployeesManagementComponent},
-  {
-    path: "manager", component: ManagerComponent, children: [
-      {path: "department-management", component: MaDepartmentManagementComponent}
-    ]
-  },
-  {path: "staff", component: StaffComponent},
+
+  {path: "manager", redirectTo: "manager/department-management", pathMatch: "full"},
+  {path: "manager/department-management", component: MaDepartmentManagementComponent},
+  {path: "staff", redirectTo: "staff/department-my-self", pathMatch: "full"},
+  {path: "staff/department-my-self", component: StDepartmentMySelfComponent},
+
   {path: "403", component: ForbiddenComponent}
+
+
 ];
 
 @NgModule({

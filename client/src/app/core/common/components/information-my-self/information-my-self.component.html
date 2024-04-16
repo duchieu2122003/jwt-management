@@ -1,1 +1,191 @@
-<p>information-my-self works!</p>
+<app-common-header></app-common-header>
+<div class="d-flex">
+  <nav class="sidebar">
+    <div class="sidebar-sticky" style="width: 100%">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <div class="p-2" style="background-color: lightgray"
+               (click)="redirectTo('/common/information-my-self')">
+            <span>Thông tin tài khoản</span>
+          </div>
+        </li>
+        <li class="nav-item choice_link">
+          <div class="p-2"
+               (click)="redirectTo('/common/change-password')">
+            <span>Thay đổi mật khẩu</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="d-flex" style="min-height: 93vh; height: auto">
+    <div class="vr"></div>
+  </div>
+  <div class="main-content container">
+    <div style="font-size: 30px; padding-top:20px">
+      <span *ngIf="!edit">Thông tin tài khoản</span>
+      <span *ngIf="edit">Chỉnh sửa thông tin tài khoản</span>
+      <button type="button" (click)="onChangeEdit()" class="btn btn-outline-warning">
+        <mat-icon>draw</mat-icon>
+      </button>
+    </div>
+    <div>
+      <div>
+        <div class="modal-content">
+          <hr/>
+          <div class="modal-body">
+
+            <div class="was-validated">
+              <div class="row">
+                <div class="mb-3 d-flex align-items-start col-6 flex-column">
+                  <label for="firstName" class="form-label">Họ</label>
+                  <input [(ngModel)]="objUpdate.firstName" class="form-control" id="firstName" placeholder="Nhập họ"
+                         required [disabled]="!edit">
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-6 flex-column">
+                  <label for="lastName" class="form-label">Tên</label>
+                  <input [(ngModel)]="objUpdate.lastName" class="form-control" id="lastName" placeholder="Nhập tên"
+                         required [disabled]="!edit">
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="mb-3 d-flex align-items-start col-6 flex-column">
+                  <label for="email" class="form-label">Email</label>
+                  <input [(ngModel)]="objUpdate.email" class="form-control" id="email" placeholder="Nhập email"
+                         required [disabled]="!edit">
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+
+                <div class="mb-3 d-flex align-items-start col-6 flex-column">
+                  <label for="birthday" class="form-label">Ngày sinh</label>
+                  <input [(ngModel)]="objUpdate.birthday" type="date" class="form-control" id="birthday"
+                         placeholder="Nhập ngày sinh" required [disabled]="!edit">
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2 mb-2">
+                <div class="col-6">
+                  <label style="margin-right: 20px">
+                    Giới tính
+                  </label>
+                  <div class="d-flex">
+                    <input class="form-check-input" type="radio" name="gender"
+                           id="flexRadioDefault1" checked
+                           [checked]="objUpdate.gender === 'MALE'"
+                           (change)="objUpdate.gender = 'MALE'" [disabled]="!edit">
+                    <label style="color: black">
+                      Nam
+                    </label>
+                    <input style="margin-left: 20px" class="form-check-input" type="radio" name="gender"
+                           id="flexRadioDefault2"
+                           [checked]="objUpdate.gender === 'FEMALE'"
+                           (change)="objUpdate.gender = 'FEMALE'" [disabled]="!edit">
+                    <label style="color: black">
+                      Nữ
+                    </label>
+                  </div>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-6 flex-column">
+                  <label>Trạng thái</label>
+                  <div class="form-check form-switch">
+                    <input disabled [(ngModel)]="objUpdate.statusBoolean" class="form-check-input" type="checkbox"
+                           role="switch"
+                           id="flexSwitchCheckChecked" checked>
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Làm việc</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Mã nhân viên</label>
+                  <input [(ngModel)]="objUpdate.code" class="form-control"
+                         disabled>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Chức vụ</label>
+                  <select class="form-select" [(ngModel)]="objUpdate.role" disabled>
+                    <option value="ADMIN">Quản trị</option>
+                    <option value="STAFF">Nhân viên</option>
+                    <option value="MANAGER">Quản lý</option>
+                  </select>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Phòng ban</label>
+                  <input [(ngModel)]="objUpdate.nameDepartment" class="form-control"
+                         disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 d-flex align-items-start flex-column">
+                  <label for="address" class="form-label">Địa chỉ</label>
+                  <input [(ngModel)]="objUpdate.address" class="form-control" id="address"
+                         placeholder="Nhập địa chỉ cụ thể"
+                         required [disabled]="!edit">
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Đường</label>
+                  <select [(ngModel)]="objUpdate.street" class="form-select" required [disabled]="!edit">
+                    <option value="">Chọn 1 đường</option>
+                    <option value="STAFF">Nhân viên</option>
+                    <option value="MANAGER">Quản lý</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Thành phố</label>
+                  <select [(ngModel)]="objUpdate.city" class="form-select" required [disabled]="!edit">
+                    <option value="">Chọn 1 thành phố</option>
+                    <option value="MANAGER">Quản lý</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+                <div class="mb-3 d-flex align-items-start col-4 flex-column">
+                  <label>Quốc gia</label>
+                  <select [(ngModel)]="objUpdate.country" class="form-select" required [disabled]="!edit">
+                    <option value="">Chọn 1 quốc gia</option>
+                    <option value="MANAGER">Quản lý</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Không được để trống
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer mb-3">
+                <button *ngIf="edit" type="button" class="btn btn-secondary"
+                        (click)="onCloseEdit()">Hủy
+                </button>
+                <button *ngIf="edit" type="button" class="btn btn-primary"
+                        (click)="handleUpdateEmployeesCurrent()">Xác nhận
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

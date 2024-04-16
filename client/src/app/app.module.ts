@@ -38,6 +38,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {StaffHeaderComponent} from './layout/header/staff-header/staff-header.component';
 import {HttpConfigInterceptor} from "./interceptors/http-config.interceptor";
 import {CreateComponent} from './core/admin/components/ad-employees-management/create/create.component';
+import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
+import { ChangePasswordComponent } from './core/common/components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,8 @@ import {CreateComponent} from './core/admin/components/ad-employees-management/c
     StaffComponent,
     StaffHeaderComponent,
     CreateComponent,
+    UpdateComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ import {CreateComponent} from './core/admin/components/ad-employees-management/c
   providers: [
     provideAnimationsAsync(),
     {provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
 
   ],
   bootstrap: [AppComponent]

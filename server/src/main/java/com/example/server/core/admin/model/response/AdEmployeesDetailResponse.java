@@ -1,4 +1,4 @@
-package com.example.server.core.common.model.response;
+package com.example.server.core.admin.model.response;
 
 import com.example.server.infrastructure.constant.Gender;
 import com.example.server.infrastructure.constant.Role;
@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * @author duchieu212
  */
-public interface CoDetailCustomEmployeeResponse {
+public interface AdEmployeesDetailResponse {
 
     @Value("#{target.id}")
     String getId();
@@ -30,11 +30,14 @@ public interface CoDetailCustomEmployeeResponse {
     @Value("#{target.birthday}")
     Date getBirthday();
 
-    @Value("#{target.street}")
-    String getStreet();
+    @Value("#{target.gender}")
+    Gender getGender();
 
     @Value("#{target.address}")
     String getAddress();
+
+    @Value("#{target.street}")
+    String getStreet();
 
     @Value("#{target.city}")
     String getCity();
@@ -42,15 +45,12 @@ public interface CoDetailCustomEmployeeResponse {
     @Value("#{target.country}")
     String getCountry();
 
-    @Value("#{target.gender}")
-    Gender getGender();
-
     @Value("#{target.status}")
     StatusEmployee getStatus();
 
     @Value("#{target.role}")
     Role getRole();
 
-    @Value("#{target.name_department}")
-    String getNameDepartment();
+    @Value("#{target.idDepartments}")
+    String getIdDepartments();
 }

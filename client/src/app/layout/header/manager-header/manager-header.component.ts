@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthenticatedService} from "../../../core/common/service/authenticated.service";
 import {ToastrService} from "ngx-toastr";
 import {jwtDecode} from "jwt-decode";
@@ -8,7 +8,7 @@ import {jwtDecode} from "jwt-decode";
   templateUrl: './manager-header.component.html',
   styleUrl: './manager-header.component.css'
 })
-export class ManagerHeaderComponent {
+export class ManagerHeaderComponent implements OnInit {
   lastName: string = "";
   token: string = "";
   role: string = ""

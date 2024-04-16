@@ -29,6 +29,9 @@ public enum Message {
     DEPARTMENT_NAME_EXSIST("Tên phòng ban đã tồn tại"),
     EMAIL_EXSITS("Email đã tồn tại, vui lòng dùng email khác"),
     LOGIN_FAILD("Không tìm thấy tài khoản đang đăng nhập, vui lòng đăng nhập lại"),
+    BIRTHDAY_AFTER_NOW("Ngày sinh không được sau ngày hiện tại"),
+    PASSWORD_OLD_WRONG("Mật khẩu cũ sai"),
+    PASSWORD_NEW_WRONG_FORMAT("Mật khẩu mới sai định dạng"),
     NAME_NOT_EMPTY("Tên không được để trống");
 
 

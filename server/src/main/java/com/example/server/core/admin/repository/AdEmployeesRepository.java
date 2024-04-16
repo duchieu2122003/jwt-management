@@ -2,6 +2,7 @@ package com.example.server.core.admin.repository;
 
 import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
 import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
+import com.example.server.core.admin.model.response.AdEmployeesDetailResponse;
 import com.example.server.core.admin.model.response.AdEmployeesResponse;
 import com.example.server.entity.Employees;
 import com.example.server.repositoty.EmployeesRepository;
@@ -66,6 +67,26 @@ public interface AdEmployeesRepository extends EmployeesRepository {
             WHERE e.id = :#{#id} 
             """, nativeQuery = true)
     AdEmployeesCustomResponse findEmployeesCustomById(@Param("id") String id);
+
+    @Query(value = """
+            SELECT e.id  as id,
+                  e.code as code,
+                e.first_name as first_name, 
+                e.last_name as last_name,
+                e.email as email,
+                e.birthday as birthday,
+                e.gender  as gender,
+                e.address as address,
+                e.street as street,
+                e.city as city,
+                e.country as country,
+                e.status as status,
+                e.role as role,
+                 COALESCE(e.department_id, '') as idDepartments
+            FROM employees e
+            WHERE e.id = :#{#id} 
+            """, nativeQuery = true)
+    AdEmployeesDetailResponse findEmployeesDetailById(@Param("id") String id);
 
     Optional<Employees> findEmployeesByEmail(String email);
 
