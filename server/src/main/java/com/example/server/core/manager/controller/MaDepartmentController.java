@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping("/api/manager/department")
+@RequestMapping("/api/manager/departments")
 public class MaDepartmentController {
 
     private final MaDepartmentService maDepartmentService;
@@ -32,7 +32,7 @@ public class MaDepartmentController {
         return new ResponseObject(maDepartmentService.getAll());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseObject getOneDepartment(@PathVariable String id) {
         return new ResponseObject(maDepartmentService.detail(id));
     }
@@ -47,7 +47,7 @@ public class MaDepartmentController {
         return new ResponseObject(maDepartmentService.update(request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseObject delete(@PathVariable String id) {
         return new ResponseObject(maDepartmentService.delete(id));
     }

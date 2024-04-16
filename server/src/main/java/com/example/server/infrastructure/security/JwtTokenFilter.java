@@ -40,22 +40,24 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (message.equals("ok")) {
                 Authentication authentication = jwtTokenProvider.getAndSetAuthentication(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else if (message.startsWith("Token refresh:")) {
-                int indexStartToken = message.indexOf("Token refresh:");
-                Authentication authentication = jwtTokenProvider
-                        .getAndSetAuthentication(message.substring(indexStartToken + "Token refresh:".length()));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
+            }
+//            else if (message.startsWith("Token refresh:")) {
+//                int indexStartToken = message.indexOf("Token refresh:");
+//                Authentication authentication = jwtTokenProvider
+//                        .getAndSetAuthentication(message.substring(indexStartToken + "Token refresh:".length()));
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+            else {
                 throw new RestApiException(message);
             }
         } else {
-            throw new RestApiException("Hệ thống lỗi, vui lòng đăng nhập lại");
+            throw new RestApiException("Token hệ thống lỗi, vui lòng đăng nhập lại");
         }
         filterChain.doFilter(request, response);
     }
 
     private String extractJwtToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
+            String authorizationHeader = request.getHeader("Authorization");
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.substring(7);
         }

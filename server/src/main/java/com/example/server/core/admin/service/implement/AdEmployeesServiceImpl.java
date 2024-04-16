@@ -4,6 +4,7 @@ import com.example.server.core.admin.model.request.AdEmployeesCreateRequest;
 import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
 import com.example.server.core.admin.model.request.AdEmployeesUpdateRequest;
 import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
+import com.example.server.core.admin.model.response.AdEmployeesDetailResponse;
 import com.example.server.core.admin.repository.AdDepartmentsRepository;
 import com.example.server.core.admin.repository.AdEmployeesRepository;
 import com.example.server.core.admin.service.AdEmployeesService;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -43,7 +45,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     }
 
     @Override
-    public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(AdEmployeesCustomRequest request) {
+    public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<AdEmployeesCustomResponse> page = adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
         return page;
@@ -55,7 +57,10 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     public AdEmployeesCustomResponse create(AdEmployeesCreateRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Departments departments = null;
-        if (request.getIdDepartments() != null) {
+        if (request.getBirthday().after(new Date())) {
+            throw new RestApiException(Message.BIRTHDAY_AFTER_NOW);
+        }
+        if (!request.getIdDepartments().equals("")) {
             Departments departmentsOptional = adDepartmentsRepository
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
@@ -85,21 +90,23 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         String id = employeesSave.getId();
         AdEmployeesCustomResponse adEmployeesCustomResponse = adEmployeesRepository.findEmployeesCustomById(id);
         if (adEmployeesCustomResponse == null) throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
-        return adEmployeesRepository.findEmployeesCustomById(id);
+        return adEmployeesCustomResponse;
     }
 
     @Override
     @Transactional
     public AdEmployeesCustomResponse update(AdEmployeesUpdateRequest request) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Employees employees = adEmployeesRepository.findById(request.getId())
                 .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
         Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());
+        if (request.getBirthday().after(new Date())) {
+            throw new RestApiException(Message.BIRTHDAY_AFTER_NOW);
+        }
         if (findEmployees.isPresent() && !findEmployees.get().getId().equals(request.getId())) {
             throw new RestApiException(Message.EMAIL_EXSITS);
         }
         Departments departments = null;
-        if (request.getIdDepartments() != null) {
+        if (request.getIdDepartments() != "") {
             Departments departmentsOptional = adDepartmentsRepository
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
@@ -129,14 +136,15 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     }
 
     @Override
-    public AdEmployeesCustomResponse detail(String id) {
-        return adEmployeesRepository.findEmployeesCustomById(id);
+    public AdEmployeesDetailResponse detail(String id) {
+        return adEmployeesRepository.findEmployeesDetailById(id);
     }
 
     @Override
     @Transactional
     public Boolean delete(String id) {
         Employees employees = adEmployeesRepository.findById(id).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        employees.setDepartments(null);
         adEmployeesRepository.delete(employees);
         return true;
     }

@@ -4,6 +4,7 @@ import com.example.server.core.admin.model.request.AdEmployeesCreateRequest;
 import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
 import com.example.server.core.admin.model.request.AdEmployeesUpdateRequest;
 import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
+import com.example.server.core.admin.model.response.AdEmployeesDetailResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
@@ -12,13 +13,13 @@ import org.springframework.data.domain.Page;
  */
 public interface AdEmployeesService {
 
-    Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(AdEmployeesCustomRequest request);
+    Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request);
 
     AdEmployeesCustomResponse create(@Valid AdEmployeesCreateRequest request);
 
     AdEmployeesCustomResponse update(@Valid AdEmployeesUpdateRequest request);
 
-    AdEmployeesCustomResponse detail(String id);
+    AdEmployeesDetailResponse detail(String id);
 
     Boolean delete(String id);
 

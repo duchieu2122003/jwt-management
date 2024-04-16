@@ -1,10 +1,10 @@
 package com.example.server.core.admin.model.request;
 
-import com.example.server.infrastructure.constant.StatusEmployee;
 import com.example.server.model.request.PageableRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
  */
 @Getter
 @Setter
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AdEmployeesCustomRequest extends PageableRequest {
 
@@ -23,6 +24,6 @@ public class AdEmployeesCustomRequest extends PageableRequest {
 
     String city;
 
-    StatusEmployee status;
+    String status;
 
 }

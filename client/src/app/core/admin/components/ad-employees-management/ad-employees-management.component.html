@@ -1,0 +1,114 @@
+<app-admin-header></app-admin-header>
+<div class="container">
+  <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
+    <span>Quản lý tài khoản</span>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <span>Bộ lọc</span>
+      <mat-icon>filter_alt</mat-icon>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Mã</label>
+          <input type="text" name="code" [(ngModel)]="filter.code" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Tên</label>
+          <input type="text" name="name" [(ngModel)]="filter.name" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Email</label>
+          <input type="email" name="eemail" [(ngModel)]="filter.email" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label for="inputState" class="form-label">Thành phố</label>
+          <select id="inputState" [(ngModel)]="filter.city" class="form-select">
+            <option selected>Choose...</option>
+            <option>...</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Trạng thái</label>
+          <select class="form-select" [(ngModel)]="filter.status" aria-label="Default select example">
+            <option value="" selected>Tất cả</option>
+            <option value="ACTIVE">Làm việc</option>
+            <option value="INACTIVE">Nghỉ việc</option>
+          </select>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <button type="button" (click)="handleSearch()" class="btn btn-outline-primary" style="margin-right:15px ">
+            <mat-icon>search</mat-icon>
+            Tìm kiếm
+          </button>
+          <button type="button" class="btn btn-outline-warning" (click)="handleClear()">
+            <mat-icon>refresh</mat-icon>
+            Làm mới
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container row-gap-3 d-flex">
+  <div class="col-md-6">
+    <h3>
+      <mat-icon>list</mat-icon>
+      Danh sách tài khoản
+    </h3>
+  </div>
+  <div class="col-md-6 text-end" style="padding-top: 15px">
+    <button type="button" class="btn btn-outline-primary" (click)="openShowCreate()">
+      Thêm
+    </button>
+  </div>
+
+</div>
+<div class="table-employ">
+  <table class="table table-hover  text-center">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Mã</th>
+      <th scope="col">Họ tên</th>
+      <th scope="col">Email</th>
+      <th scope="col">Ngày sinh</th>
+      <th scope="col">Giới tính</th>
+      <th scope="col">Địa chỉ</th>
+      <th scope="col">Trạng thái</th>
+      <th colspan="2">Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of listEmployees">
+      <th scope="row">{{ item.stt }}</th>
+      <td>{{ item.code }}</td>
+      <td>{{ item.fullName }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.birthday | date :'dd/MM/yyyy' }}</td>
+      <td>{{ item.gender == 'MALE' ? 'Nam' : 'Nữ' }}</td>
+      <td>{{ item.fullAddress }}</td>
+      <td>{{ item.status == 'ACTIVE' ? 'Làm việc' : 'Nghỉ việc' }}</td>
+      <td>
+        <button type="button" class="btn btn-warning" (click)="openShowUpdate(item.id)">Sửa</button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="handleDelete(item.id)">Xóa</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" (click)="handlePrevious()"><a class="page-link">Previous</a></li>
+        <li class="page-item" *ngFor="let i of listTotalsPage" (click)="handleSearchPage(i-1)"><a
+          class="page-link">{{ i }}</a></li>
+        <li class="page-item" (click)="handleNext()"><a class="page-link">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/employees")
-@CrossOrigin(origins = "{*}")
+@CrossOrigin
 public class AdEmployeesController {
 
     private final AdEmployeesService adEmployeesService;

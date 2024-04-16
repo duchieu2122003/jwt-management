@@ -1,0 +1,150 @@
+<div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 mt-3">Sửa thông tin tài khoản</h1>
+        <button type="button" class="btn-close ms-auto" (click)="closeDialog()"></button>
+      </div>
+      <hr/>
+      <div class="modal-body">
+
+        <div class="was-validated">
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label for="firstName" class="form-label">Họ</label>
+              <input [(ngModel)]="objUpdate.firstName" class="form-control" id="firstName" placeholder="Nhập họ"
+                     required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label for="lastName" class="form-label">Tên</label>
+              <input [(ngModel)]="objUpdate.lastName" class="form-control" id="lastName" placeholder="Nhập tên"
+                     required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label for="email" class="form-label">Email</label>
+              <input [(ngModel)]="objUpdate.email" class="form-control" id="email" placeholder="Nhập email" required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label for="birthday" class="form-label">Ngày sinh</label>
+              <input [(ngModel)]="objUpdate.birthday" type="date" class="form-control" id="birthday"
+                     placeholder="Nhập ngày sinh" required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2 mb-2">
+            <div class="col-6">
+              <label style="margin-right: 20px">
+                Giới tính
+              </label>
+              <div class="d-flex">
+                <input class="form-check-input" type="radio" name="gender"
+                       id="flexRadioDefault1" checked
+                       [checked]="objUpdate.gender === 'MALE'"
+                       (change)="objUpdate.gender = 'MALE'">
+                <label style="color: black">
+                  Nam
+                </label>
+                <input style="margin-left: 20px" class="form-check-input" type="radio" name="gender"
+                       id="flexRadioDefault2"
+                       [checked]="objUpdate.gender === 'FEMALE'"
+                       (change)="objUpdate.gender = 'FEMALE'">
+                <label style="color: black">
+                  Nữ
+                </label>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label>Trạng thái</label>
+              <div class="form-check form-switch">
+                <input [(ngModel)]="objUpdate.statusBoolean" class="form-check-input" type="checkbox" role="switch"
+                       id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Làm việc</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label>Chức vụ</label>
+              <select class="form-select" [(ngModel)]="objUpdate.role">
+                <option value="ADMIN">Quản trị</option>
+                <option value="STAFF">Nhân viên</option>
+                <option value="MANAGER">Quản lý</option>
+              </select>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label>Phòng ban</label>
+              <select class="form-select" [(ngModel)]="objUpdate.idDepartments">
+                <option value="">Chưa có phòng ban</option>
+                <option *ngFor="let i of listDepartments" [value]="i.id">{{ i.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start flex-column">
+              <label for="address" class="form-label">Địa chỉ</label>
+              <input [(ngModel)]="objUpdate.address" class="form-control" id="address" placeholder="Nhập địa chỉ cụ thể"
+                     required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start col-4 flex-column">
+              <label>Đường</label>
+              <select [(ngModel)]="objUpdate.street" class="form-select" required>
+                <option value="">Chọn 1 đường</option>
+                <option value="STAFF">Nhân viên</option>
+                <option value="MANAGER">Quản lý</option>
+              </select>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-4 flex-column">
+              <label>Thành phố</label>
+              <select [(ngModel)]="objUpdate.city" class="form-select" required>
+                <option value="">Chọn 1 thành phố</option>
+                <option value="MANAGER">Quản lý</option>
+              </select>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-4 flex-column">
+              <label>Quốc gia</label>
+              <select [(ngModel)]="objUpdate.country" class="form-select" required>
+                <option value="">Chọn 1 quốc gia</option>
+                <option value="MANAGER">Quản lý</option>
+              </select>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer mb-3">
+            <button type="button" class="btn btn-secondary m-3" (click)="closeDialog()">Hủy</button>
+            <button type="button" class="btn btn-primary" (click)="updateEmployees()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

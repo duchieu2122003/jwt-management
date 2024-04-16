@@ -1,0 +1,49 @@
+<app-manager-header></app-manager-header>
+<div class="container">
+  <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
+    <span>Quản lý phòng ban</span>
+  </div>
+  <div class="tab-content">
+    <div class="row-gap-3 d-flex">
+      <h3 class="col-md-6 text-start">
+        <mat-icon>list</mat-icon>
+        Danh sách phòng ban
+      </h3>
+      <div class="col-md-6 text-end" style="padding-top: 15px">
+        <button type="button" class="btn btn-outline-primary" (click)="openShowCreate()">
+          Thêm
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<table class="table table-hover  text-center">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Tên phòng ban</th>
+    <th scope="col">Mô tả</th>
+    <th scope="col">Trạng thái</th>
+    <th colspan="3">Hành động</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of listDepartments">
+    <th scope="row">{{ item.stt }}</th>
+    <td>{{ item.name }}</td>
+    <td>{{ item.descriptions }}</td>
+    <td>{{ item.status === 'ACTIVE' ? 'Hoạt động' : 'Ngừng hoạt động' }}</td>
+    <td>
+      <button type="button" class="btn btn-success">Nhân viên</button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-warning" (click)="openShowUpdate(item)">Sửa</button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="handleDelete(item.id)">Xóa</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

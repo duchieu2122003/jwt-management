@@ -1,0 +1,45 @@
+/*:host {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+
+/*}*/
+
+.error {
+  padding-left: 6%;
+  color: red;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  width: 35%;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  background-color: rgba(142, 178, 255, 0.59);
+}
+
+.login-label {
+  text-align: center;
+  font-size: 30px;
+  padding: 20px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 1% 5%;
+}
+
+.background-login {
+  width: 100%;
+  background-image: url("/assets/role.jpg");
+  background-size: cover; /* Che phủ toàn bộ phần tử */
+  background-position: center; /* Canh chỉnh hình ảnh ở giữa */
+  background-repeat: no-repeat; /* Ngăn chặn hình ảnh lặp lại */
+}
+
