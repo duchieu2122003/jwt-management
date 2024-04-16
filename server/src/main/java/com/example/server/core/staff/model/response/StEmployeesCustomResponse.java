@@ -1,4 +1,4 @@
-package com.example.server.core.admin.response;
+package com.example.server.core.staff.model.response;
 
 import com.example.server.infrastructure.constant.Gender;
 import com.example.server.infrastructure.constant.StatusEmployee;
@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @author duchieu212
  */
-public interface AdEmployeesCustomResponse {
+public interface StEmployeesCustomResponse {
 
     Integer getStt();
 
@@ -36,5 +36,8 @@ public interface AdEmployeesCustomResponse {
 
     @Value("#{target.status}")
     StatusEmployee getStatus();
+
+    @Value("#{target.full_missions}")
+    String getFullMissions();
 
 }

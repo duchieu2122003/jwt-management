@@ -6,6 +6,7 @@ import com.example.server.entity.Employees;
 import com.example.server.repositoty.EmployeesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,6 +24,12 @@ public interface MaEmployeesRepository extends EmployeesRepository {
              FROM Employees e WHERE e.departments IS NULL
             """)
     List<MaEmployeesResponse> getAllEmployeesNotDepartment();
+
+    @Query(value = """
+            SELECT e.id FROM employees e 
+            WHERE e.department_id LIKE :id
+            """, nativeQuery = true)
+    List<String> getIdEmployeeOnIdDepartment(@Param("id") String id);
 
     @Query(value = """
             SELECT e
@@ -55,22 +62,22 @@ public interface MaEmployeesRepository extends EmployeesRepository {
              """, nativeQuery = true)
     List<MaEmployeesMissionsResponse> getMaListEmployeeCustom(String idDepartment);
 
-    @Query(value = """
-            SELECT e.id as id,
-                   e.code as code,
-                  CONCAT(e.first_name, ' ', e.last_name) as full_name,
-                  e.email as email,
-                  e.birthday as birthday,
-                  e.gender as gender,
-                  CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
-                  e.status as status,
-                  GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
-                 FROM employees e
-                 LEFT JOIN employees_missions em ON em.employees_id = e.id
-                 INNER JOIN missions m on em.missions_id = m.id
-                 WHERE e.id = :id
-            """, nativeQuery = true)
-    MaEmployeesMissionsResponse getMaEmployeeCustom(String id);
+//    @Query(value = """
+//            SELECT e.id as id,
+//                   e.code as code,
+//                  CONCAT(e.first_name, ' ', e.last_name) as full_name,
+//                  e.email as email,
+//                  e.birthday as birthday,
+//                  e.gender as gender,
+//                  CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
+//                  e.status as status,
+//                  GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
+//                 FROM employees e
+//                 LEFT JOIN employees_missions em ON em.employees_id = e.id
+//                 INNER JOIN missions m on em.missions_id = m.id
+//                 WHERE e.id = :id
+//            """, nativeQuery = true)
+//    MaEmployeesMissionsResponse getMaEmployeeCustom(String id);
 
     @Query(value = """
             SELECT e.id as id,

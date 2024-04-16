@@ -124,7 +124,6 @@ export class AdEmployeesManagementComponent implements OnInit {
   handleDelete(id: any) {
     this.adEmployeesService.deleteEmployees(id).subscribe({
       next: (response) => {
-        console.log(response);
         if (response.data == true) {
           this.listEmployees = this.listEmployees.filter(employee => employee.id !== id);
           this.listEmployees.forEach((employee, index) => {

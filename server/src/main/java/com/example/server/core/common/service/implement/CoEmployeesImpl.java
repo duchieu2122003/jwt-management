@@ -6,6 +6,7 @@ import com.example.server.core.common.model.request.CoUpdateEmployeeRequest;
 import com.example.server.core.common.model.response.AuthenticationResponse;
 import com.example.server.core.common.model.response.CoDetailCustomEmployeeResponse;
 import com.example.server.core.common.model.response.CoEmployeesInformationResponse;
+import com.example.server.core.common.model.response.CoEmployeesLoginResponse;
 import com.example.server.core.common.repository.CoEmployeesRepository;
 import com.example.server.core.common.service.CoEmployeesService;
 import com.example.server.entity.Employees;
@@ -56,8 +57,9 @@ public class CoEmployeesImpl implements CoEmployeesService {
     }
 
     @Override
+    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Employees employee = coEmployeesRepository.findByEmailWithFetchMissions(
+        CoEmployeesLoginResponse employee = coEmployeesRepository.findEmployeesByEmailToLogin(
                 request.getEmail()).orElseThrow(() -> new RestApiException(Message.EMAIL_NOT_EXIST));
         boolean authenticated = passwordEncoder.matches(request.getPassword(), employee.getPassword());
         if (!authenticated) {
@@ -78,7 +80,9 @@ public class CoEmployeesImpl implements CoEmployeesService {
     public CoEmployeesInformationResponse updateEmployeeCurrent(CoUpdateEmployeeRequest request) {
         Employees employee = coEmployeesRepository.findById(request.getId())
                 .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        System.err.println("aaaaaaaaaaaaaaaaaaa");
         Optional<Employees> findEmployees = coEmployeesRepository.findEmployeesByEmail(request.getEmail());
+        System.err.println("bbbbbbbbbbbbbbbbbbb");
         if (request.getBirthday().after(new Date())) {
             throw new RestApiException(Message.BIRTHDAY_AFTER_NOW);
         }
@@ -98,6 +102,7 @@ public class CoEmployeesImpl implements CoEmployeesService {
         if (employeeSave == null) {
             throw new RestApiException(Message.EMPLOYEE_NOT_SAVE);
         }
+        System.err.println("cccccccccccc");
         return coEmployeesRepository.findEmployeesMyAuth(request.getEmail()).get();
     }
 

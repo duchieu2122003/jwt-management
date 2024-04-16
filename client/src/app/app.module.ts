@@ -41,6 +41,8 @@ import {CreateComponent} from './core/admin/components/ad-employees-management/c
 import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
 import { ChangePasswordComponent } from './core/common/components/change-password/change-password.component';
+import {MaDepartmentCreateComponent} from "./core/manager/components/ma-department-management/ma-department-create/ma-department-create.component";
+import { MaDepartmentUpdateComponent } from './core/manager/components/ma-department-management/ma-department-update/ma-department-update.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { ChangePasswordComponent } from './core/common/components/change-passwor
     CreateComponent,
     UpdateComponent,
     ChangePasswordComponent,
+    MaDepartmentCreateComponent,
+    MaDepartmentUpdateComponent
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 import moment from "moment";
 
 @Component({
-  selector: 'app-create',
+  selector: 'app-ma-department-create',
   templateUrl: './create.component.html',
   styleUrl: './create.component.css'
 })

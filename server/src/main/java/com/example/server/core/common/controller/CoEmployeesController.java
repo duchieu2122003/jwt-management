@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +29,13 @@ public class CoEmployeesController {
         return new ResponseObject(coEmployeesService.detailCustomEmployeeCurrent());
     }
 
-    @PutMapping("")
+    @PutMapping()
     public ResponseObject update(@Valid @RequestBody CoUpdateEmployeeRequest request) {
         return new ResponseObject(coEmployeesService.updateEmployeeCurrent(request));
     }
 
     @PutMapping("/change-password")
-    public ResponseObject changePassword( @RequestBody CoChangePasswordRequest request) {
+    public ResponseObject changePassword(@RequestBody CoChangePasswordRequest request) {
         return new ResponseObject(coEmployeesService.updatePassword(request));
     }
 

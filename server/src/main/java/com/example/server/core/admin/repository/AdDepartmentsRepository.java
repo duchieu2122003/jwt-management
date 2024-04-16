@@ -1,6 +1,6 @@
 package com.example.server.core.admin.repository;
 
-import com.example.server.core.admin.response.AdDepartmentsResponse;
+import com.example.server.core.admin.model.response.AdDepartmentsResponse;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import com.example.server.repositoty.DepartmentsRepository;
 import org.springframework.stereotype.Repository;

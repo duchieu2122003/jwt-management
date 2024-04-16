@@ -2,6 +2,7 @@ package com.example.server.core.common.repository;
 
 import com.example.server.core.common.model.response.CoDetailCustomEmployeeResponse;
 import com.example.server.core.common.model.response.CoEmployeesInformationResponse;
+import com.example.server.core.common.model.response.CoEmployeesLoginResponse;
 import com.example.server.entity.Employees;
 import com.example.server.repositoty.EmployeesRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,11 +16,6 @@ import java.util.Optional;
  */
 @Repository
 public interface CoEmployeesRepository extends EmployeesRepository {
-
-//    Optional<Employees> findByEmail(String email);
-
-    @Query("SELECT e FROM Employees e LEFT JOIN FETCH e.missions WHERE e.email = :email")
-    Optional<Employees> findByEmailWithFetchMissions(@Param("email") String email);
 
     @Query(value = """
                   SELECT e.id as id,
@@ -56,8 +52,6 @@ public interface CoEmployeesRepository extends EmployeesRepository {
                    e.country as country,
                    e.status as status
             FROM employees e
-                     LEFT JOIN employees_missions em ON em.employees_id = e.id
-                     LEFT JOIN missions m on em.missions_id = m.id
             WHERE e.email = :email
             """, nativeQuery = true)
     Optional<CoEmployeesInformationResponse> findEmployeesMyAuth(String email);

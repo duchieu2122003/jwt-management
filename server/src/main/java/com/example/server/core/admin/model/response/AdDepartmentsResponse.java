@@ -1,4 +1,4 @@
-package com.example.server.core.admin.response;
+package com.example.server.core.admin.model.response;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -12,5 +12,4 @@ public interface AdDepartmentsResponse {
 
     @Value("#{target.name}")
     String getName();
-
 }

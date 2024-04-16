@@ -1,19 +1,19 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environment/environment.prod";
 import {Observable} from "rxjs";
+import {environment} from "../../../environment/environment.prod";
 
-const api = environment.API_ADMIN + '/departments';
+const api = environment.API_STAFF + `/departments`;
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
-export class AdDepartmentService {
+export class StDepartmentService {
 
   constructor(private http: HttpClient) {
   }
 
-  getAllDepartment(): Observable<any> {
+  getDepartmentUserCurrent(): Observable<any> {
     return this.http.get(api);
   }
 }

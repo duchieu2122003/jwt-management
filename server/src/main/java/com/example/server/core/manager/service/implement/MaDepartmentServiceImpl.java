@@ -4,6 +4,7 @@ import com.example.server.core.manager.model.request.MaDepartmentCreateRequest;
 import com.example.server.core.manager.model.request.MaDepartmentUpdateRequest;
 import com.example.server.core.manager.model.response.MaDepartmentResponse;
 import com.example.server.core.manager.repository.MaDepartmentRepository;
+import com.example.server.core.manager.repository.MaEmployeesRepository;
 import com.example.server.core.manager.service.MaDepartmentService;
 import com.example.server.entity.Departments;
 import com.example.server.infrastructure.constant.Message;
@@ -27,19 +28,22 @@ public class MaDepartmentServiceImpl implements MaDepartmentService {
 
     private final MaDepartmentRepository maDepartmentRepository;
 
+    private final MaEmployeesRepository maEmployeesRepository;
+
     @Override
     public List<MaDepartmentResponse> getAll() {
         List<Departments> list = maDepartmentRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
         List<MaDepartmentResponse> listResult = new ArrayList<>();
-        list.forEach(i -> {
+        for (int i = 0; i < list.size(); i++) {
             MaDepartmentResponse objResult = MaDepartmentResponse.builder()
-                    .id(i.getId())
-                    .name(i.getName())
-                    .descriptions(i.getDescriptions())
-                    .status(i.getStatus())
+                    .id(list.get(i).getId())
+                    .stt(i + 1)
+                    .name(list.get(i).getName())
+                    .descriptions(list.get(i).getDescriptions())
+                    .status(list.get(i).getStatus())
                     .build();
             listResult.add(objResult);
-        });
+        }
         return listResult;
     }
 
@@ -89,7 +93,7 @@ public class MaDepartmentServiceImpl implements MaDepartmentService {
         Optional<Departments> findDepartmentsName = maDepartmentRepository
                 .findDepartmentsByName(request.getName());
         if (findDepartmentsName.isPresent() && !findDepartments.get().getId().equals(findDepartmentsName.get().getId())) {
-                throw new RestApiException(Message.DEPARTMENT_NAME_EXSIST);
+            throw new RestApiException(Message.DEPARTMENT_NAME_EXSIST);
         }
         Departments save = findDepartments
                 .map(exist -> {
@@ -114,6 +118,10 @@ public class MaDepartmentServiceImpl implements MaDepartmentService {
     public boolean delete(String id) {
         Optional<Departments> departments = maDepartmentRepository.findById(id);
         if (departments.isPresent()) {
+            List<String> listIdEmployeesInDepartment = maEmployeesRepository.getIdEmployeeOnIdDepartment(id);
+            if (!listIdEmployeesInDepartment.isEmpty()) {
+                throw new RestApiException(Message.EMPLOYEES_ON_DEPARTMENT);
+            }
             maDepartmentRepository.delete(departments.get());
             return true;
         }

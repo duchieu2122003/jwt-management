@@ -3,7 +3,6 @@ package com.example.server.core.admin.repository;
 import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
 import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
 import com.example.server.core.admin.model.response.AdEmployeesDetailResponse;
-import com.example.server.core.admin.model.response.AdEmployeesResponse;
 import com.example.server.entity.Employees;
 import com.example.server.repositoty.EmployeesRepository;
 import org.springframework.data.domain.Page;
@@ -19,21 +18,6 @@ import java.util.Optional;
  */
 @Repository
 public interface AdEmployeesRepository extends EmployeesRepository {
-
-    @Query(value = """
-             select distinct row_number() over (order by e.code ASC) as stt,
-                    concat(e.first_name,e.last_name) as fullName,
-                    e.code as code,
-                    e.birthday as birthday,
-                    concat(e.address,e.city,e.country) as fullAddress,
-                    d.name as nameDepartment,
-                    r.name
-                    from employee e
-             LEFT JOIN department d on e.department_id = d.id
-             LEFT JOIN employee_roles er on e.id = er.employee_id
-             LEFT JOIN role r on er.roles_id = r.id
-            """, nativeQuery = true)
-    Page<AdEmployeesResponse> getPageEmployee(Pageable pageable);
 
     @Query(value = """
             SELECT DISTINCT ROW_NUMBER() over (ORDER BY e.code ASC)  as stt,
@@ -69,7 +53,7 @@ public interface AdEmployeesRepository extends EmployeesRepository {
     AdEmployeesCustomResponse findEmployeesCustomById(@Param("id") String id);
 
     @Query(value = """
-            SELECT e.id  as id,
+            SELECT DISTINCT e.id  as id,
                   e.code as code,
                 e.first_name as first_name, 
                 e.last_name as last_name,

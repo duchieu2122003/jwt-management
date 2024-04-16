@@ -96,7 +96,6 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     @Override
     @Transactional
     public AdEmployeesCustomResponse update(AdEmployeesUpdateRequest request) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Employees employees = adEmployeesRepository.findById(request.getId())
                 .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
         Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());

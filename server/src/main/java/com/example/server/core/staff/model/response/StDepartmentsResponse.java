@@ -1,8 +1,7 @@
-package com.example.server.core.manager.model.response;
+package com.example.server.core.staff.model.response;
 
 import com.example.server.infrastructure.constant.StatusDepartment;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,14 +10,11 @@ import lombok.experimental.FieldDefaults;
 /**
  * @author duchieu212
  */
-@AllArgsConstructor
 @Getter
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MaDepartmentResponse {
-
-    Integer stt;
+public class StDepartmentsResponse {
 
     String id;
 
@@ -27,4 +23,5 @@ public class MaDepartmentResponse {
     String descriptions;
 
     StatusDepartment status;
+
 }

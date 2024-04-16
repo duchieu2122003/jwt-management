@@ -32,6 +32,7 @@ public enum Message {
     BIRTHDAY_AFTER_NOW("Ngày sinh không được sau ngày hiện tại"),
     PASSWORD_OLD_WRONG("Mật khẩu cũ sai"),
     PASSWORD_NEW_WRONG_FORMAT("Mật khẩu mới sai định dạng"),
+    EMPLOYEES_ON_DEPARTMENT("Có nhân viên trong phòng ban, không thể xóa"),
     NAME_NOT_EMPTY("Tên không được để trống");
 
 

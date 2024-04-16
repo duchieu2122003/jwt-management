@@ -1,7 +1,7 @@
 package com.example.server.core.admin.service.implement;
 
+import com.example.server.core.admin.model.response.AdDepartmentsResponse;
 import com.example.server.core.admin.repository.AdDepartmentsRepository;
-import com.example.server.core.admin.response.AdDepartmentsResponse;
 import com.example.server.core.admin.service.AdDepartmentsService;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import lombok.RequiredArgsConstructor;

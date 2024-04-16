@@ -1,2 +1,55 @@
 <app-staff-header></app-staff-header>
-<h1> sau dday la chi tiet phong ban</h1>
+<div class="container">
+  <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
+    <span>Phòng ban của tôi</span>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2> {{ departments.name !== '' ? departments.name : 'Chưa có phòng ban' }}</h2>
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{ departments.descriptions !== '' ? 'Mô tả: ' + departments.descriptions : '' }}</p>
+        <p>{{
+            departments.status !== '' ? departments.status === 'ACTIVE'
+              ? 'Trạng thái: Hoạt động' : 'Trạng thái: Ngừng hoạt động' : ''
+          }}</p>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<div class="tab-content">
+  <h3>
+    <mat-icon>list</mat-icon>
+    Danh sách nhân viên
+  </h3>
+  <table class="table table-hover  text-center">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Mã</th>
+      <th scope="col">Họ tên</th>
+      <th scope="col">Email</th>
+      <th scope="col">Ngày sinh</th>
+      <th scope="col">Giới tính</th>
+      <th scope="col">Địa chỉ</th>
+      <th scope="col">Nhiệm vụ</th>
+      <th scope="col">Trạng thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of listEmployees">
+      <th scope="row">{{ item.stt }}</th>
+      <td>{{ item.code }}</td>
+      <td>{{ item.fullName }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.birthday | date :'dd/MM/yyyy' }}</td>
+      <td>{{ item.gender == 'MALE' ? 'Nam' : 'Nữ' }}</td>
+      <td>{{ item.fullAddress }}</td>
+      <td>{{ item.fullMissions }}</td>
+      <td>{{ item.status == 'ACTIVE' ? 'Làm việc' : 'Nghỉ việc' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
