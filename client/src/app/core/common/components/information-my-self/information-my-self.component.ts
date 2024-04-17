@@ -45,6 +45,10 @@ export class InformationMySelfComponent implements OnInit {
     statusBoolean: true,
     status: "ACTIVE"
   };
+
+  provinceId: string = '';
+  listCity: { ProvinceID: string, ProvinceName: string }[] = [];
+  listStreet: string[] = [];
   objInit: any;
 
   constructor(private coEmployeesService: CoEmployeesService,
@@ -63,6 +67,48 @@ export class InformationMySelfComponent implements OnInit {
         this.toast.error(err.error.message, 'Thông báo')
       }
     })
+
+    this.coEmployeesService.getAllCity().subscribe({
+      next: (response) => {
+        if (response.message == "Success") {
+          this.listCity = response.data;
+          this.getStreetByNameCity();
+        }
+      }
+    })
+  }
+
+  getStreetByNameCity() {
+    const objCity = this.listCity
+      .find(city => city.ProvinceName === this.objUpdate.city);
+    if (objCity != undefined) {
+      this.provinceId = objCity.ProvinceID;
+      this.coEmployeesService.getStreetByIdCountry(objCity.ProvinceID).subscribe({
+          next: (response) => {
+            if (response.message == "Success") {
+              this.listStreet = response.data.map((i: { DistrictName: any; }) => i.DistrictName);
+            }
+          }
+        }
+      )
+    }
+  }
+
+  onChangCity() {
+    this.listStreet = [];
+    this.objUpdate.street = '';
+    const objCity = this.listCity
+      .find(city => city.ProvinceID.toString() === this.provinceId);
+    if (objCity != undefined) {
+      this.objUpdate.city = objCity.ProvinceName;
+      this.coEmployeesService.getStreetByIdCountry(objCity.ProvinceID).subscribe({
+        next: (response: any) => {
+          if (response.message === "Success") {
+            this.listStreet = response.data.map((item: any) => item.DistrictName);
+          }
+        }
+      });
+    }
   }
 
   handleUpdateEmployeesCurrent() {

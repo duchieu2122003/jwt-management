@@ -64,7 +64,7 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
                             .orElse(null);
                     if (mission != null) {
                         missionsAdd.add(mission);
-                        mission.getEmployees().add(employee);
+//                        mission.getEmployees().add(employee);
                     }
                 });
 
@@ -80,7 +80,7 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
                 listEmployeesAdd.add(employee);
             }
         }
-        maMissionsRepository.saveAll(missionsList);
+//        maMissionsRepository.saveAll(missionsList);
         List<Employees> savedEmployees = maEmployeesRepository.saveAll(listEmployeesAdd);
 
         List<MaEmployeesMissionsCreateResponse> result = new ArrayList<>();

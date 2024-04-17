@@ -3,7 +3,6 @@ import {AdDepartmentService} from "../../../service/ad-department.service";
 import {AdEmployeesService} from "../../../service/ad-employees.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialogRef} from "@angular/material/dialog";
-import moment from "moment";
 
 @Component({
   selector: 'app-ma-department-create',
@@ -33,11 +32,14 @@ export class CreateComponent implements OnInit {
     address: "",
     street: "",
     city: "",
-    country: "",
+    country: "Việt Nam",
     role: "STAFF",
     idDepartments: "",
   }
   listDepartments: any;
+  provinceId: string = '';
+  listCity: { ProvinceID: string, ProvinceName: string }[] = [];
+  listStreet: string[] = [];
 
   constructor(private dialogRef: MatDialogRef<CreateComponent>,
               private adDeparmentService: AdDepartmentService,
@@ -52,6 +54,31 @@ export class CreateComponent implements OnInit {
         this.listDepartments = response.data;
       }
     })
+
+    this.adEmployeesSerivice.getAllCity().subscribe({
+      next: (response) => {
+        if (response.message == "Success") {
+          this.listCity = response.data;
+        }
+      }
+    })
+  }
+
+  onChangCity() {
+    this.listStreet = [];
+    this.objCreate.street = '';
+    const objCity = this.listCity
+      .find(city => city.ProvinceID.toString() === this.provinceId);
+    if (objCity != undefined) {
+      this.objCreate.city = objCity.ProvinceName;
+      this.adEmployeesSerivice.getStreetByIdCountry(objCity.ProvinceID).subscribe({
+        next: (response: any) => {
+          if (response.message === "Success") {
+            this.listStreet = response.data.map((item: any) => item.DistrictName);
+          }
+        }
+      });
+    }
   }
 
   closeDialog(): void {

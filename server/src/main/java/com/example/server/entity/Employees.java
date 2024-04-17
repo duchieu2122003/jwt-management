@@ -4,7 +4,6 @@ import com.example.server.infrastructure.constant.EntityProperties;
 import com.example.server.infrastructure.constant.Gender;
 import com.example.server.infrastructure.constant.Role;
 import com.example.server.infrastructure.constant.StatusEmployee;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -23,7 +23,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Nationalized;
 
@@ -37,7 +36,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Entity
 @Table(name = "employees")
@@ -46,6 +44,7 @@ public class Employees {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     String id;
 
     @Column(name = "code", unique = true, length = EntityProperties.LENGTH_CODE)
@@ -96,10 +95,15 @@ public class Employees {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     Departments departments;
 
-    @ManyToMany(mappedBy = "employees",cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "employees_missions",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "mission_id")
+    )
     Set<Missions> missions;
 }

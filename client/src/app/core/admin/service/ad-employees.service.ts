@@ -35,5 +35,18 @@ export class AdEmployeesService {
     return this.http.delete(api + "/" + data);
   }
 
+  getAllCity(): Observable<any> {
+    return this.http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+      {headers: {"token": "1a328d4f-fc71-11ee-b6f7-7a81157ff3b1"}})
+  }
+
+  getStreetByIdCountry(provinceId: string): Observable<any> {
+    return this.http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
+      {
+        headers: {"token": "1a328d4f-fc71-11ee-b6f7-7a81157ff3b1"}, params: {
+          province_id: provinceId
+        }
+      })
+  }
 
 }

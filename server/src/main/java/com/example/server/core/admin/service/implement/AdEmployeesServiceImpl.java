@@ -143,13 +143,10 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     @Override
     @Transactional
     public Boolean delete(String id) {
-        Employees employees = adEmployeesRepository.findById(id).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
-        employees.setDepartments(null);
-        adEmployeesRepository.delete(employees);
+        adEmployeesRepository.findById(id).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        adEmployeesRepository.deleteById(id);
         return true;
     }
-
-    @Override
     @Transactional
     public Boolean setEmployeeQuit(String id) {
         Employees employees = adEmployeesRepository.findById(id).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));

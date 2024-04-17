@@ -43,6 +43,9 @@ export class UpdateComponent implements OnInit {
     status: "ACTIVE"
   };
   listDepartments: any
+  listCity: { ProvinceID: string, ProvinceName: string }[] = [];
+  listStreet: string[] = [];
+  provinceId: string = '';
 
   constructor(private adEmployeesService: AdEmployeesService,
               @Inject(MAT_DIALOG_DATA) private data: { id: string },
@@ -57,14 +60,23 @@ export class UpdateComponent implements OnInit {
         this.listDepartments = response.data;
       }
     })
+
     this.adEmployeesService.getDetailEmployees(this.data.id).subscribe({
       next: (response) => {
         this.objUpdate = response.data;
         this.objUpdate.statusBoolean = response.data.status === "ACTIVE";
         this.objUpdate.birthday = moment(response.data.birthday).format('YYYY-MM-DD');
-        console.log(this.objUpdate)
       }, error: (err) => {
         this.toast.error(err.error.message, 'Thông báo')
+      }
+    })
+
+    this.adEmployeesService.getAllCity().subscribe({
+      next: (response) => {
+        if (response.message == "Success") {
+          this.listCity = response.data;
+          this.getStreetByNameCity();
+        }
       }
     })
 
@@ -72,6 +84,43 @@ export class UpdateComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  onChangCity() {
+    this.listStreet = [];
+    this.objUpdate.street = '';
+    const objCity = this.listCity
+      .find(city => city.ProvinceID.toString() === this.provinceId);
+    if (objCity != undefined) {
+      this.objUpdate.city = objCity.ProvinceName;
+      this.getStreetByProvinceId(objCity.ProvinceID);
+    }
+  }
+
+  getStreetByNameCity() {
+    const objCity = this.listCity
+      .find(city => city.ProvinceName === this.objUpdate.city);
+    if (objCity != undefined) {
+      this.provinceId = objCity.ProvinceID;
+      this.adEmployeesService.getStreetByIdCountry(objCity.ProvinceID).subscribe({
+          next: (response) => {
+            if (response.message == "Success") {
+              this.listStreet = response.data.map((i: { DistrictName: any; }) => i.DistrictName);
+            }
+          }
+        }
+      )
+    }
+  }
+
+  getStreetByProvinceId(provinceId: string) {
+    this.adEmployeesService.getStreetByIdCountry(provinceId).subscribe({
+      next: (response: any) => {
+        if (response.message === "Success") {
+          this.listStreet = response.data.map((item: any) => item.DistrictName);
+        }
+      }
+    });
   }
 
   updateEmployees() {

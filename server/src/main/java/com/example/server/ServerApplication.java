@@ -31,7 +31,7 @@ public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }
-
+//
 //    @Autowired
 //    public ServerApplication(DepartmentsRepository departmentsRepository, EmployeesRepository employeesRepository, MissionsRepository missionsRepository) {
 //        this.departmentsRepository = departmentsRepository;

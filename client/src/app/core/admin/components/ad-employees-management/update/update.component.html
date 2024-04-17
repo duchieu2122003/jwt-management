@@ -107,31 +107,35 @@
           </div>
           <div class="row">
             <div class="mb-3 d-flex align-items-start col-4 flex-column">
-              <label>Đường</label>
-              <select [(ngModel)]="objUpdate.street" class="form-select" required>
-                <option value="">Chọn 1 đường</option>
-                <option value="STAFF">Nhân viên</option>
-                <option value="MANAGER">Quản lý</option>
-              </select>
-              <div class="invalid-feedback">
-                Không được để trống
-              </div>
-            </div>
-            <div class="mb-3 d-flex align-items-start col-4 flex-column">
-              <label>Thành phố</label>
-              <select [(ngModel)]="objUpdate.city" class="form-select" required>
-                <option value="">Chọn 1 thành phố</option>
-                <option value="MANAGER">Quản lý</option>
-              </select>
-              <div class="invalid-feedback">
-                Không được để trống
-              </div>
-            </div>
-            <div class="mb-3 d-flex align-items-start col-4 flex-column">
               <label>Quốc gia</label>
-              <select [(ngModel)]="objUpdate.country" class="form-select" required>
+              <select [(ngModel)]="objUpdate.country" class="form-select" required disabled>
                 <option value="">Chọn 1 quốc gia</option>
-                <option value="MANAGER">Quản lý</option>
+                <option value="Việt Nam">Việt Nam</option>
+              </select>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-4 flex-column">
+              <label>Thành phố/Tỉnh</label>
+              <select [(ngModel)]="provinceId" class="form-select" required
+                      (ngModelChange)="onChangCity()">
+                <option value="">Chọn 1 thành phố</option>
+                <option *ngFor="let item of listCity"
+                        [value]=[item.ProvinceID]>{{ item.ProvinceName }}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-4 flex-column">
+              <label>Tỉnh/Huyện</label>
+              <select [(ngModel)]="objUpdate.street" class="form-select" required>
+                <option value="">Chọn 1 tỉnh</option>
+                <option *ngFor="let item of listStreet"
+                        [value]=[item]>{{ item }}
+                </option>
               </select>
               <div class="invalid-feedback">
                 Không được để trống
