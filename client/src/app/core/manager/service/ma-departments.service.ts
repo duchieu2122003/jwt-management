@@ -28,4 +28,8 @@ export class MaDepartmentsService {
   deleteDepartments(id: string): Observable<any> {
     return this.http.delete(api + `/` + id)
   }
+
+  getOneDepartmentById(id: string): Observable<any> {
+    return this.http.get(api + '/' + id);
+  }
 }

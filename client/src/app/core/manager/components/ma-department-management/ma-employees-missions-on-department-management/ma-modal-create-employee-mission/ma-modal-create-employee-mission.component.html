@@ -1,0 +1,144 @@
+<div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 mt-3">Thêm nhân viên</h1>
+        <button type="button" class="btn-close ms-auto" (click)="onCloseDialog()"></button>
+      </div>
+      <hr/>
+      <div class="modal-body">
+        <!--        <div class="was-validated">-->
+        <!--          <div class="row">-->
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label for="firstName" class="form-label">Họ</label>-->
+        <!--              <input [(ngModel)]="objCreate.firstName" class="form-control" id="firstName" placeholder="Nhập họ"-->
+        <!--                     required>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label for="lastName" class="form-label">Tên</label>-->
+        <!--              <input [(ngModel)]="objCreate.lastName" class="form-control" id="lastName" placeholder="Nhập tên"-->
+        <!--                     required>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+
+        <!--            </div>-->
+        <!--          </div>-->
+
+        <!--          <div class="row">-->
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label for="email" class="form-label">Email</label>-->
+        <!--              <input [(ngModel)]="objCreate.email" class="form-control" id="email" placeholder="Nhập email" required>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label for="birthday" class="form-label">Ngày sinh</label>-->
+        <!--              <input [(ngModel)]="objCreate.birthday" type="date" class="form-control" id="birthday"-->
+        <!--                     placeholder="Nhập ngày sinh" required>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="row mt-2 mb-2">-->
+        <!--            <div class="d-flex">-->
+        <!--              <label style="margin-right: 20px">-->
+        <!--                Giới tính-->
+        <!--              </label>-->
+        <!--              <br/>-->
+        <!--              <input class="form-check-input" type="radio" name="gender"-->
+        <!--                     id="flexRadioDefault1" checked-->
+        <!--                     [checked]="objCreate.gender === 'MALE'"-->
+        <!--                     (change)="objCreate.gender = 'MALE'">-->
+        <!--              <label style="color: black">-->
+        <!--                Nam-->
+        <!--              </label>-->
+        <!--              <input style="margin-left: 20px" class="form-check-input" type="radio" name="gender"-->
+        <!--                     id="flexRadioDefault2"-->
+        <!--                     [checked]="objCreate.gender === 'FEMALE'"-->
+        <!--                     (change)="objCreate.gender = 'FEMALE'">-->
+        <!--              <label style="color: black">-->
+        <!--                Nữ-->
+        <!--              </label>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="row">-->
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label>Chức vụ</label>-->
+        <!--              <select class="form-select" [(ngModel)]="objCreate.role">-->
+        <!--                <option value="STAFF">Nhân viên</option>-->
+        <!--                <option value="MANAGER">Quản lý</option>-->
+        <!--              </select>-->
+        <!--            </div>-->
+        <!--            <div class="mb-3 d-flex align-items-start col-6 flex-column">-->
+        <!--              <label>Phòng ban</label>-->
+        <!--              <select class="form-select" [(ngModel)]="objCreate.idDepartments">-->
+        <!--                <option value="">Chưa có phòng ban</option>-->
+        <!--                <option *ngFor="let i of listDepartments" [value]="i.id">{{ i.name }}</option>-->
+        <!--              </select>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="row">-->
+        <!--            <div class="mb-3 d-flex align-items-start flex-column">-->
+        <!--              <label for="address" class="form-label">Địa chỉ</label>-->
+        <!--              <input [(ngModel)]="objCreate.address" class="form-control" id="address" placeholder="Nhập địa chỉ cụ thể"-->
+        <!--                     required>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="row">-->
+        <!--            <div class="mb-3 d-flex align-items-start col-4 flex-column">-->
+        <!--              <label>Quốc gia</label>-->
+        <!--              <select [(ngModel)]="objCreate.country" class="form-select" required disabled>-->
+        <!--                <option value="">Chọn 1 quốc gia</option>-->
+        <!--                <option value="Việt Nam">Việt Nam</option>-->
+        <!--              </select>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <div class="mb-3 d-flex align-items-start col-4 flex-column">-->
+        <!--              <label>Thành phố/Tỉnh</label>-->
+        <!--              <select [(ngModel)]="provinceId" class="form-select" required-->
+        <!--                      (ngModelChange)="onChangCity()">-->
+        <!--                <option value="">Chọn 1 thành phố</option>-->
+        <!--                <option *ngFor="let item of listCity"-->
+        <!--                        [value]=[item.ProvinceID]>{{ item.ProvinceName }}-->
+        <!--                </option>-->
+        <!--              </select>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <div class="mb-3 d-flex align-items-start col-4 flex-column">-->
+        <!--              <label>Tỉnh/Huyện</label>-->
+        <!--              <select [(ngModel)]="objCreate.street" class="form-select" required>-->
+        <!--                <option value="">Chọn 1 tỉnh</option>-->
+        <!--                <option *ngFor="let item of listStreet"-->
+        <!--                        [value]=[item]>{{ item }}-->
+        <!--                </option>-->
+        <!--              </select>-->
+        <!--              <div class="invalid-feedback">-->
+        <!--                Không được để trống-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="modal-footer mb-3">-->
+        <!--            <button type="button" class="btn btn-secondary m-3" (click)="closeDialog()">Hủy</button>-->
+        <!--            <button type="button" class="btn btn-primary" (click)="createEmployees()">Xác nhận</button>-->
+        <!--          </div>-->
+        <!--        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+

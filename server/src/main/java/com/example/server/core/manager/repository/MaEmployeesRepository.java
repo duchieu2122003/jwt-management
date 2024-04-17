@@ -43,7 +43,8 @@ public interface MaEmployeesRepository extends EmployeesRepository {
     List<Employees> getEmployeesByIdDepartment(String idDepartment);
 
     @Query(value = """
-            SELECT e.id as id,
+            SELECT DISTINCT ROW_NUMBER() over (ORDER BY e.code ASC)  as stt,
+                   e.id as id,
                    e.code as code,
                   CONCAT(e.first_name, ' ', e.last_name) as full_name,
                   e.email as email,
@@ -51,14 +52,13 @@ public interface MaEmployeesRepository extends EmployeesRepository {
                   e.gender as gender,
                   CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
                   e.status as status,
-                  GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
+                  COALESCE(GROUP_CONCAT(DISTINCT m.name SEPARATOR ','),'')as full_missions
                   FROM employees e
-                  LEFT JOIN employees_missions em ON em.employees_id = e.id
-                  LEFT JOIN missions m on em.missions_id = m.id
+                  LEFT JOIN employees_missions em ON em.employee_id = e.id
+                  LEFT JOIN missions m on em.mission_id = m.id
                   WHERE e.department_id = :idDepartment
                   GROUP BY e.id, e.code, full_name, e.email, e.birthday, e.gender, 
-                  full_address, e.status, e.last_name
-                  ORDER BY e.last_name ASC               
+                  full_address, e.status, e.last_name            
              """, nativeQuery = true)
     List<MaEmployeesMissionsResponse> getMaListEmployeeCustom(String idDepartment);
 
@@ -79,23 +79,23 @@ public interface MaEmployeesRepository extends EmployeesRepository {
 //            """, nativeQuery = true)
 //    MaEmployeesMissionsResponse getMaEmployeeCustom(String id);
 
-    @Query(value = """
-            SELECT e.id as id,
-                   e.code as code,
-                  CONCAT(e.first_name, ' ', e.last_name) as full_name,
-                  e.email as email,
-                  e.birthday as birthday,
-                  e.gender as gender,
-                  CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
-                  e.status as status,
-                  GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
-                  FROM employees e
-                  LEFT JOIN employees_missions em ON em.employees_id = e.id
-                  INNER JOIN missions m on em.missions_id = m.id
-                  WHERE e.department_id = :idDepartment
-                  GROUP BY e.id, e.code, full_name, e.email, e.birthday, e.gender, 
-                  full_address, e.status, e.last_name
-                  ORDER BY e.last_name ASC               
-             """, nativeQuery = true)
-    List<MaEmployeesMissionsResponse> a(String idDepartment);
+//    @Query(value = """
+//            SELECT e.id as id,
+//                   e.code as code,
+//                  CONCAT(e.first_name, ' ', e.last_name) as full_name,
+//                  e.email as email,
+//                  e.birthday as birthday,
+//                  e.gender as gender,
+//                  CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
+//                  e.status as status,
+//                  GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
+//                  FROM employees e
+//                  LEFT JOIN employees_missions em ON em.employee_id = e.id
+//                  INNER JOIN missions m on em.mission_id = m.id
+//                  WHERE e.department_id = :idDepartment
+//                  GROUP BY e.id, e.code, full_name, e.email, e.birthday, e.gender,
+//                  full_address, e.status, e.last_name
+//                  ORDER BY e.last_name ASC
+//             """, nativeQuery = true)
+//    List<MaEmployeesMissionsResponse> a(String idDepartment);
 }

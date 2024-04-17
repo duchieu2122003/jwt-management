@@ -42,7 +42,6 @@ export class StDepartmentMySelfComponent implements OnInit {
   ngOnInit(): void {
     this.stDepartmentService.getDepartmentUserCurrent().subscribe({
       next: (response) => {
-        console.log(response)
         if (response.data != null) {
           this.departments = response.data;
         }
@@ -52,7 +51,6 @@ export class StDepartmentMySelfComponent implements OnInit {
     })
     this.stEmployeesService.getListEmployeesOnDepartmentsUserCurrent().subscribe({
       next: (response) => {
-        console.log(response)
         if (response.data != null) {
           this.listEmployees = response.data;
         }

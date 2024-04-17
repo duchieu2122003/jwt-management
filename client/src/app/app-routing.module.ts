@@ -13,6 +13,9 @@ import {
 } from "./core/staff/components/st-department-my-self/st-department-my-self.component";
 import {InformationMySelfComponent} from "./core/common/components/information-my-self/information-my-self.component";
 import {ChangePasswordComponent} from "./core/common/components/change-password/change-password.component";
+import {
+  MaEmployeesMissionsOnDepartmentManagementComponent
+} from "./core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component";
 
 const routes: Routes = [
   {path: "", redirectTo: "common/login", pathMatch: 'full'},
@@ -26,6 +29,8 @@ const routes: Routes = [
 
   {path: "manager", redirectTo: "manager/department-management", pathMatch: "full"},
   {path: "manager/department-management", component: MaDepartmentManagementComponent},
+  {path: "manager/employees-missions-on-department/:id", component: MaEmployeesMissionsOnDepartmentManagementComponent},
+
   {path: "staff", redirectTo: "staff/department-my-self", pathMatch: "full"},
   {path: "staff/department-my-self", component: StDepartmentMySelfComponent},
 

@@ -112,7 +112,6 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
             departments = departmentsOptional;
         }
-
         Employees employeesSave = Employees.builder()
                 .id(employees.getId())
                 .code(employees.getCode())
@@ -125,6 +124,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                 .city(request.getCity())
                 .country(request.getCountry())
                 .role(request.getRole())
+                .password(employees.getPassword())
                 .birthday(request.getBirthday())
                 .status(request.getStatus())
                 .departments(departments)
@@ -147,6 +147,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         adEmployeesRepository.deleteById(id);
         return true;
     }
+
     @Transactional
     public Boolean setEmployeeQuit(String id) {
         Employees employees = adEmployeesRepository.findById(id).orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));

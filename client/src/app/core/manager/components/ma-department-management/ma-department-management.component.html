@@ -36,7 +36,8 @@
     <td>{{ item.descriptions }}</td>
     <td>{{ item.status === 'ACTIVE' ? 'Hoạt động' : 'Ngừng hoạt động' }}</td>
     <td>
-      <button type="button" class="btn btn-success">Nhân viên</button>
+      <a [routerLink]="['/manager/employees-missions-on-department/'+item.id]" type="button" class="btn btn-success">Nhân
+        viên</a>
     </td>
     <td>
       <button type="button" class="btn btn-warning" (click)="openShowUpdate(item)">Sửa</button>

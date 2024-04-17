@@ -31,7 +31,7 @@ import {MatCard, MatCardContent, MatCardTitle} from "@angular/material/card";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {NgOptimizedImage} from "@angular/common";
 import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -40,9 +40,22 @@ import {HttpConfigInterceptor} from "./interceptors/http-config.interceptor";
 import {CreateComponent} from './core/admin/components/ad-employees-management/create/create.component';
 import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
-import { ChangePasswordComponent } from './core/common/components/change-password/change-password.component';
-import {MaDepartmentCreateComponent} from "./core/manager/components/ma-department-management/ma-department-create/ma-department-create.component";
-import { MaDepartmentUpdateComponent } from './core/manager/components/ma-department-management/ma-department-update/ma-department-update.component';
+import {ChangePasswordComponent} from './core/common/components/change-password/change-password.component';
+import {
+  MaDepartmentCreateComponent
+} from "./core/manager/components/ma-department-management/ma-department-create/ma-department-create.component";
+import {
+  MaDepartmentUpdateComponent
+} from './core/manager/components/ma-department-management/ma-department-update/ma-department-update.component';
+import {
+  MaEmployeesMissionsOnDepartmentManagementComponent
+} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component';
+import {
+  MaModalCreateEmployeeMissionComponent
+} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-modal-create-employee-mission/ma-modal-create-employee-mission.component';
+import {
+  MaModalUpdateEmployeeMissionComponent
+} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-modal-update-employee-mission/ma-modal-update-employee-mission.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +80,10 @@ import { MaDepartmentUpdateComponent } from './core/manager/components/ma-depart
     UpdateComponent,
     ChangePasswordComponent,
     MaDepartmentCreateComponent,
-    MaDepartmentUpdateComponent
+    MaDepartmentUpdateComponent,
+    MaEmployeesMissionsOnDepartmentManagementComponent,
+    MaModalCreateEmployeeMissionComponent,
+    MaModalUpdateEmployeeMissionComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +100,7 @@ import { MaDepartmentUpdateComponent } from './core/manager/components/ma-depart
     FormsModule,
     MatInput,
     MatIcon,
+    MatIconModule,
     NgOptimizedImage,
     HttpClientModule,
     ToastrModule.forRoot(),

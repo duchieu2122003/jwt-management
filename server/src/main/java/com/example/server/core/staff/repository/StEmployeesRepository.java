@@ -26,8 +26,8 @@ public interface StEmployeesRepository extends EmployeesRepository {
                   e.status as status,
                   GROUP_CONCAT(DISTINCT m.name SEPARATOR ',') as full_missions
                   FROM employees e
-                  LEFT JOIN employees_missions em ON em.employees_id = e.id
-                  INNER JOIN missions m on em.missions_id = m.id
+                  LEFT JOIN employees_missions em ON em.employee_id = e.id
+                  LEFT JOIN missions m on em.mission_id = m.id
                   WHERE e.department_id = :id
                   GROUP BY e.id, e.code, full_name, e.email, e.birthday, e.gender, 
                   full_address, e.status, e.last_name   

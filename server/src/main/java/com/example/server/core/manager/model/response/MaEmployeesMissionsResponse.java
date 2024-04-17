@@ -11,6 +11,9 @@ import java.util.Date;
  */
 public interface MaEmployeesMissionsResponse {
 
+    @Value("#{target.stt}")
+    String getStt();
+
     @Value("#{target.id}")
     String getId();
 
