@@ -66,6 +66,7 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
                         missionsAdd.add(mission);
 //                        mission.getEmployees().add(employee);
                     }
+                    employee.setMissions(missionsAdd);
                 });
 
                 if (!request.getDepartmentId().equals("")) {

@@ -18,9 +18,10 @@ import java.util.List;
 public interface MaEmployeesRepository extends EmployeesRepository {
 
     @Query(value = """
-            SELECT e.id, 
+            SELECT e.id as id, 
+                e.code as code,
                 CONCAT(e.firstName, ' ', e.lastName) as full_name,
-                e.email
+                e.email as email
              FROM Employees e WHERE e.departments IS NULL
             """)
     List<MaEmployeesResponse> getAllEmployeesNotDepartment();
@@ -52,7 +53,7 @@ public interface MaEmployeesRepository extends EmployeesRepository {
                   e.gender as gender,
                   CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
                   e.status as status,
-                  COALESCE(GROUP_CONCAT(DISTINCT m.name SEPARATOR ','),'')as full_missions
+                  COALESCE(GROUP_CONCAT(DISTINCT m.name SEPARATOR ', '),'')as full_missions
                   FROM employees e
                   LEFT JOIN employees_missions em ON em.employee_id = e.id
                   LEFT JOIN missions m on em.mission_id = m.id

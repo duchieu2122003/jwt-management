@@ -24,6 +24,7 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     descriptions: '',
     status: '',
   }
+
   listEmployeesMissions: {
     stt: number,
     id: string,
@@ -36,14 +37,16 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     gender: string,
     status: string;
   }[] = [];
+
   idDepartment = '';
 
   constructor(private maDepartmentsService: MaDepartmentsService,
               private maEmployeesMissionsService: MaEmployeesMissionsService,
               private toast: ToastrService,
-              private route: ActivatedRoute,
-              private dialogRef: MatDialog) {
-    this.route.params.subscribe(params => {
+              private routeParam: ActivatedRoute,
+              private dialogRef: MatDialog,
+  ) {
+    this.routeParam.params.subscribe(params => {
       this.idDepartment = params['id'];
     })
   }
@@ -66,7 +69,6 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
   getAllEmployeesMissionOnDepartment(id: string) {
     this.maEmployeesMissionsService.getAllEmployeesMissionOnDepartment(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.listEmployeesMissions = response.data;
       }, error: (err) => {
         this.toast.error(err.error.message, "Thông báo");
@@ -77,21 +79,31 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
   openShowCreate() {
     const dialogRef = this.dialogRef
       .open(MaModalCreateEmployeeMissionComponent, {
-        width:'80%'
+        width: '70%', minHeight: '70%', height: 'auto'
+        , data: this.idDepartment
       })
 
     dialogRef.afterClosed().subscribe(result => {
-
+      if (result) {
+        const listAddOk = result.map((item: any) => {
+          return {
+            ...item,
+            stt: this.listEmployeesMissions.length + 1
+          };
+        });
+        this.listEmployeesMissions = this.listEmployeesMissions.concat(listAddOk);
+      }
     })
   }
 
-  openShowUpdate(id:string) {
+  openShowUpdate(id: string) {
     const dialogRef = this.dialogRef
       .open(MaModalUpdateEmployeeMissionComponent, {
-        width:'80%'
+        width: '80%'
       })
     dialogRef.afterClosed().subscribe(result => {
 
     })
   }
+
 }

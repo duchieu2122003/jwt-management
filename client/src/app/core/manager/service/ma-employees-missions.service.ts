@@ -17,4 +17,8 @@ export class MaEmployeesMissionsService {
   getAllEmployeesMissionOnDepartment(id: string): Observable<any> {
     return this.http.get(api + '/' + id)
   }
+
+  createMissionsEmployeesList(data: any): Observable<any> {
+    return this.http.post(api, data);
+  }
 }

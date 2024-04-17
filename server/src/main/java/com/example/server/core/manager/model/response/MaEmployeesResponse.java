@@ -10,6 +10,9 @@ public interface MaEmployeesResponse {
     @Value("#{target.id}")
     String getId();
 
+    @Value("#{target.code}")
+    String getCode();
+
     @Value("#{target.email}")
     String getEmail();
 

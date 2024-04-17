@@ -1,6 +1,6 @@
 package com.example.server.core.manager.controller;
 
-import com.example.server.core.manager.service.MaEmployeesService;
+import com.example.server.core.manager.service.MaMissionsService;
 import com.example.server.model.response.ResponseObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,17 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @author duchieu212
  */
 @RestController
-@RequestMapping("/api/manager/employees")
-@RequiredArgsConstructor
 @CrossOrigin
-public class MaEmployeesController {
+@RequestMapping("/api/manager/missions")
+@RequiredArgsConstructor
+public class MaMissionsController {
 
-    private final MaEmployeesService maEmployeesService;
+    private final MaMissionsService maMissionsService;
 
-    @GetMapping("/not-departments")
-    public ResponseObject showEmployeesNotDepartments() {
-        return new ResponseObject(maEmployeesService.getAllEmployeesNotDepartment());
+    @GetMapping
+    public ResponseObject showAllMissions() {
+        return new ResponseObject(maMissionsService.getAll());
     }
-
-
 }

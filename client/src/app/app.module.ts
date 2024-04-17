@@ -56,6 +56,7 @@ import {
 import {
   MaModalUpdateEmployeeMissionComponent
 } from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-modal-update-employee-mission/ma-modal-update-employee-mission.component';
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import {
     MatIconModule,
     NgOptimizedImage,
     HttpClientModule,
+    NgSelectModule,
     ToastrModule.forRoot(),
   ],
   providers: [

@@ -23,19 +23,17 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(request).pipe(catchError((error: HttpErrorResponse) => {
-        console.log("Lỗi interceptorrrrrrr")
-        console.log(error);
-        if (error.status == 401) {
-          this.toast.info('Hết phiên đăng nhập, vui lòng đăng nhập lại', 'Info', {closeButton: true});
-          this.router.navigate(['/common/login'])
-        }
-        if (error.status == 403) {
-          this.router.navigate(['/403'])
-        }
-        return throwError(error)
+      console.log("Lỗi interceptor")
+      console.log(error);
+      if (error.status == 401) {
+        //this.toast.error('Hết phiên đăng nhập, vui lòng đăng nhập lại', 'Thông báo');
+        this.router.navigate(['/common/login'])
+      } else if (error.status == 403) {
+      //  this.toast.error('Không có quyền đăng nhập chức vụ này, vui lòng đăng nhập lại', 'Thông báo');
+        this.router.navigate(['/403'])
       }
-    ))
-
+      return throwError(error);
+    }));
   }
 
 }
