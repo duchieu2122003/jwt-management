@@ -80,12 +80,12 @@ export class MaModalCreateEmployeeMissionComponent implements OnInit {
       return;
     }
 
-    const dataCreate = this.listEmployeesAdd.map(i => ({
-      departmentId: this.idDepartment,
-      employeesId: i.id,
-      missionsListId: i.missionsListId
-    }))
-    console.log(dataCreate);
+    const dataCreate = this.listEmployeesAdd
+      .map(i => ({
+        departmentId: this.idDepartment,
+        employeesId: i.id,
+        missionsListId: i.missionsListId
+      }))
     this.maMissionsEmployeesService.createMissionsEmployeesList(dataCreate).subscribe({
       next: (response) => {
         if (response.data) {
@@ -100,8 +100,11 @@ export class MaModalCreateEmployeeMissionComponent implements OnInit {
             gender: string
             status: string
           }[] = response.data;
+          this.toast.error('Thêm thành công', 'Thông báo');
           this.dialog.close(result);
         }
+      }, error: (err) => {
+        this.toast.error(err.error.message, 'Thông báo');
       }
     })
   }

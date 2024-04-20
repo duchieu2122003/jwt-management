@@ -30,14 +30,6 @@ public class GlobalExceptionHandler {
             ApiErrorResponse apiErrorResponse = new ApiErrorResponse(e.getMessage());
             return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
         }
-//        else if (e instanceof ConstraintViolationException) {
-//            log.error("==========ConstraintViolationException========== " + e.getMessage());
-//            Set<ConstraintViolation<?>> violations = ((ConstraintViolationException) e).getConstraintViolations();
-//            List<String> errors = violations.stream()
-//                    .map(ConstraintViolation::getMessage)
-//                    .collect(Collectors.toList());
-//            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//        }
         else if (e instanceof MethodArgumentNotValidException) {
             log.error("==========MethodArgumentNotValidException========== " + e.getMessage());
             BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();

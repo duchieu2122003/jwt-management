@@ -95,7 +95,7 @@ public class Employees {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     Departments departments;
 

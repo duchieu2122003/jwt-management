@@ -86,7 +86,6 @@ export class CreateComponent implements OnInit {
   }
 
   createEmployees() {
-    console.log(this.objCreate.birthday)
     this.adEmployeesService.createEmployees(this.objCreate).subscribe({
       next: (response) => {
         this.toast.success("Thêm thành công", "Thông báo", {

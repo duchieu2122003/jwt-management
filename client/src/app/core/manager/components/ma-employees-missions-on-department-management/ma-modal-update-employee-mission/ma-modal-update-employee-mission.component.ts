@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MaEmployeesMissionsService} from "../../../service/ma-employees-missions.service";
 import {MaMissionsService} from "../../../service/ma-missions.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-ma-modal-update-employee-mission',
@@ -32,7 +33,8 @@ export class MaModalUpdateEmployeeMissionComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<MaModalUpdateEmployeeMissionComponent>,
               @Inject(MAT_DIALOG_DATA) private idEmployees: string,
               private maEmployeesMissionsService: MaEmployeesMissionsService,
-              private maMissionsService: MaMissionsService
+              private maMissionsService: MaMissionsService,
+              private toast: ToastrService,
   ) {
   }
 
@@ -69,7 +71,10 @@ export class MaModalUpdateEmployeeMissionComponent implements OnInit {
     }
     this.maEmployeesMissionsService.updateMissionsEmployeesList(data).subscribe({
       next: (response) => {
+        this.toast.error('Sửa thành công', 'Thông báo');
         this.dialogRef.close(response);
+      }, error: (err) => {
+        this.toast.error(err.error.message, 'Thông báo');
       }
     });
   }

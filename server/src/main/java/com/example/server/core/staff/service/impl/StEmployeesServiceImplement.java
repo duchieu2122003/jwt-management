@@ -24,8 +24,6 @@ public class StEmployeesServiceImplement implements StEmployeesService {
 
     private final StEmployeesRepository stEmployeesRepository;
 
-    private final StDepartmentRepository stDepartmentRepository;
-
     @Override
     public List<StEmployeesCustomResponse> getAllByDepartmentId() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

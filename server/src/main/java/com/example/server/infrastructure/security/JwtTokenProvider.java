@@ -46,7 +46,7 @@ public class JwtTokenProvider {
     }
 
 
-    public Authentication getAndSetAuthentication(String token) {
+    public Authentication setAuthentication(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()
