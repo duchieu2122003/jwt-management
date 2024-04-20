@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
  */
 public interface CoEmployeesService {
 
-    CoEmployeesInformationResponse findMyInformation();
+    boolean logout();
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
 

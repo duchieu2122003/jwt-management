@@ -29,9 +29,9 @@ public class SecurityController {
         return new ResponseObject(authenticationResponse);
     }
 
-    @GetMapping("/roles")
-    public ResponseObject showRoleMyInfo() {
-        return new ResponseObject(coEmployeesService.findMyInformation());
+    @GetMapping("/logout")
+    public ResponseObject logout() {
+        return new ResponseObject(coEmployeesService.logout());
     }
 
 }

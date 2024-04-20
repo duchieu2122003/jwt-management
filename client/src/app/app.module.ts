@@ -10,8 +10,7 @@ import {InformationMySelfComponent} from './core/common/components/information-m
 import {
   StDepartmentMySelfComponent
 } from './core/staff/components/st-department-my-self/st-department-my-self.component';
-import {CommonHeaderComponent} from './layout/header/common-header/common-header.component';
-import {AdminHeaderComponent} from './layout/header/admin-header/admin-header.component';
+import {HeaderComponent} from './layout/header/header.component';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {
   AdEmployeesManagementComponent
@@ -19,8 +18,6 @@ import {
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatButton} from "@angular/material/button";
 import {ForbiddenComponent} from './page/forbidden/forbidden.component';
-import {ManagerHeaderComponent} from './layout/header/manager-header/manager-header.component';
-import {HomeComponent} from './page/home/home.component';
 import {AdminComponent} from './core/admin/admin.component';
 import {ManagerComponent} from './core/manager/manager.component';
 import {StaffComponent} from './core/staff/staff.component';
@@ -32,7 +29,6 @@ import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {NgOptimizedImage} from "@angular/common";
 import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {StaffHeaderComponent} from './layout/header/staff-header/staff-header.component';
 import {HttpConfigInterceptor} from "./interceptors/http-config.interceptor";
 import {CreateComponent} from './core/admin/components/ad-employees-management/create/create.component';
 import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
@@ -76,16 +72,12 @@ import {
     LoginComponent,
     InformationMySelfComponent,
     StDepartmentMySelfComponent,
-    CommonHeaderComponent,
-    AdminHeaderComponent,
+    HeaderComponent,
     AdEmployeesManagementComponent,
     ForbiddenComponent,
-    ManagerHeaderComponent,
-    HomeComponent,
     AdminComponent,
     ManagerComponent,
     StaffComponent,
-    StaffHeaderComponent,
     CreateComponent,
     UpdateComponent,
     ChangePasswordComponent,

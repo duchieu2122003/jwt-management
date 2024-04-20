@@ -41,10 +41,13 @@ public class CoEmployeesServiceImpl implements CoEmployeesService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public CoEmployeesInformationResponse findMyInformation() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return coEmployeesRepository.findEmployeesMyAuth(email)
-                .orElseThrow(() -> new RestApiException(Message.LOGIN_FAILD));
+    public boolean logout() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            return true;
+        }
+        return false;
     }
 
     @Override

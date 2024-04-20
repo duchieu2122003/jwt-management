@@ -1,7 +1,6 @@
 package com.example.server.infrastructure.security;
 
 import com.example.server.infrastructure.constant.ActorConstant;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -20,9 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-
-    @Value("${identity.secretKey}")
-    private String SECRET_KEY;
 
     private final JwtTokenFilter jwtTokenFilter;
 
