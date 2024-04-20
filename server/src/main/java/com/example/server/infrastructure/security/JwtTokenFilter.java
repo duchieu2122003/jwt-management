@@ -41,12 +41,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtTokenProvider.getAndSetAuthentication(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-//            else if (message.startsWith("Token refresh:")) {
-//                int indexStartToken = message.indexOf("Token refresh:");
-//                Authentication authentication = jwtTokenProvider
-//                        .getAndSetAuthentication(message.substring(indexStartToken + "Token refresh:".length()));
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//            }
             else {
                 throw new RestApiException(message);
             }

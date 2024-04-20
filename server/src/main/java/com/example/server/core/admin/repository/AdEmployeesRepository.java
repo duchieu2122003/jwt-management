@@ -74,4 +74,10 @@ public interface AdEmployeesRepository extends EmployeesRepository {
 
     Optional<Employees> findEmployeesByEmail(String email);
 
+    @Query(value = """
+            SELECT COUNT(e.id) FROM employees e INNER JOIN departments d ON d.id = e.department_id
+            WHERE d.id = :departmentId and e.role LIKE 'MANAGER'
+            """, nativeQuery = true)
+    Integer countManagerInDepartment(@Param("departmentId") String departmentId);
+
 }

@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {MaDepartmentsService} from "../../service/ma-departments.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
-import {MaDepartmentCreateComponent} from "./ma-department-create/ma-department-create.component";
-import {MaDepartmentUpdateComponent} from "./ma-department-update/ma-department-update.component";
+import {AdDepartmentService} from "../../service/ad-department.service";
+import {AdDepartmentCreateComponent} from "./ad-department-create/ad-department-create.component";
+import {AdDepartmentUpdateComponent} from "./ad-department-update/ad-department-update.component";
 
 @Component({
-  selector: 'app-ma-department-management',
-  templateUrl: './ma-department-management.component.html',
-  styleUrl: './ma-department-management.component.css'
+  selector: 'app-ad-department-management',
+  templateUrl: './ad-department-management.component.html',
+  styleUrl: './ad-department-management.component.css'
 })
-export class MaDepartmentManagementComponent implements OnInit {
+export class AdDepartmentManagementComponent implements OnInit {
 
   listDepartments: {
     stt: number,
@@ -18,13 +18,13 @@ export class MaDepartmentManagementComponent implements OnInit {
     name: string, descriptions: string, status: string
   }[] = [];
 
-  constructor(private maDepartmentsService: MaDepartmentsService,
+  constructor(private adDepartmentsService: AdDepartmentService,
               private toast: ToastrService,
               private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.maDepartmentsService.getAllDepartments().subscribe({
+    this.adDepartmentsService.getAllDepartmentView().subscribe({
       next: (response) => {
         this.listDepartments = response.data
       }
@@ -32,7 +32,7 @@ export class MaDepartmentManagementComponent implements OnInit {
   }
 
   handleDelete(id: string) {
-    this.maDepartmentsService.deleteDepartments(id).subscribe({
+    this.adDepartmentsService.deleteDepartments(id).subscribe({
       next: (response) => {
         if (response.data == true) {
           this.listDepartments = this.listDepartments.filter(i => i.id !== id);
@@ -50,26 +50,25 @@ export class MaDepartmentManagementComponent implements OnInit {
   }
 
   openShowCreate() {
-    const dialogRef = this.dialog.open(MaDepartmentCreateComponent, {
+    const dialogRef = this.dialog.open(AdDepartmentCreateComponent, {
       width: '60%',
-      // data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
+      if (result) {
         this.listDepartments.push({...result.data, stt: this.listDepartments.length + 1});
       }
     });
   }
 
   openShowUpdate(department: any) {
-    const dialogRef = this.dialog.open(MaDepartmentUpdateComponent, {
+    const dialogRef = this.dialog.open(AdDepartmentUpdateComponent, {
       width: '60%',
       data: {obj: department}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+      if (result) {
         const employeeToUpdate = this.listDepartments
           .find(item => item.id === result.data.id);
         if (employeeToUpdate) {
@@ -78,5 +77,4 @@ export class MaDepartmentManagementComponent implements OnInit {
       }
     });
   }
-
 }

@@ -10,4 +10,7 @@ import java.util.List;
 public interface MaEmployeesService {
 
     List<MaEmployeesResponse> getAllEmployeesNotDepartment();
+
+
+    boolean deleteMissionsAnDepartmentForEmployees(String id);
 }

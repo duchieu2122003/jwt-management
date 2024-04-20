@@ -1,0 +1,48 @@
+<app-manager-header></app-manager-header>
+<div class="container">
+  <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
+    <span>Quản lý nhiệm vụ</span>
+  </div>
+  <div class="container row-gap-3 d-flex">
+    <div class="col-md-6">
+      <h3>
+        <mat-icon>list</mat-icon>
+        Danh sách Nhiệm vụ
+      </h3>
+    </div>
+    <div class="col-md-6 text-end" style="padding-top: 15px">
+      <button type="button" class="btn btn-outline-primary"
+              (click)="handleOpenCreate()"
+      >
+        Thêm
+      </button>
+    </div>
+  </div>
+  <div class="tab-content">
+    <table class="table table-hover  text-center">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên</th>
+        <th scope="col">Mô tả</th>
+        <th colspan="2">Hành động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of listMissions, let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.name }}</td>
+        <td>{{ item.descriptions }}</td>
+        <td>
+          <button type="button" class="btn btn-warning" (click)="handleOpenUpdate(item)">Sửa</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger"
+                  (click)="handleDelete(item.id)">Xóa
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

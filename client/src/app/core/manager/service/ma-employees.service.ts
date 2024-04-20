@@ -17,4 +17,8 @@ export class MaEmployeesService {
   getAllEmployeesNotDepartments(): Observable<any> {
     return this.http.get(api + '/not-departments')
   }
+
+  deleteEmployeesOutDepartment(idEmployees: string): Observable<any> {
+    return this.http.delete(api + '/delete-department/' + idEmployees);
+  }
 }

@@ -10,9 +10,9 @@
         <label>Chọn nhân viên</label>
         <ng-select [multiple]="true" [(ngModel)]="listEmployeesSelected"
                    (change)="changeEmployeesSelected(listEmployeesSelected)">
-          <ng-option *ngFor="let i of listEmployees" [value]="i.id">{{ i.code }} - {{ i.fullName }}</ng-option>
+          <ng-option *ngFor="let i of listEmployees" [value]="i.id">{{ i.code }} - {{ i.fullName }} ({{i.email}})</ng-option>
         </ng-select>
-        <table class="table table-hover  text-center">
+        <table class="table table-hover text-center">
           <thead>
           <tr>
             <th scope="col">#</th>

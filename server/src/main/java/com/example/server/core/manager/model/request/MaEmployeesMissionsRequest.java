@@ -1,6 +1,5 @@
 package com.example.server.core.manager.model.request;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

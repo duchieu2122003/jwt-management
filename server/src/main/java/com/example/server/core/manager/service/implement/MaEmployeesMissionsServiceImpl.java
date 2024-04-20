@@ -2,8 +2,13 @@ package com.example.server.core.manager.service.implement;
 
 import com.example.server.core.manager.model.request.MaEmployeesMissionsDeleteRequest;
 import com.example.server.core.manager.model.request.MaEmployeesMissionsRequest;
+import com.example.server.core.manager.model.request.MaEmployeesMissionsUpdateRequest;
+import com.example.server.core.manager.model.response.MaEmployeesMissionDetailResponse;
+import com.example.server.core.manager.model.response.MaEmployeesMissionGetResponse;
+import com.example.server.core.manager.model.response.MaEmployeesMissionUpdateResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionsCreateResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionsResponse;
+import com.example.server.core.manager.model.response.MaEmployeesResponse;
 import com.example.server.core.manager.repository.MaDepartmentRepository;
 import com.example.server.core.manager.repository.MaEmployeesRepository;
 import com.example.server.core.manager.repository.MaMissionsRepository;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,34 +60,23 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
                     .filter(e -> e.getId().equals(request.getEmployeesId()))
                     .findFirst()
                     .orElse(null);
-
             if (employee != null) {
                 Set<Missions> missionsAdd = new HashSet<>();
                 request.getMissionsListId().forEach(missionId -> {
-                    Missions mission = missionsList.stream()
+                    missionsList.stream()
                             .filter(m -> m.getId().equals(missionId))
-                            .findFirst()
-                            .orElse(null);
-                    if (mission != null) {
-                        missionsAdd.add(mission);
-//                        mission.getEmployees().add(employee);
-                    }
+                            .findFirst().ifPresent(missionsAdd::add);
                     employee.setMissions(missionsAdd);
                 });
 
                 if (!request.getDepartmentId().equals("")) {
-                    Departments department = departmentsList.stream()
+                    departmentsList.stream()
                             .filter(d -> d.getId().equals(request.getDepartmentId()))
-                            .findFirst()
-                            .orElse(null);
-                    if (department != null) {
-                        employee.setDepartments(department);
-                    }
+                            .findFirst().ifPresent(employee::setDepartments);
                 }
                 listEmployeesAdd.add(employee);
             }
         }
-//        maMissionsRepository.saveAll(missionsList);
         List<Employees> savedEmployees = maEmployeesRepository.saveAll(listEmployeesAdd);
 
         List<MaEmployeesMissionsCreateResponse> result = new ArrayList<>();
@@ -107,8 +102,21 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
     }
 
     @Override
-    public MaEmployeesMissionsResponse update(List<MaEmployeesMissionsRequest> requests) {
-        return null;
+    @Transactional
+    public MaEmployeesMissionUpdateResponse update(MaEmployeesMissionsUpdateRequest requests) {
+        Employees employees = maEmployeesRepository.findById(requests.getEmployeesId())
+                .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        List<Missions> listMissionDb = maMissionsRepository.findAll();
+        Set<Missions> missionUpdate = new HashSet<>();
+        for (String i : requests.getMissionsListId()) {
+            listMissionDb.stream()
+                    .filter(db -> db.getId().equals(i))
+                    .findFirst().ifPresent(missionUpdate::add);
+        }
+        employees.setMissions(missionUpdate);
+        maEmployeesRepository.save(employees);
+        return maEmployeesRepository.getMaEmployeeCustom(employees.getId())
+                .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
     }
 
     @Override
@@ -120,5 +128,23 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
         employees.setDepartments(null);
         maEmployeesRepository.save(employees);
         return true;
+    }
+
+    @Override
+    public MaEmployeesMissionDetailResponse getDetailToUpdateByEmployeeId(String id) {
+        Optional<MaEmployeesResponse> employees = maEmployeesRepository.getEmployeesById(id);
+        List<MaEmployeesMissionGetResponse> missionList = maEmployeesRepository.getMissionEmployeeByIdEmployee(id);
+        if (employees.isEmpty()) {
+            throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
+        }
+        MaEmployeesMissionDetailResponse result = new MaEmployeesMissionDetailResponse();
+        result.setEmployeesId(employees.get().getId());
+        result.setCode(employees.get().getCode());
+        result.setEmail(employees.get().getEmail());
+        result.setFullName(employees.get().getFullName());
+        List<String> missionsListId = new ArrayList<>();
+        missionList.forEach(i -> missionsListId.add(i.getMissionId()));
+        result.setMissionsListId(missionsListId);
+        return result;
     }
 }

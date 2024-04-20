@@ -1,33 +1,34 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MaDepartmentsService} from "../../../service/ma-departments.service";
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
+import {AdDepartmentService} from "../../../service/ad-department.service";
 
 @Component({
-  selector: 'app-ma-department-update',
-  templateUrl: './ma-department-update.component.html',
-  styleUrl: './ma-department-update.component.css'
+  selector: 'app-ad-department-update',
+  templateUrl: './ad-department-update.component.html',
+  styleUrl: './ad-department-update.component.css'
 })
-export class MaDepartmentUpdateComponent implements OnInit {
+export class AdDepartmentUpdateComponent {
 
-  objUp: {
-    id: string,
-    name: string,
-    descriptions: string
-  } = {
+  objUp = {
     id: '',
     name: '',
     descriptions: ''
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, private maDepartmentService: MaDepartmentsService,
-    private dialogRef: MatDialogRef<MaDepartmentUpdateComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private adDepartmentService: AdDepartmentService,
+    private dialogRef: MatDialogRef<AdDepartmentUpdateComponent>,
     private toast: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.objUp = this.data.obj;
+    this.objUp = {
+      id: this.data.obj.id,
+      name: this.data.obj.name,
+      descriptions: this.data.obj.descriptions
+    };
   }
 
   closeDialog(): void {
@@ -35,7 +36,7 @@ export class MaDepartmentUpdateComponent implements OnInit {
   }
 
   updateDepartment() {
-    this.maDepartmentService.updateDepartments(this.objUp).subscribe({
+    this.adDepartmentService.updateDepartments(this.objUp).subscribe({
       next: (response) => {
         this.toast.success("Sửa thành công", "Thông báo", {
           positionClass: 'toast-top-center',
@@ -50,4 +51,5 @@ export class MaDepartmentUpdateComponent implements OnInit {
       }
     })
   }
+
 }

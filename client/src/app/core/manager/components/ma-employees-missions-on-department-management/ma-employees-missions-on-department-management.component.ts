@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MaDepartmentsService} from "../../../service/ma-departments.service";
-import {ActivatedRoute} from "@angular/router";
-import {MaEmployeesMissionsService} from "../../../service/ma-employees-missions.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {
@@ -10,6 +7,15 @@ import {
 import {
   MaModalUpdateEmployeeMissionComponent
 } from "./ma-modal-update-employee-mission/ma-modal-update-employee-mission.component";
+import {MaDepartmentsService} from "../../service/ma-departments.service";
+import {MaEmployeesMissionsService} from "../../service/ma-employees-missions.service";
+import {MaEmployeesService} from "../../service/ma-employees.service";
+import {jwtDecode} from "jwt-decode";
+
+
+interface UserDecode {
+  id: string;
+}
 
 @Component({
   selector: 'app-ma-employees-missions-on-department-management',
@@ -37,37 +43,43 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     gender: string,
     status: string;
   }[] = [];
-
-  idDepartment = '';
+  employeeCurrent: UserDecode = {
+    id: '',
+  };
 
   constructor(private maDepartmentsService: MaDepartmentsService,
               private maEmployeesMissionsService: MaEmployeesMissionsService,
+              private maEmployeesService: MaEmployeesService,
               private toast: ToastrService,
-              private routeParam: ActivatedRoute,
               private dialogRef: MatDialog,
   ) {
-    this.routeParam.params.subscribe(params => {
-      this.idDepartment = params['id'];
-    })
   }
 
   ngOnInit(): void {
-    this.getOneDepartmentsById(this.idDepartment);
-    this.getAllEmployeesMissionOnDepartment(this.idDepartment);
+    this.getIdEmployeesGenToken();
+    this.getDepartmentsUserCurrent();
   }
 
-  getOneDepartmentsById(id: string) {
-    this.maDepartmentsService.getOneDepartmentById(id).subscribe({
+  getIdEmployeesGenToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.employeeCurrent = jwtDecode(token);
+    }
+  }
+
+  getDepartmentsUserCurrent() {
+    this.maDepartmentsService.getDepartmentsUserCurrent().subscribe({
       next: (response) => {
         this.departments = response.data;
+        this.getAllEmployeesMissionOnDepartment(this.departments.id);
       }, error: (err) => {
-        this.toast.error(err.error.message, "Thông báo");
+        this.toast.error(err.error.message, 'Thông báo');
       }
     })
   }
 
-  getAllEmployeesMissionOnDepartment(id: string) {
-    this.maEmployeesMissionsService.getAllEmployeesMissionOnDepartment(id).subscribe({
+  getAllEmployeesMissionOnDepartment(idDepartment: string) {
+    this.maEmployeesMissionsService.getAllEmployeesMissionOnDepartment(idDepartment).subscribe({
       next: (response) => {
         this.listEmployeesMissions = response.data;
       }, error: (err) => {
@@ -79,8 +91,8 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
   openShowCreate() {
     const dialogRef = this.dialogRef
       .open(MaModalCreateEmployeeMissionComponent, {
-        width: '70%', minHeight: '70%', height: 'auto'
-        , data: this.idDepartment
+        width: '70%', minHeight: '70%', height: 'auto',
+        data: this.departments.id
       })
 
     dialogRef.afterClosed().subscribe(result => {
@@ -96,14 +108,38 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     })
   }
 
-  openShowUpdate(id: string) {
+  openShowUpdate(idEmployees: string) {
     const dialogRef = this.dialogRef
       .open(MaModalUpdateEmployeeMissionComponent, {
-        width: '80%'
+        width: '60%',
+        data: idEmployees,
       })
     dialogRef.afterClosed().subscribe(result => {
-
+      if (result) {
+        const objUpdate = this.listEmployeesMissions
+          .find(i => i.id === result.data.id)
+        if (objUpdate) {
+          Object.assign(objUpdate, result.data, {stt: objUpdate.stt})
+        }
+      }
     })
   }
+
+  handleDeleteIdDepartmentEmployees(id: string) {
+    this.maEmployeesService.deleteEmployeesOutDepartment(id).subscribe({
+      next: (response) => {
+        if (response.data == true) {
+          this.toast.success("Xóa nhân viên khỏi phòng ban thành công", "Thông báo")
+          this.listEmployeesMissions = this.listEmployeesMissions
+            .filter(d => d.id !== id);
+        } else {
+          this.toast.error("Xóa nhân viên khỏi phòng ban thất bại", "Thông báo");
+        }
+      }, error: (err) => {
+        this.toast.error(err.error.message, "Thông báo");
+      }
+    })
+  }
+
 
 }

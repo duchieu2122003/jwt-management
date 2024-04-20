@@ -1,9 +1,7 @@
 package com.example.server.core.manager.service;
 
-import com.example.server.core.manager.model.request.MaDepartmentCreateRequest;
-import com.example.server.core.manager.model.request.MaDepartmentUpdateRequest;
 import com.example.server.core.manager.model.response.MaDepartmentResponse;
-import jakarta.validation.Valid;
+import com.example.server.core.manager.model.response.MaDepartmentUserCurrentResponse;
 
 import java.util.List;
 
@@ -14,11 +12,6 @@ public interface MaDepartmentService {
 
     List<MaDepartmentResponse> getAll();
 
-    MaDepartmentResponse detail(String id);
+    MaDepartmentUserCurrentResponse getDepartmentByUserCurrent();
 
-    MaDepartmentResponse create(@Valid MaDepartmentCreateRequest request);
-
-    MaDepartmentResponse update(@Valid MaDepartmentUpdateRequest request);
-
-    boolean delete(String id);
 }

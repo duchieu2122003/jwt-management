@@ -13,4 +13,6 @@ public interface MaMissionsResponse {
     @Value("#{target.name}")
     String getName();
 
+    @Value("#{target.descriptions}")
+    String getDescriptions();
 }

@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MaEmployeesService} from "../../../../service/ma-employees.service";
-import {MaMissionsService} from "../../../../service/ma-missions.service";
-import {MaEmployeesMissionsService} from "../../../../service/ma-employees-missions.service";
 import {ToastrService} from "ngx-toastr";
+import {MaEmployeesService} from "../../../service/ma-employees.service";
+import {MaMissionsService} from "../../../service/ma-missions.service";
+import {MaEmployeesMissionsService} from "../../../service/ma-employees-missions.service";
 
 @Component({
   selector: 'app-ma-modal-create-employee-mission',
@@ -35,7 +35,7 @@ export class MaModalCreateEmployeeMissionComponent implements OnInit {
   }[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) private idDepartment: string,
-              private dialog: MatDialogRef<any>,
+              private dialog: MatDialogRef<MaModalCreateEmployeeMissionComponent>,
               private maEmployeesService: MaEmployeesService,
               private maMissionsService: MaMissionsService,
               private maMissionsEmployeesService: MaEmployeesMissionsService,
@@ -64,7 +64,7 @@ export class MaModalCreateEmployeeMissionComponent implements OnInit {
   }
 
   getAllMissions() {
-    this.maMissionsService.getAllMissions().subscribe({
+    this.maMissionsService.getListMission().subscribe({
       next: (response) => {
         this.listMissions = response.data;
       }

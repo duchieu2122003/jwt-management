@@ -48,7 +48,8 @@ export class AdEmployeesManagementComponent implements OnInit {
     status: string;
   }[] = [];
 
-  constructor(public adEmployeesService: AdEmployeesService, private toast: ToastrService,
+  constructor(public adEmployeesService: AdEmployeesService,
+              private toast: ToastrService,
               private router: Router, private dialog: MatDialog) {
   }
 

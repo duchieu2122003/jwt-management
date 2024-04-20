@@ -1,4 +1,4 @@
-<app-manager-header></app-manager-header>
+<app-admin-header></app-admin-header>
 <div class="container">
   <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
     <span>Quản lý phòng ban</span>
@@ -25,8 +25,7 @@
     <th scope="col">#</th>
     <th scope="col">Tên phòng ban</th>
     <th scope="col">Mô tả</th>
-    <th scope="col">Trạng thái</th>
-    <th colspan="3">Hành động</th>
+    <th colspan="2">Hành động</th>
   </tr>
   </thead>
   <tbody>
@@ -34,11 +33,6 @@
     <th scope="row">{{ item.stt }}</th>
     <td>{{ item.name }}</td>
     <td>{{ item.descriptions }}</td>
-    <td>{{ item.status === 'ACTIVE' ? 'Hoạt động' : 'Ngừng hoạt động' }}</td>
-    <td>
-      <a [routerLink]="['/manager/employees-missions-on-department/'+item.id]" type="button" class="btn btn-success">Nhân
-        viên</a>
-    </td>
     <td>
       <button type="button" class="btn btn-warning" (click)="openShowUpdate(item)">Sửa</button>
     </td>

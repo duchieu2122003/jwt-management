@@ -33,6 +33,11 @@ public enum Message {
     PASSWORD_OLD_WRONG("Mật khẩu cũ sai"),
     PASSWORD_NEW_WRONG_FORMAT("Mật khẩu mới sai định dạng"),
     EMPLOYEES_ON_DEPARTMENT("Có nhân viên trong phòng ban, không thể xóa"),
+    DEPARTMENT_HAD_MANAGER("Phòng ban đã có quản lý, vui lòng chọn phòng ban khác"),
+    MISSIONS_NOT_EXSIST("Nhiệm vụ không tồn tại"),
+    MISSION_USED("Nhiệm vụ đang được sử dụng, không thể xóa"),
+    MISSION_NAME_EXSIST("Tên nhiệm vụ đã tồn tại"),
+    YOU_HAVENT_DEPARTMENT("Bạn chưa vào phòng ban nào"),
     NAME_NOT_EMPTY("Tên không được để trống");
 
 

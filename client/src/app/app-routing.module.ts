@@ -4,9 +4,6 @@ import {LoginComponent} from "./core/common/components/login/login.component";
 import {
   AdEmployeesManagementComponent
 } from "./core/admin/components/ad-employees-management/ad-employees-management.component";
-import {
-  MaDepartmentManagementComponent
-} from "./core/manager/components/ma-department-management/ma-department-management.component";
 import {ForbiddenComponent} from "./page/forbidden/forbidden.component";
 import {
   StDepartmentMySelfComponent
@@ -14,8 +11,14 @@ import {
 import {InformationMySelfComponent} from "./core/common/components/information-my-self/information-my-self.component";
 import {ChangePasswordComponent} from "./core/common/components/change-password/change-password.component";
 import {
+  AdDepartmentManagementComponent
+} from "./core/admin/components/ad-department-management/ad-department-management.component";
+import {
   MaEmployeesMissionsOnDepartmentManagementComponent
-} from "./core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component";
+} from "./core/manager/components/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component";
+import {
+  MaMissionsManagementComponent
+} from "./core/manager/components/ma-missions-management/ma-missions-management.component";
 
 const routes: Routes = [
   {path: "", redirectTo: "common/login", pathMatch: 'full'},
@@ -26,10 +29,16 @@ const routes: Routes = [
 
   {path: "admin", redirectTo: "admin/employees-management", pathMatch: "full"},
   {path: "admin/employees-management", component: AdEmployeesManagementComponent},
+  {path: "admin/departments-management", component: AdDepartmentManagementComponent},
 
-  {path: "manager", redirectTo: "manager/department-management", pathMatch: "full"},
-  {path: "manager/department-management", component: MaDepartmentManagementComponent},
-  {path: "manager/employees-missions-on-department/:id", component: MaEmployeesMissionsOnDepartmentManagementComponent},
+
+  {path: "manager", redirectTo: "manager/employees-missions-on-department", pathMatch: "full"},
+  // {path: "manager/department-management", component: MaDepartmentManagementComponent},
+  // {path: "manager/employees-missions-on-department/:id", component: MaEmployeesMissionsOnDepartmentManagementComponent},
+  {path: "manager/employees-missions-on-department", component: MaEmployeesMissionsOnDepartmentManagementComponent},
+  {path: "manager/missions-management", component: MaMissionsManagementComponent},
+
+
 
   {path: "staff", redirectTo: "staff/department-my-self", pathMatch: "full"},
   {path: "staff/department-my-self", component: StDepartmentMySelfComponent},

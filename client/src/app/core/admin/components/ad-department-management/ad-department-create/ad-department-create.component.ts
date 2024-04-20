@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {ToastrService} from "ngx-toastr";
 import {MatDialogRef} from "@angular/material/dialog";
-import {MaDepartmentsService} from "../../../service/ma-departments.service";
+import {ToastrService} from "ngx-toastr";
+import {AdDepartmentService} from "../../../service/ad-department.service";
 
 @Component({
-  selector: 'app-ma-department-ma-department-create',
-  templateUrl: './ma-department-create.component.html',
-  styleUrl: './ma-department-create.component.css'
+  selector: 'app-ad-department-create',
+  templateUrl: './ad-department-create.component.html',
+  styleUrl: './ad-department-create.component.css'
 })
-export class MaDepartmentCreateComponent implements OnInit {
+export class AdDepartmentCreateComponent implements OnInit {
+
 
   objCreate: {
     name: string,
@@ -18,8 +19,8 @@ export class MaDepartmentCreateComponent implements OnInit {
     descriptions: ''
   }
 
-  constructor(private dialogRef: MatDialogRef<MaDepartmentCreateComponent>,
-              private maDepartmentService: MaDepartmentsService,
+  constructor(private dialogRef: MatDialogRef<AdDepartmentCreateComponent>,
+              private adDepartmentService: AdDepartmentService,
               private toast: ToastrService) {
   }
 
@@ -32,7 +33,7 @@ export class MaDepartmentCreateComponent implements OnInit {
   }
 
   createDepartment() {
-    this.maDepartmentService.createDepartments(this.objCreate).subscribe({
+    this.adDepartmentService.createDepartments(this.objCreate).subscribe({
       next: (response) => {
         this.toast.success("Thêm thành công", "Thông báo", {
           positionClass: 'toast-top-center',
@@ -47,5 +48,4 @@ export class MaDepartmentCreateComponent implements OnInit {
       }
     })
   }
-
 }

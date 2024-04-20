@@ -16,4 +16,24 @@ export class AdDepartmentService {
   getAllDepartment(): Observable<any> {
     return this.http.get(api);
   }
+
+  getAllDepartmentView(): Observable<any> {
+    return this.http.get(api + '/get-all');
+  }
+
+  createDepartments(data: any): Observable<any> {
+    return this.http.post(api, data);
+  }
+
+  updateDepartments(data: any): Observable<any> {
+    return this.http.put(api, data);
+  }
+
+  deleteDepartments(id: string): Observable<any> {
+    return this.http.delete(api + `/` + id)
+  }
+
+  getOneDepartmentById(id: string): Observable<any> {
+    return this.http.get(api + '/' + id);
+  }
 }

@@ -1,0 +1,37 @@
+<div>
+  <div class="modal-dialog modal-lg" style="padding-top: 20px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Chỉnh sửa nhiệm vụ</h1>
+        <button type="button" class="btn-close ms-auto" (click)="closeDialog()"></button>
+      </div>
+      <hr>
+      <div class="modal-body">
+        <div class="was-validated">
+          <div class="row">
+            <div class="mb-3 d-flex align-items-start col-12 flex-column">
+              <label class="form-label">Tên nhiệm vụ</label>
+              <input [(ngModel)]="objUpdate.name" class="form-control" placeholder="Nhập tên"
+                     required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-12 flex-column">
+              <label for="descriptions" class="form-label">Mô tả</label>
+              <textarea [(ngModel)]="objUpdate.descriptions" class="form-control" id="descriptions"
+                        placeholder="Nhập mô tả"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer mb-3">
+        <button type="button" class="btn btn-secondary m-3" (click)="closeDialog()">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="updateMission()">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+
+</div>

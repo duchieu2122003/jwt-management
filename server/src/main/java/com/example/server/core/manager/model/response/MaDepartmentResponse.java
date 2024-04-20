@@ -18,8 +18,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MaDepartmentResponse {
 
-    Integer stt;
-
     String id;
 
     String name;

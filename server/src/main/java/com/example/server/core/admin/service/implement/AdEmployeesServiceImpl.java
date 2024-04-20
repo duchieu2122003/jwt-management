@@ -11,6 +11,7 @@ import com.example.server.core.admin.service.AdEmployeesService;
 import com.example.server.entity.Departments;
 import com.example.server.entity.Employees;
 import com.example.server.infrastructure.constant.Message;
+import com.example.server.infrastructure.constant.Role;
 import com.example.server.infrastructure.constant.StatusEmployee;
 import com.example.server.infrastructure.exception.RestApiException;
 import com.example.server.util.EmployeesHelper;
@@ -47,8 +48,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
     @Override
     public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
-        Page<AdEmployeesCustomResponse> page = adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
-        return page;
+        return adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
     }
 
 
@@ -61,14 +61,19 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
             throw new RestApiException(Message.BIRTHDAY_AFTER_NOW);
         }
         if (!request.getIdDepartments().equals("")) {
-            Departments departmentsOptional = adDepartmentsRepository
+            departments = adDepartmentsRepository
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
-            departments = departmentsOptional;
         }
         Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());
         if (findEmployees.isPresent()) {
             throw new RestApiException(Message.EMAIL_EXSITS);
+        }
+        if (request.getRole().equals(Role.MANAGER)) {
+            Integer countManager = adEmployeesRepository.countManagerInDepartment(request.getIdDepartments());
+            if (countManager >= 1) {
+                throw new RestApiException(Message.DEPARTMENT_HAD_MANAGER);
+            }
         }
         Employees employees = Employees.builder()
                 .code(EmployeesHelper.generateEmployeeCode())
@@ -105,12 +110,17 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         if (findEmployees.isPresent() && !findEmployees.get().getId().equals(request.getId())) {
             throw new RestApiException(Message.EMAIL_EXSITS);
         }
+        if (request.getRole().equals(Role.MANAGER)) {
+            Integer countManager = adEmployeesRepository.countManagerInDepartment(request.getIdDepartments());
+            if (!employees.getRole().equals(Role.MANAGER) && countManager >= 1) {
+                throw new RestApiException(Message.DEPARTMENT_HAD_MANAGER);
+            }
+        }
         Departments departments = null;
-        if (request.getIdDepartments() != "") {
-            Departments departmentsOptional = adDepartmentsRepository
+        if (!request.getIdDepartments().equals("")) {
+            departments = adDepartmentsRepository
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
-            departments = departmentsOptional;
         }
         Employees employeesSave = Employees.builder()
                 .id(employees.getId())

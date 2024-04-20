@@ -42,20 +42,20 @@ export class CreateComponent implements OnInit {
   listStreet: string[] = [];
 
   constructor(private dialogRef: MatDialogRef<CreateComponent>,
-              private adDeparmentService: AdDepartmentService,
-              public adEmployeesSerivice: AdEmployeesService,
+              private adDepartmentService: AdDepartmentService,
+              public adEmployeesService: AdEmployeesService,
               private toast: ToastrService) {
   }
 
 
   ngOnInit(): void {
-    this.adDeparmentService.getAllDepartment().subscribe({
+    this.adDepartmentService.getAllDepartment().subscribe({
       next: (response) => {
         this.listDepartments = response.data;
       }
     })
 
-    this.adEmployeesSerivice.getAllCity().subscribe({
+    this.adEmployeesService.getAllCity().subscribe({
       next: (response) => {
         if (response.message == "Success") {
           this.listCity = response.data;
@@ -71,7 +71,7 @@ export class CreateComponent implements OnInit {
       .find(city => city.ProvinceID.toString() === this.provinceId);
     if (objCity != undefined) {
       this.objCreate.city = objCity.ProvinceName;
-      this.adEmployeesSerivice.getStreetByIdCountry(objCity.ProvinceID).subscribe({
+      this.adEmployeesService.getStreetByIdCountry(objCity.ProvinceID).subscribe({
         next: (response: any) => {
           if (response.message === "Success") {
             this.listStreet = response.data.map((item: any) => item.DistrictName);
@@ -87,7 +87,7 @@ export class CreateComponent implements OnInit {
 
   createEmployees() {
     console.log(this.objCreate.birthday)
-    this.adEmployeesSerivice.createEmployees(this.objCreate).subscribe({
+    this.adEmployeesService.createEmployees(this.objCreate).subscribe({
       next: (response) => {
         this.toast.success("Thêm thành công", "Thông báo", {
           positionClass: 'toast-top-center',

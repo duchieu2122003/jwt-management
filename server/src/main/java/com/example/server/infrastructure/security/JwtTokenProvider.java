@@ -50,7 +50,7 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(CoEmployeesLoginResponse employee) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(employee.getEmail())
                 .claim("id", employee.getId())
                 .claim("email", employee.getEmail())
@@ -63,7 +63,6 @@ public class JwtTokenProvider {
 //                .setExpiration(new Date(System.currentTimeMillis() + (60 * 1000)))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
-        return token;
     }
 
 
@@ -88,9 +87,9 @@ public class JwtTokenProvider {
             String email = claims.get("email", String.class);
             CoEmployeesLoginResponse employees = employeesRepository.findEmployeesByEmailToLogin(email)
                     .orElseThrow(() -> new RestApiException(Message.EMAIL_NOT_EXIST));
-//            if (claims.getExpiration().getTime() < System.currentTimeMillis()) {
-//                return ("Token refresh:" + generateToken(employees));
-//            }
+            if (claims.getExpiration().getTime() < System.currentTimeMillis()) {
+                throw new RestApiException("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
+            }
             return "ok";
         } catch (JwtException | IllegalArgumentException e) {
             e.printStackTrace();

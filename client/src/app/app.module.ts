@@ -8,9 +8,6 @@ import {SidebarComponent} from './layout/sidebar/sidebar.component';
 import {LoginComponent} from './core/common/components/login/login.component';
 import {InformationMySelfComponent} from './core/common/components/information-my-self/information-my-self.component';
 import {
-  MaDepartmentManagementComponent
-} from './core/manager/components/ma-department-management/ma-department-management.component';
-import {
   StDepartmentMySelfComponent
 } from './core/staff/components/st-department-my-self/st-department-my-self.component';
 import {CommonHeaderComponent} from './layout/header/common-header/common-header.component';
@@ -41,22 +38,35 @@ import {CreateComponent} from './core/admin/components/ad-employees-management/c
 import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
 import {ChangePasswordComponent} from './core/common/components/change-password/change-password.component';
+import {NgSelectModule} from "@ng-select/ng-select";
 import {
-  MaDepartmentCreateComponent
-} from "./core/manager/components/ma-department-management/ma-department-create/ma-department-create.component";
+  AdDepartmentManagementComponent
+} from './core/admin/components/ad-department-management/ad-department-management.component';
 import {
-  MaDepartmentUpdateComponent
-} from './core/manager/components/ma-department-management/ma-department-update/ma-department-update.component';
+  AdDepartmentCreateComponent
+} from './core/admin/components/ad-department-management/ad-department-create/ad-department-create.component';
 import {
-  MaEmployeesMissionsOnDepartmentManagementComponent
-} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component';
+  AdDepartmentUpdateComponent
+} from './core/admin/components/ad-department-management/ad-department-update/ad-department-update.component';
 import {
   MaModalCreateEmployeeMissionComponent
-} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-modal-create-employee-mission/ma-modal-create-employee-mission.component';
+} from "./core/manager/components/ma-employees-missions-on-department-management/ma-modal-create-employee-mission/ma-modal-create-employee-mission.component";
 import {
   MaModalUpdateEmployeeMissionComponent
-} from './core/manager/components/ma-department-management/ma-employees-missions-on-department-management/ma-modal-update-employee-mission/ma-modal-update-employee-mission.component';
-import {NgSelectModule} from "@ng-select/ng-select";
+} from "./core/manager/components/ma-employees-missions-on-department-management/ma-modal-update-employee-mission/ma-modal-update-employee-mission.component";
+import {
+  MaEmployeesMissionsOnDepartmentManagementComponent
+} from "./core/manager/components/ma-employees-missions-on-department-management/ma-employees-missions-on-department-management.component";
+import {
+  MaMissionsManagementComponent
+} from './core/manager/components/ma-missions-management/ma-missions-management.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {
+  MaCreateMissionComponent
+} from './core/manager/components/ma-missions-management/ma-create-mission/ma-create-mission.component';
+import {
+  MaUpdateMissionComponent
+} from './core/manager/components/ma-missions-management/ma-update-mission/ma-update-mission.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +75,6 @@ import {NgSelectModule} from "@ng-select/ng-select";
     SidebarComponent,
     LoginComponent,
     InformationMySelfComponent,
-    MaDepartmentManagementComponent,
     StDepartmentMySelfComponent,
     CommonHeaderComponent,
     AdminHeaderComponent,
@@ -80,11 +89,15 @@ import {NgSelectModule} from "@ng-select/ng-select";
     CreateComponent,
     UpdateComponent,
     ChangePasswordComponent,
-    MaDepartmentCreateComponent,
-    MaDepartmentUpdateComponent,
     MaEmployeesMissionsOnDepartmentManagementComponent,
     MaModalCreateEmployeeMissionComponent,
-    MaModalUpdateEmployeeMissionComponent
+    MaModalUpdateEmployeeMissionComponent,
+    AdDepartmentManagementComponent,
+    AdDepartmentCreateComponent,
+    AdDepartmentUpdateComponent,
+    MaMissionsManagementComponent,
+    MaCreateMissionComponent,
+    MaUpdateMissionComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +116,7 @@ import {NgSelectModule} from "@ng-select/ng-select";
     MatIcon,
     MatIconModule,
     NgOptimizedImage,
+    BrowserAnimationsModule,
     HttpClientModule,
     NgSelectModule,
     ToastrModule.forRoot(),

@@ -1,0 +1,29 @@
+<div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title mt-3">Sửa nhiệm vụ của nhân viên</h1>
+        <button type="button" class="btn-close ms-auto" (click)="onCloseDialog()"></button>
+      </div>
+      <hr/>
+      <div class="modal-body">
+        <div class="card-header">
+          <h2> {{ objDetail.code !== '' ? objDetail.code : '' }}
+            {{ objDetail.fullName !== '' ? ' - ' + objDetail.fullName : '' }}
+            {{ objDetail.email !== '' ? ' - ' + objDetail.email : '' }}
+          </h2>
+        </div>
+        <label>Nhiệm vụ: </label>
+        <ng-select class="text-center" [multiple]="true" [(ngModel)]="objDetail.missionsListId">
+          <ng-option *ngFor="let i of listMissions" [value]="i.id">{{ i.name }}</ng-option>
+        </ng-select>
+        <div class="modal-footer mb-3">
+          <button type="button" class="btn btn-secondary m-3" (click)="onCloseDialog()">Hủy</button>
+          <button type="button" class="btn btn-primary" (click)="handleUpdate()">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

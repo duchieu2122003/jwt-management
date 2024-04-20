@@ -81,13 +81,15 @@
           <div class="row">
             <div class="mb-3 d-flex align-items-start col-6 flex-column">
               <label>Chức vụ</label>
-              <select class="form-select" [(ngModel)]="objUpdate.role">
-                <option value="ADMIN">Quản trị</option>
+              <select class="form-select" [(ngModel)]="objUpdate.role"
+                      [disabled]="objUpdate.role === 'ADMIN'"
+              >
+                <option value="ADMIN" [disabled]="objUpdate.role !== 'ADMIN'">Quản trị</option>
                 <option value="STAFF">Nhân viên</option>
                 <option value="MANAGER">Quản lý</option>
               </select>
             </div>
-            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column" *ngIf="objUpdate.role !== 'ADMIN'">
               <label>Phòng ban</label>
               <select class="form-select" [(ngModel)]="objUpdate.idDepartments">
                 <option value="">Chưa có phòng ban</option>
