@@ -24,21 +24,15 @@ const routes: Routes = [
   {path: "", redirectTo: "common/login", pathMatch: 'full'},
   {path: "common/login", component: LoginComponent},
   {path: "common/information-my-self", component: InformationMySelfComponent},
-
   {path: "common/change-password", component: ChangePasswordComponent},
 
   {path: "admin", redirectTo: "admin/employees-management", pathMatch: "full"},
   {path: "admin/employees-management", component: AdEmployeesManagementComponent},
   {path: "admin/departments-management", component: AdDepartmentManagementComponent},
 
-
   {path: "manager", redirectTo: "manager/employees-missions-on-department", pathMatch: "full"},
-  // {path: "manager/department-management", component: MaDepartmentManagementComponent},
-  // {path: "manager/employees-missions-on-department/:id", component: MaEmployeesMissionsOnDepartmentManagementComponent},
   {path: "manager/employees-missions-on-department", component: MaEmployeesMissionsOnDepartmentManagementComponent},
   {path: "manager/missions-management", component: MaMissionsManagementComponent},
-
-
 
   {path: "staff", redirectTo: "staff/department-my-self", pathMatch: "full"},
   {path: "staff/department-my-self", component: StDepartmentMySelfComponent},

@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticated.logOut().subscribe(data => {
-      console.log(data);
       if (data.data == true) {
         this.toast.success('Đăng xuất thành công', 'Thông báo', {
           timeOut: 2000,
