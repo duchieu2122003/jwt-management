@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {environment} from "../../../environment/environment.prod";
+import {environment} from "../../../environment/environment";
 
 const api = environment.API_STAFF + `/departments`;
 

@@ -116,8 +116,7 @@ import {
   providers: [
     provideAnimationsAsync(),
     {provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ],
   bootstrap: [AppComponent]
 })

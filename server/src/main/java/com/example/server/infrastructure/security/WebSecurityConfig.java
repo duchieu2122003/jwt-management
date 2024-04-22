@@ -1,9 +1,6 @@
 package com.example.server.infrastructure.security;
 
-import com.example.server.core.admin.controller.AdDepartmentsController;
-import com.example.server.core.manager.repository.MaMissionsRepository;
 import com.example.server.infrastructure.constant.ActorConstant;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

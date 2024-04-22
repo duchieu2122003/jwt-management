@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environment/environment.prod";
+import {environment} from "../../../environment/environment";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Missions} from "../../../entitis/Missions";
 
@@ -9,7 +9,7 @@ const api = environment.API_MANAGER + `/missions`
 @Injectable({
   providedIn: 'root'
 })
-export class MaMissionsService {
+export  class MaMissionsService {
 
   missionCreate: BehaviorSubject<Missions> = new BehaviorSubject<Missions>({
     id: '',

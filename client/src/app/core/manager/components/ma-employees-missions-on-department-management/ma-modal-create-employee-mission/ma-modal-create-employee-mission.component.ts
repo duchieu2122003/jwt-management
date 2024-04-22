@@ -100,7 +100,7 @@ export class MaModalCreateEmployeeMissionComponent implements OnInit {
             gender: string
             status: string
           }[] = response.data;
-          this.toast.error('Thêm thành công', 'Thông báo');
+          this.toast.success('Thêm thành công', 'Thông báo');
           this.dialog.close(result);
         }
       }, error: (err) => {

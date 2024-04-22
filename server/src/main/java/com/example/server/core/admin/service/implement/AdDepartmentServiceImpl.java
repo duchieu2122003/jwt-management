@@ -35,7 +35,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
 
     @Override
     public List<AdDepartmentsGetResponse> getAll() {
-        List<Departments> list = adDepartmentsRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Departments> list = adDepartmentsRepository.findAll();
         List<AdDepartmentsGetResponse> listResult = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             AdDepartmentsGetResponse objResult = AdDepartmentsGetResponse.builder()

@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
 
 /**
@@ -139,6 +140,9 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                 .status(request.getStatus())
                 .departments(departments)
                 .build();
+        if (request.getIdDepartments().equals("")) {
+            employeesSave.setMissions(new HashSet<>());
+        }
         adEmployeesRepository.save(employeesSave);
         AdEmployeesCustomResponse adEmployeesCustomResponse = adEmployeesRepository.findEmployeesCustomById(request.getId());
         if (adEmployeesCustomResponse == null) throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);

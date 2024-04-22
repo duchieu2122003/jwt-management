@@ -71,7 +71,7 @@ export class MaModalUpdateEmployeeMissionComponent implements OnInit {
     }
     this.maEmployeesMissionsService.updateMissionsEmployeesList(data).subscribe({
       next: (response) => {
-        this.toast.error('Sửa thành công', 'Thông báo');
+        this.toast.success('Sửa thành công', 'Thông báo');
         this.dialogRef.close(response);
       }, error: (err) => {
         this.toast.error(err.error.message, 'Thông báo');

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AdEmployeesService} from "../../service/ad-employees.service";
 import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateComponent} from "./create/create.component";
 import {UpdateComponent} from "./update/update.component";
@@ -48,9 +47,9 @@ export class AdEmployeesManagementComponent implements OnInit {
     status: string;
   }[] = [];
 
-  constructor(public adEmployeesService: AdEmployeesService,
+  constructor(private adEmployeesService: AdEmployeesService,
               private toast: ToastrService,
-              private router: Router, private dialog: MatDialog) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -99,7 +98,8 @@ export class AdEmployeesManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
-        this.listEmployees.push({...result.data, stt: this.listEmployees.length + 1});
+        this.listEmployees.unshift({...result.data, stt: 1});
+        this.listEmployees.map((i, index) => i.stt = index + 1);
       }
     });
   }

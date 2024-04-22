@@ -20,7 +20,7 @@ interface Missions {
 export class MaMissionsManagementComponent implements OnInit, OnDestroy {
 
   listMissions: Missions[] = [];
-  private readonly subscription: Subscription | undefined;
+  private subscription: Subscription | undefined;
 
   constructor(private maMissionsService: MaMissionsService,
               private toast: ToastrService,
@@ -29,17 +29,10 @@ export class MaMissionsManagementComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllMission();
-    this.maMissionsService.$missionCreate.subscribe(data => {
+    this.subscription = this.maMissionsService.$missionCreate.subscribe(data => {
       this.listMissions.unshift(data);
     })
   }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
 
   getAllMission() {
     this.maMissionsService.getListMission().subscribe({
@@ -87,4 +80,9 @@ export class MaMissionsManagementComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }
