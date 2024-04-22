@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+
   lastName: string = "";
   token: string = "";
   role: string = ""

@@ -46,6 +46,7 @@ export class AdEmployeesManagementComponent implements OnInit {
     fullAddress: string;
     status: string;
   }[] = [];
+  listCity: any = [];
 
   constructor(private adEmployeesService: AdEmployeesService,
               private toast: ToastrService,
@@ -53,13 +54,14 @@ export class AdEmployeesManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchData()
+    this.fetchCity();
+    this.fetchData();
   }
 
   fetchData() {
     this.adEmployeesService.getPageEmployees(this.filter).subscribe({
       next: (response) => {
-        if (response.data.content.length > 0) {
+        if (response.data != null) {
           this.listEmployees = response.data.content;
         }
         this.listTotalsPage = [];
@@ -69,6 +71,18 @@ export class AdEmployeesManagementComponent implements OnInit {
         }
       }, error: (err) => {
         this.toast.error(err.message);
+      }
+    })
+  }
+
+  fetchCity() {
+    this.adEmployeesService.getAllCity().subscribe({
+      next: (response) => {
+        if (response.message == "Success") {
+          this.listCity = response.data.map((i: { ProvinceName: any; }) => {
+            return i.ProvinceName;
+          });
+        }
       }
     })
   }

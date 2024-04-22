@@ -24,8 +24,9 @@
         <div class="col-md-6">
           <label for="inputState" class="form-label">Thành phố</label>
           <select id="inputState" [(ngModel)]="filter.city" class="form-select">
-            <option selected>Choose...</option>
-            <option>...</option>
+            <option value="">Tất cả</option>
+            <option *ngFor="let item of listCity"
+                    [value]=[item]>{{ item }}
           </select>
         </div>
         <div class="col-md-6">

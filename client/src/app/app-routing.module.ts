@@ -21,6 +21,7 @@ import {
 } from "./core/manager/components/ma-missions-management/ma-missions-management.component";
 
 const routes: Routes = [
+
   {path: "", redirectTo: "common/login", pathMatch: 'full'},
   {path: "common/login", component: LoginComponent},
   {path: "common/information-my-self", component: InformationMySelfComponent},
@@ -38,8 +39,6 @@ const routes: Routes = [
   {path: "staff/department-my-self", component: StDepartmentMySelfComponent},
 
   {path: "403", component: ForbiddenComponent}
-
-
 ];
 
 @NgModule({

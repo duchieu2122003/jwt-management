@@ -2,8 +2,6 @@ package com.example.server.repositoty;
 
 import com.example.server.core.common.model.response.CoEmployeesLoginResponse;
 import com.example.server.entity.Employees;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,16 +12,8 @@ import java.util.Optional;
 /**
  * @author duchieu212
  */
-@Repository(EmployeesRepository.NAME)
-@Primary
+@Repository
 public interface EmployeesRepository extends JpaRepository<Employees, String> {
-
-    String NAME = "BaseEmployeeRepository";
-
-    @Query(value = """
-            SELECT COUNT(1) FROM employee
-            """, nativeQuery = true)
-    Integer countSimpleEntityEmployee();
 
     Optional<Employees> findByEmail(String email);
 

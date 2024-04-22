@@ -30,31 +30,31 @@ public interface AdEmployeesRepository extends EmployeesRepository {
                             CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
                             e.status as status
             FROM employees e
-            WHERE (:#{#request.code} IS NULL OR :#{#request.code} LIKE '' OR e.code LIKE %:#{#request.code}%)
-                AND (:#{#request.name} IS NULL OR :#{#request.name} LIKE '' OR CONCAT(e.first_name, ' ', e.last_name) LIKE %:#{#request.name}%)
-                AND (:#{#request.email} IS NULL OR :#{#request.email} LIKE '' OR e.email LIKE %:#{#request.email}% )
-                AND (:#{#request.city} IS NULL OR :#{#request.city} LIKE '' OR %:#{#request.city}% LIKE e.city)
-                AND (:#{#request.status} IS NULL OR :#{#request.status} LIKE '' OR :#{#request.status} LIKE e.status)
+            WHERE (:#{#request.code} IS NULL OR :#{#request.code} = '' OR %:#{#request.code}% LIKE e.code)
+                AND (:#{#request.name} IS NULL OR :#{#request.name} = '' OR %:#{#request.name}% LIKE CONCAT(e.first_name, ' ', e.last_name))
+                AND (:#{#request.email} IS NULL OR :#{#request.email} = '' OR %:#{#request.email}% LIKE e.email )
+                AND (:#{#request.city} IS NULL OR :#{#request.city} = '' OR %:#{#request.city}% LIKE e.city)
+                AND (:#{#request.status} IS NULL OR :#{#request.status} = '' OR :#{#request.status} LIKE e.status)
                         """, nativeQuery = true)
     Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(@Param("request") AdEmployeesCustomRequest request, Pageable pageable);
 
     @Query(value = """
-            SELECT e.id                                                                as id,
-                  e.code                                                              as code,
-                  CONCAT(e.first_name, ' ', e.last_name)                              as full_name,
-                  e.email                                                             as email,
-                  e.birthday                                                          as birthday,
-                  e.gender                                                            as gender,
+            SELECT e.id as id,
+                  e.code as code,
+                  CONCAT(e.first_name, ' ', e.last_name) as full_name,
+                  e.email as email,
+                  e.birthday as birthday,
+                  e.gender as gender,
                   CONCAT(e.address, ' - ', e.street, ' - ', e.city, ' - ', e.country) as full_address,
-                  e.status                                                            as status
+                  e.status as status
             FROM employees e
             WHERE e.id = :#{#id} 
             """, nativeQuery = true)
     AdEmployeesCustomResponse findEmployeesCustomById(@Param("id") String id);
 
     @Query(value = """
-            SELECT DISTINCT e.id  as id,
-                  e.code as code,
+            SELECT DISTINCT e.id as id,
+                e.code as code,
                 e.first_name as first_name, 
                 e.last_name as last_name,
                 e.email as email,

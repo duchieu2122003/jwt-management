@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
 import {AdDepartmentService} from "../../../service/ad-department.service";
@@ -8,7 +8,7 @@ import {AdDepartmentService} from "../../../service/ad-department.service";
   templateUrl: './ad-department-update.component.html',
   styleUrl: './ad-department-update.component.css'
 })
-export class AdDepartmentUpdateComponent {
+export class AdDepartmentUpdateComponent implements OnInit {
 
   objUp = {
     id: '',

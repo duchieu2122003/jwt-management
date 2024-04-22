@@ -58,7 +58,6 @@ export class UpdateComponent implements OnInit {
     this.adDepartmentsService.getAllDepartment().subscribe({
       next: (response) => {
         this.listDepartments = response.data;
-        console.log(response.data)
       }
     })
 

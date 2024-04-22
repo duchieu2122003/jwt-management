@@ -89,7 +89,8 @@
                 <option value="MANAGER">Quản lý</option>
               </select>
             </div>
-            <div class="mb-3 d-flex align-items-start col-6 flex-column" *ngIf="objUpdate.role !== 'ADMIN'">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column"
+                 *ngIf="objUpdate.role !== 'ADMIN'">
               <label>Phòng ban</label>
               <select class="form-select" [(ngModel)]="objUpdate.idDepartments">
                 <option value="">Chưa có phòng ban</option>

@@ -33,7 +33,7 @@ export class AdDepartmentService {
     return this.http.delete(api + `/` + id)
   }
 
-  getOneDepartmentById(id: string): Observable<any> {
-    return this.http.get(api + '/' + id);
-  }
+  // getOneDepartmentById(id: string): Observable<any> {
+  //   return this.http.get(api + '/' + id);
+  // }
 }

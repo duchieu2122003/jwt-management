@@ -17,7 +17,6 @@ import com.example.server.infrastructure.exception.RestApiException;
 import com.example.server.util.EmployeesHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,18 +35,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdEmployeesServiceImpl implements AdEmployeesService {
 
-    private AdEmployeesRepository adEmployeesRepository;
+    private final AdEmployeesRepository adEmployeesRepository;
 
-    private AdDepartmentsRepository adDepartmentsRepository;
-
-    @Autowired
-    public AdEmployeesServiceImpl(AdEmployeesRepository adEmployeesRepository, AdDepartmentsRepository adDepartmentsRepository) {
-        this.adEmployeesRepository = adEmployeesRepository;
-        this.adDepartmentsRepository = adDepartmentsRepository;
-    }
+    private final AdDepartmentsRepository adDepartmentsRepository;
 
     @Override
     public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request) {
+        if (!request.getName().equals("")){
+            request.setName(request.getName().trim());
+        }
+        if (!request.getEmail().equals("")){
+            request.setEmail(request.getEmail().trim());
+        }
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         return adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
     }

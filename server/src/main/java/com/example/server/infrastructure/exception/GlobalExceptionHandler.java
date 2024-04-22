@@ -1,7 +1,6 @@
 package com.example.server.infrastructure.exception;
 
 import com.example.server.model.response.ApiErrorResponse;
-import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,22 +28,20 @@ public class GlobalExceptionHandler {
             log.error("==========RestApiException========== " + e.getMessage());
             ApiErrorResponse apiErrorResponse = new ApiErrorResponse(e.getMessage());
             return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
-        }
-        else if (e instanceof MethodArgumentNotValidException) {
+        } else if (e instanceof MethodArgumentNotValidException) {
             log.error("==========MethodArgumentNotValidException========== " + e.getMessage());
             BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
             List<String> errors = bindingResult.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.toList());
             String missionsString = String.join(", ", errors);
-            ApiErrorResponse apiErrorResponse = new ApiErrorResponse("" + errors);
+            ApiErrorResponse apiErrorResponse = new ApiErrorResponse("" + missionsString);
             return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
         } else if (e instanceof RuntimeException) {
-            log.error("==========RuntimeException========== " + e.getMessage());
+            log.error("==================RuntimeException================ " + e.getMessage());
             ApiErrorResponse apiErrorResponse = new ApiErrorResponse(e.getMessage());
             return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
-        }
-        else {
+        } else {
             e.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
