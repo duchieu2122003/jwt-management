@@ -30,7 +30,9 @@ export class MaMissionsManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllMission();
     this.subscription = this.maMissionsService.$missionCreate.subscribe(data => {
-      this.listMissions.unshift(data);
+      if (data.id !== '') {
+        this.listMissions.unshift(data);
+      }
     })
   }
 

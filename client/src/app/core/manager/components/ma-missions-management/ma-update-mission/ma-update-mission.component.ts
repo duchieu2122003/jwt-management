@@ -1,8 +1,7 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Missions} from "../../../../../entitis/Missions";
 import {MaMissionsService} from "../../../service/ma-missions.service";
 import {ToastrService} from "ngx-toastr";
-import {Subscription} from "rxjs";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -10,14 +9,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   templateUrl: './ma-update-mission.component.html',
   styleUrl: './ma-update-mission.component.css'
 })
-export class MaUpdateMissionComponent implements OnInit, OnDestroy {
+export class MaUpdateMissionComponent implements OnInit {
 
   objUpdate: Missions = {
     id: '',
     name: '',
     descriptions: ''
   };
-  private readonly subscription: Subscription | undefined;
 
 
   constructor(private maMissionsService: MaMissionsService,
@@ -50,12 +48,5 @@ export class MaUpdateMissionComponent implements OnInit, OnDestroy {
   closeDialog() {
     this.dialogRef.close();
   }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
 
 }

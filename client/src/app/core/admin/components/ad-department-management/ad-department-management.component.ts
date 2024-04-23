@@ -12,7 +12,7 @@ import {AdDepartmentUpdateComponent} from "./ad-department-update/ad-department-
 })
 export class AdDepartmentManagementComponent implements OnInit {
 
-  listDepartments: {
+   listDepartments: {
     stt: number,
     id: string,
     name: string, descriptions: string, status: string

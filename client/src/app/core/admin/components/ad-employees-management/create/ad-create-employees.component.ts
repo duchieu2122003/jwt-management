@@ -6,10 +6,10 @@ import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-ma-department-create',
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.css'
+  templateUrl: './ad-create-employees.component.html',
+  styleUrl: './ad-create-employees.component.css'
 })
-export class CreateComponent implements OnInit {
+export class AdCreateEmployeesComponent implements OnInit {
 
   objCreate: {
     firstName: string,
@@ -41,7 +41,7 @@ export class CreateComponent implements OnInit {
   listCity: { ProvinceID: string, ProvinceName: string }[] = [];
   listStreet: string[] = [];
 
-  constructor(private dialogRef: MatDialogRef<CreateComponent>,
+  constructor(private dialogRef: MatDialogRef<AdCreateEmployeesComponent>,
               private adDepartmentService: AdDepartmentService,
               public adEmployeesService: AdEmployeesService,
               private toast: ToastrService) {

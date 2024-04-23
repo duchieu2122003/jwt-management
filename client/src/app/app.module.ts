@@ -30,8 +30,12 @@ import {NgOptimizedImage} from "@angular/common";
 import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HttpConfigInterceptor} from "./interceptors/http-config.interceptor";
-import {CreateComponent} from './core/admin/components/ad-employees-management/create/create.component';
-import {UpdateComponent} from './core/admin/components/ad-employees-management/update/update.component';
+import {
+  AdCreateEmployeesComponent
+} from './core/admin/components/ad-employees-management/create/ad-create-employees.component';
+import {
+  AdUpdateEmployeesComponent
+} from './core/admin/components/ad-employees-management/update/ad-update-employees.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
 import {ChangePasswordComponent} from './core/common/components/change-password/change-password.component';
 import {NgSelectModule} from "@ng-select/ng-select";
@@ -67,29 +71,30 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
+    ForbiddenComponent,
+    HeaderComponent,
     FooterComponent,
     SidebarComponent,
     LoginComponent,
     InformationMySelfComponent,
-    StDepartmentMySelfComponent,
-    HeaderComponent,
-    AdEmployeesManagementComponent,
-    ForbiddenComponent,
-    AdminComponent,
-    ManagerComponent,
-    StaffComponent,
-    CreateComponent,
-    UpdateComponent,
     ChangePasswordComponent,
+    StDepartmentMySelfComponent,
+    StaffComponent,
     MaEmployeesMissionsOnDepartmentManagementComponent,
     MaModalCreateEmployeeMissionComponent,
     MaModalUpdateEmployeeMissionComponent,
+    MaMissionsManagementComponent,
+    MaCreateMissionComponent,
+    MaUpdateMissionComponent,
+    ManagerComponent,
     AdDepartmentManagementComponent,
     AdDepartmentCreateComponent,
     AdDepartmentUpdateComponent,
-    MaMissionsManagementComponent,
-    MaCreateMissionComponent,
-    MaUpdateMissionComponent
+    AdEmployeesManagementComponent,
+    AdCreateEmployeesComponent,
+    AdUpdateEmployeesComponent,
+    AdminComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -107,9 +112,9 @@ import {
     MatInput,
     MatIcon,
     MatIconModule,
-    NgOptimizedImage,
     BrowserAnimationsModule,
     HttpClientModule,
+    NgOptimizedImage,
     NgSelectModule,
     ToastrModule.forRoot(),
   ],

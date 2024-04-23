@@ -7,10 +7,10 @@ import moment from "moment";
 
 @Component({
   selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrl: './update.component.css'
+  templateUrl: './ad-update-employees.component.html',
+  styleUrl: './ad-update-employees.component.css'
 })
-export class UpdateComponent implements OnInit {
+export class AdUpdateEmployeesComponent implements OnInit {
   objUpdate: {
     id: string,
     firstName: string,
@@ -49,7 +49,7 @@ export class UpdateComponent implements OnInit {
 
   constructor(private adEmployeesService: AdEmployeesService,
               @Inject(MAT_DIALOG_DATA) private data: { id: string },
-              private dialogRef: MatDialogRef<UpdateComponent>,
+              private dialogRef: MatDialogRef<AdUpdateEmployeesComponent>,
               private adDepartmentsService: AdDepartmentService,
               private toast: ToastrService) {
   }

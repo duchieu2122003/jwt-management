@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AdEmployeesService} from "../../service/ad-employees.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
-import {CreateComponent} from "./create/create.component";
-import {UpdateComponent} from "./update/update.component";
+import {AdCreateEmployeesComponent} from "./create/ad-create-employees.component";
+import {AdUpdateEmployeesComponent} from "./update/ad-update-employees.component";
 
 @Component({
   selector: 'app-ad-employees-management',
@@ -105,7 +105,7 @@ export class AdEmployeesManagementComponent implements OnInit {
   }
 
   openShowCreate() {
-    const dialogRef = this.dialog.open(CreateComponent, {
+    const dialogRef = this.dialog.open(AdCreateEmployeesComponent, {
       width: '80%',
       // data: {}
     });
@@ -119,7 +119,7 @@ export class AdEmployeesManagementComponent implements OnInit {
   }
 
   openShowUpdate(id: string) {
-    const dialogRef = this.dialog.open(UpdateComponent, {
+    const dialogRef = this.dialog.open(AdUpdateEmployeesComponent, {
       width: '80%',
       data: {id: id}
     });
