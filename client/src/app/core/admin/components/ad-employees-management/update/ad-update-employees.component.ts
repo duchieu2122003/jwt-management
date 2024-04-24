@@ -64,6 +64,7 @@ export class AdUpdateEmployeesComponent implements OnInit {
     this.adEmployeesService.getDetailEmployees(this.data.id).subscribe({
       next: (response) => {
         this.objUpdate = response.data;
+        this.objUpdate.idDepartments = response.data.departmentId
         this.objUpdate.statusBoolean = response.data.status === "ACTIVE";
         this.objUpdate.birthday = moment(response.data.birthday).format('YYYY-MM-DD');
       }, error: (err) => {

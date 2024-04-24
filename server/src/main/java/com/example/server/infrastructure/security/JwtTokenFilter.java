@@ -31,27 +31,23 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
         String jwtToken = extractJwtToken(request);
-        if (request.getRequestURI().endsWith("/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         if (jwtToken != null) {
             String message = jwtTokenProvider.validateToken(jwtToken);
             if (message.equals("ok")) {
                 Authentication authentication = jwtTokenProvider.setAuthentication(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            else {
+            } else {
                 throw new RestApiException(message);
             }
-        } else {
-            throw new RestApiException("Token hệ thống lỗi, vui lòng đăng nhập lại");
         }
+//        else {
+//            throw new RestApiException("Token hệ thống lỗi, vui lòng đăng nhập lại");
+//        }
         filterChain.doFilter(request, response);
     }
 
     private String extractJwtToken(HttpServletRequest request) {
-            String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.substring(7);
         }

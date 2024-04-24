@@ -13,10 +13,10 @@ export class AuthenticatedService {
   }
 
   login(data: any): Observable<any> {
-    return this.httpClient.post(environment.API_COMMON + '/login', data);
+    return this.httpClient.post(environment.API_SECURITY + '/login', data);
   }
 
   logOut(): Observable<any> {
-    return this.httpClient.get(environment.API_COMMON + '/logout');
+    return this.httpClient.get(environment.API_SECURITY + '/logout');
   }
 }

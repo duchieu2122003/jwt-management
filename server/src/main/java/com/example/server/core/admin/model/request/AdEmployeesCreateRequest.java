@@ -42,11 +42,11 @@ public class AdEmployeesCreateRequest {
     @NotBlank(message = "Địa chỉ cụ thể không được để trống")
     String address;
 
-    @NotBlank(message = "Tỉnh/Huyện không được để trống")
-    String street;
-
     @NotBlank(message = "Thành phố/Tỉnh không được để trống")
     String city;
+
+    @NotBlank(message = "Tỉnh/Huyện không được để trống")
+    String street;
 
     @NotBlank(message = "Quốc gia không được để trống")
     String country;

@@ -14,7 +14,8 @@ export class AdEmployeesService {
 
   getPageEmployees(data: any): Observable<any> {
     const apiCustom = api + "?name=" + data.name + "&code=" + data.code + "&email=" + data.email
-      + "&city=" + data.city + "&status=" + data.status + "&page=" + data.page + "&size=" + data.size;
+      + "&role=" + data.role
+      +"&city=" + data.city + "&status=" + data.status + "&page=" + data.page + "&size=" + data.size;
     return this.http.get(apiCustom);
   }
 

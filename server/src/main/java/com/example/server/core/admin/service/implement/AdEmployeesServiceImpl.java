@@ -1,10 +1,10 @@
 package com.example.server.core.admin.service.implement;
 
+import com.example.server.core.admin.model.mapper.AdEmployeesMapper;
 import com.example.server.core.admin.model.request.AdEmployeesCreateRequest;
 import com.example.server.core.admin.model.request.AdEmployeesCustomRequest;
 import com.example.server.core.admin.model.request.AdEmployeesUpdateRequest;
 import com.example.server.core.admin.model.response.AdEmployeesCustomResponse;
-import com.example.server.core.admin.model.response.AdEmployeesDetailResponse;
 import com.example.server.core.admin.repository.AdDepartmentsRepository;
 import com.example.server.core.admin.repository.AdEmployeesRepository;
 import com.example.server.core.admin.service.AdEmployeesService;
@@ -39,18 +39,20 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
 
     private final AdDepartmentsRepository adDepartmentsRepository;
 
+    private final AdEmployeesMapper adEmployeesMapper;
+
     @Override
     public Page<AdEmployeesCustomResponse> getAdPageEmployeeCustom(final AdEmployeesCustomRequest request) {
-        if (!request.getName().equals("")){
+        if (!request.getName().equals("")) {
             request.setName(request.getName().trim());
         }
-        if (!request.getEmail().equals("")){
+        if (!request.getEmail().equals("")) {
             request.setEmail(request.getEmail().trim());
         }
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
-        return adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
+        Page<Employees> pageEmployees = adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
+        return pageEmployees.map(e -> adEmployeesMapper.employeesToAdEmployeesCustom(e));
     }
-
 
     @Override
     @Transactional
@@ -60,19 +62,25 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         if (request.getBirthday().after(new Date())) {
             throw new RestApiException(Message.BIRTHDAY_AFTER_NOW);
         }
-        if (!request.getIdDepartments().equals("")) {
-            departments = adDepartmentsRepository
-                    .findById(request.getIdDepartments()).orElseThrow(()
-                            -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
-        }
         Optional<Employees> findEmployees = adEmployeesRepository.findEmployeesByEmail(request.getEmail());
         if (findEmployees.isPresent()) {
             throw new RestApiException(Message.EMAIL_EXSITS);
         }
-        if (request.getRole().equals(Role.MANAGER)) {
-            Integer countManager = adEmployeesRepository.countManagerInDepartment(request.getIdDepartments());
-            if (countManager >= 1) {
-                throw new RestApiException(Message.DEPARTMENT_HAD_MANAGER);
+        if (!request.getIdDepartments().equals("")) {
+            departments = adDepartmentsRepository
+                    .findById(request.getIdDepartments()).orElseThrow(()
+                            -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
+            if (request.getRole().equals(Role.MANAGER)) {
+                Integer countManager = adEmployeesRepository.countManagerInDepartment(request.getIdDepartments());
+                if (countManager >= 1) {
+                    throw new RestApiException(Message.DEPARTMENT_HAD_MANAGER);
+                }
+            }
+        }
+        if (request.getRole().equals(Role.ADMIN)) {
+            Integer countAdmin = adEmployeesRepository.countAdminSystem();
+            if (countAdmin >= 1) {
+                throw new RestApiException(Message.SYSTEM_HAVE_ADMIN);
             }
         }
         Employees employees = Employees.builder()
@@ -92,10 +100,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                 .departments(departments)
                 .build();
         Employees employeesSave = adEmployeesRepository.save(employees);
-        String id = employeesSave.getId();
-        AdEmployeesCustomResponse adEmployeesCustomResponse = adEmployeesRepository.findEmployeesCustomById(id);
-        if (adEmployeesCustomResponse == null) throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
-        return adEmployeesCustomResponse;
+        return adEmployeesMapper.employeesToAdEmployeesCustom(adEmployeesRepository.findEmployeesCustomById(employeesSave.getId()));
     }
 
     @Override
@@ -122,7 +127,7 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                     .findById(request.getIdDepartments()).orElseThrow(()
                             -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
         }
-        Employees employeesSave = Employees.builder()
+        Employees employeesMeger = Employees.builder()
                 .id(employees.getId())
                 .code(employees.getCode())
                 .firstName(request.getFirstName())
@@ -140,17 +145,16 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
                 .departments(departments)
                 .build();
         if (request.getIdDepartments().equals("")) {
-            employeesSave.setMissions(new HashSet<>());
+            employeesMeger.setMissions(new HashSet<>());
         }
-        adEmployeesRepository.save(employeesSave);
-        AdEmployeesCustomResponse adEmployeesCustomResponse = adEmployeesRepository.findEmployeesCustomById(request.getId());
-        if (adEmployeesCustomResponse == null) throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
-        return adEmployeesCustomResponse;
+        Employees employeesSave = adEmployeesRepository.save(employeesMeger);
+        return adEmployeesMapper.employeesToAdEmployeesCustom(adEmployeesRepository.findEmployeesCustomById(employeesSave.getId()));
+
     }
 
     @Override
-    public AdEmployeesDetailResponse detail(String id) {
-        return adEmployeesRepository.findEmployeesDetailById(id);
+    public AdEmployeesCustomResponse detail(String id) {
+        return adEmployeesMapper.employeesToAdEmployeesCustom(adEmployeesRepository.findEmployeesDetailById(id));
     }
 
     @Override

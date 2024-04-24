@@ -20,6 +20,7 @@ import com.example.server.infrastructure.constant.Message;
 import com.example.server.infrastructure.exception.RestApiException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsService {
-
 
     private final MaDepartmentRepository maDepartmentRepository;
 
@@ -55,6 +55,14 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
         List<Missions> missionsList = maMissionsRepository.findAll();
         List<Employees> listEmployees = maEmployeesRepository.getListEmployeesNotDepartment();
         List<Employees> listEmployeesAdd = new ArrayList<>();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (email != null) {
+            Employees employeesManager = maEmployeesRepository.findByEmail(email)
+                    .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+            if (employeesManager.getDepartments() == null) {
+                throw new RestApiException("Không thể thêm nhân viên vào phòng ban bởi vì bạn đang không quản lý phòng ban nào");
+            }
+        }
         for (MaEmployeesMissionsRequest request : requests) {
             Employees employee = listEmployees.stream()
                     .filter(e -> e.getId().equals(request.getEmployeesId()))

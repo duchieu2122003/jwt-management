@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {AdCreateEmployeesComponent} from "./create/ad-create-employees.component";
 import {AdUpdateEmployeesComponent} from "./update/ad-update-employees.component";
+import {Employees} from "../../../../entitis/Employees";
 
 @Component({
   selector: 'app-ad-employees-management',
@@ -18,6 +19,7 @@ export class AdEmployeesManagementComponent implements OnInit {
     name: string,
     email: string,
     city: string,
+    role: string,
     status: string,
     page: number,
     size: number
@@ -27,6 +29,7 @@ export class AdEmployeesManagementComponent implements OnInit {
     email: "",
     city: "",
     status: "",
+    role: "",
     page: 0,
     size: 10
   }
@@ -35,17 +38,7 @@ export class AdEmployeesManagementComponent implements OnInit {
   listTotalsPage: number[] = [];
 
 
-  listEmployees: {
-    stt: number;
-    id: string;
-    code: string;
-    fullName: string;
-    email: string;
-    birthday: Date;
-    gender: string;
-    fullAddress: string;
-    status: string;
-  }[] = [];
+  listEmployees: Employees[] = [];
   listCity: any = [];
 
   constructor(private adEmployeesService: AdEmployeesService,
@@ -64,6 +57,7 @@ export class AdEmployeesManagementComponent implements OnInit {
         if (response.data != null) {
           this.listEmployees = response.data.content;
         }
+        console.log(response)
         this.listTotalsPage = [];
         this.totalsPage = response.data.totalPages;
         for (let i = 1; i <= this.totalsPage; i++) {
@@ -98,6 +92,7 @@ export class AdEmployeesManagementComponent implements OnInit {
       email: "",
       city: "",
       status: "",
+      role: "",
       page: 0,
       size: 10
     }
@@ -107,13 +102,11 @@ export class AdEmployeesManagementComponent implements OnInit {
   openShowCreate() {
     const dialogRef = this.dialog.open(AdCreateEmployeesComponent, {
       width: '80%',
-      // data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
-        this.listEmployees.unshift({...result.data, stt: 1});
-        this.listEmployees.map((i, index) => i.stt = index + 1);
+        this.listEmployees.unshift({...result.data});
       }
     });
   }
@@ -129,7 +122,7 @@ export class AdEmployeesManagementComponent implements OnInit {
         const employeeToUpdate = this.listEmployees
           .find(item => item.id === result.data.id);
         if (employeeToUpdate) {
-          Object.assign(employeeToUpdate, result.data, {stt: employeeToUpdate.stt});
+          Object.assign(employeeToUpdate, result.data);
         }
       }
     });
@@ -141,9 +134,9 @@ export class AdEmployeesManagementComponent implements OnInit {
       next: (response) => {
         if (response.data == true) {
           this.listEmployees = this.listEmployees.filter(employee => employee.id !== id);
-          this.listEmployees.forEach((employee, index) => {
-            employee.stt = index + 1;
-          });
+          // this.listEmployees.forEach((employee, index) => {
+          //   employee.stt = index + 1;
+          // });
           this.toast.success("Xóa thành công")
         } else {
           this.toast.error("Xóa thất bại")

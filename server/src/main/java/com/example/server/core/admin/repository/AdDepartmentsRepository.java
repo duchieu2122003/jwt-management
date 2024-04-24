@@ -1,6 +1,5 @@
 package com.example.server.core.admin.repository;
 
-import com.example.server.core.admin.model.response.AdDepartmentsResponse;
 import com.example.server.entity.Departments;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import com.example.server.repositoty.DepartmentsRepository;
@@ -17,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface AdDepartmentsRepository extends DepartmentsRepository {
 
-    List<AdDepartmentsResponse> findAllByStatus(StatusDepartment statusDepartment);
+    List<Departments> findAllByStatus(StatusDepartment statusDepartment);
 
     Optional<Departments> findDepartmentsByName(String name);
 

@@ -10,12 +10,12 @@ public enum Message {
 
     ERROR_UNKNOWN("Lỗi không xác định"),
     UNCATEGORIZED_EXCEPTION("Lỗi chưa được phân loại"),
-    NAME_INVALID("Tên không được quá {min} kí tự"),
+    NAME_INVALID("Tên không được quá 50 kí tự"),
     NAME_DUPLICATION("Tên đã tồn tại"),
     DESCRIPTIONS_INVALID("Mô tả không được quá {max} kí tự"),
     LAST_NAME_NOT_EMPTY("Tên đệm không được để trống"),
     EMAIL_NOT_EMPTY("Email không được để trống"),
-    EMAIL_INVALID("Email phải có định dạng @gmail.com và nhiều nhất {max} kí tự"),
+    EMAIL_INVALID("Email phải có định dạng @gmail.com và nhiều nhất 50 kí tự"),
     EMAIL_DUPLICATION("Email đã tồn tại"),
     BIRTHDAY_NOT_NULL("Ngày sinh không được để trống"),
     ADDRESS_NOT_EMPTY("Địa chỉ không được để trống"),
@@ -38,6 +38,9 @@ public enum Message {
     MISSION_USED("Nhiệm vụ đang được sử dụng, không thể xóa"),
     MISSION_NAME_EXSIST("Tên nhiệm vụ đã tồn tại"),
     YOU_HAVENT_DEPARTMENT("Bạn chưa vào phòng ban nào"),
+    SYSTEM_HAVE_ADMIN("Hệ thống đã có 1 quản trị viên, không thể thêm quản trị viên khác"),
+    NOT_EMPTY(" không được để trống"),
+    SIZE_MAX_INVALID(" không được quá 50 kí tự"),
     NAME_NOT_EMPTY("Tên không được để trống");
 
 

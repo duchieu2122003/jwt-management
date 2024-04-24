@@ -1,40 +1,57 @@
 package com.example.server.core.admin.model.response;
 
 import com.example.server.infrastructure.constant.Gender;
+import com.example.server.infrastructure.constant.Role;
 import com.example.server.infrastructure.constant.StatusEmployee;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
 /**
  * @author duchieu212
  */
-public interface AdEmployeesCustomResponse {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AdEmployeesCustomResponse {
 
-    Integer getStt();
+    String id;
 
-    @Value("#{target.id}")
-    String getId();
+    String code;
 
-    @Value("#{target.code}")
-    String getCode();
+    String firstName;
 
-    @Value("#{target.full_name}")
-    String getFullName();
+    String lastName;
 
-    @Value("#{target.email}")
-    String getEmail();
+    String email;
 
-    @Value("#{target.birthday}")
-    Date getBirthday();
+    Date birthday;
 
-    @Value("#{target.gender}")
-    Gender getGender();
+    Gender gender;
 
-    @Value("#{target.full_address}")
-    String getFullAddress();
+    String address;
 
-    @Value("#{target.status}")
-    StatusEmployee getStatus();
+    String street;
+
+    String city;
+
+    String country;
+
+    StatusEmployee status;
+
+    String departmentId;
+
+    String departmentName;
+
+    Role role;
 
 }

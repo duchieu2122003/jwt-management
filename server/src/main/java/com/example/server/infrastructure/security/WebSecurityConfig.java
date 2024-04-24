@@ -30,7 +30,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/api/common/**").permitAll()
+                        request.requestMatchers("/api/security/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority(ActorConstant.ACTOR_ADMIN)
                                 .requestMatchers("/api/manager/**").hasAuthority(ActorConstant.ACTOR_MANAGER)
                                 .requestMatchers("/api/staff/**").hasAuthority(ActorConstant.ACTOR_STAFF)

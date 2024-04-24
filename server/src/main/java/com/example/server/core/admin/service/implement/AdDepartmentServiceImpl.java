@@ -1,23 +1,26 @@
 package com.example.server.core.admin.service.implement;
 
+import com.example.server.core.admin.model.mapper.AdDepartmentMapper;
 import com.example.server.core.admin.model.request.AdDepartmentCreateRequest;
 import com.example.server.core.admin.model.request.AdDepartmentUpdateRequest;
+import com.example.server.core.admin.model.response.AdDepartmentsCustomResponse;
 import com.example.server.core.admin.model.response.AdDepartmentsGetResponse;
-import com.example.server.core.admin.model.response.AdDepartmentsResponse;
 import com.example.server.core.admin.repository.AdDepartmentsRepository;
 import com.example.server.core.admin.service.AdDepartmentsService;
 import com.example.server.entity.Departments;
 import com.example.server.infrastructure.constant.Message;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import com.example.server.infrastructure.exception.RestApiException;
+import com.example.server.infrastructure.validation.ValidationChain;
+import com.example.server.infrastructure.validation.property.FieldMaxSizeStep;
+import com.example.server.infrastructure.validation.property.FieldNotNullStep;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author duchieu212
@@ -28,26 +31,18 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
 
     private final AdDepartmentsRepository adDepartmentsRepository;
 
+    private final AdDepartmentMapper adDepartmentMapper;
+
     @Override
-    public List<AdDepartmentsResponse> getAllDepartmentActive() {
-        return adDepartmentsRepository.findAllByStatus(StatusDepartment.ACTIVE);
+    public List<AdDepartmentsCustomResponse> getAllDepartmentActive() {
+        return adDepartmentsRepository.findAllByStatus(StatusDepartment.ACTIVE)
+                .stream().map(adDepartmentMapper::departmentsToCustomResponse).collect(Collectors.toList());
     }
 
     @Override
-    public List<AdDepartmentsGetResponse> getAll() {
+    public List<AdDepartmentsCustomResponse> getAll() {
         List<Departments> list = adDepartmentsRepository.findAll();
-        List<AdDepartmentsGetResponse> listResult = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            AdDepartmentsGetResponse objResult = AdDepartmentsGetResponse.builder()
-                    .id(list.get(i).getId())
-                    .stt(i + 1)
-                    .name(list.get(i).getName())
-                    .descriptions(list.get(i).getDescriptions())
-                    .status(list.get(i).getStatus())
-                    .build();
-            listResult.add(objResult);
-        }
-        return listResult;
+        return list.stream().map(adDepartmentMapper::departmentsToCustomResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -66,6 +61,11 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
     @Transactional
     public AdDepartmentsGetResponse create(AdDepartmentCreateRequest request) {
         Optional<Departments> findDepartments = adDepartmentsRepository.findDepartmentsByName(request.getName());
+        ValidationChain<AdDepartmentCreateRequest> validationChain = new ValidationChain<>();
+        validationChain.addStep(new FieldNotNullStep());
+        validationChain.addStep(new FieldMaxSizeStep());
+        validationChain.validatedAll(request);
+
         if (findDepartments.isPresent()) {
             throw new RestApiException(Message.DEPARTMENT_NAME_EXSIST);
         }

@@ -27,8 +27,8 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let item of listDepartments">
-    <th scope="row">{{ item.stt }}</th>
+  <tr *ngFor="let item of listDepartments, let i=index">
+    <th scope="row">{{ i + 1 }}</th>
     <td>{{ item.name }}</td>
     <td>{{ item.descriptions }}</td>
     <td>

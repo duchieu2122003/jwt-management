@@ -21,7 +21,7 @@
           <label class="form-label">Email</label>
           <input type="email" name="eemail" [(ngModel)]="filter.email" class="form-control">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label for="inputState" class="form-label">Thành phố</label>
           <select id="inputState" [(ngModel)]="filter.city" class="form-select">
             <option value="">Tất cả</option>
@@ -29,7 +29,15 @@
                     [value]=[item]>{{ item }}
           </select>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <label for="inputRole" class="form-label">Vai trò</label>
+          <select id="inputRole" [(ngModel)]="filter.role" class="form-select">
+            <option value="" selected>Tất cả</option>
+            <option value="MANAGER">Quản lý</option>
+            <option value="STAFF">Nhân viên</option>
+          </select>
+        </div>
+        <div class="col-md-4">
           <label class="form-label">Trạng thái</label>
           <select class="form-select" [(ngModel)]="filter.status" aria-label="Default select example">
             <option value="" selected>Tất cả</option>
@@ -75,20 +83,28 @@
       <th scope="col">Ngày sinh</th>
       <th scope="col">Giới tính</th>
       <th scope="col">Địa chỉ</th>
+      <th scope="col">Phòng ban</th>
+      <th scope="col">Chức vụ</th>
       <th scope="col">Trạng thái</th>
       <th colspan="2">Hành động</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of listEmployees">
-      <th scope="row">{{ item.stt }}</th>
+    <tr *ngFor="let item of listEmployees, let i =index">
+      <th scope="row">{{ i + 1 }}</th>
       <td>{{ item.code }}</td>
-      <td>{{ item.fullName }}</td>
+      <td>{{ item.firstName + item.lastName }}</td>
       <td>{{ item.email }}</td>
       <td>{{ item.birthday | date :'dd/MM/yyyy' }}</td>
       <td>{{ item.gender == 'MALE' ? 'Nam' : 'Nữ' }}</td>
-      <td>{{ item.fullAddress }}</td>
-      <td>{{ item.status == 'ACTIVE' ? 'Làm việc' : 'Nghỉ việc' }}</td>
+      <td>{{ item.address + ' - ' + item.street + ' - ' + item.city + ' - ' + item.country }}</td>
+      <td>
+        <span *ngIf="item.departmentName === ''" class="badge text-bg-primary">Chưa có</span>
+        {{ item.departmentName !== '' ? item.departmentName : '' }}
+      </td>
+
+      <td>{{ item.role === 'STAFF' ? 'Nhân viên' : 'Quản lý' }}</td>
+      <td>{{ item.status === 'ACTIVE' ? 'Làm việc' : 'Nghỉ việc' }}</td>
       <td>
         <button type="button" class="btn btn-warning" (click)="openShowUpdate(item.id)">Sửa</button>
       </td>

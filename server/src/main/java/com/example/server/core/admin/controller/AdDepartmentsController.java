@@ -42,8 +42,13 @@ public class AdDepartmentsController {
         return new ResponseObject(adDepartmentsService.detail(id));
     }
 
+//    @PostMapping
+//    public ResponseObject create(@Valid @RequestBody AdDepartmentCreateRequest request) {
+//        return new ResponseObject(adDepartmentsService.create(request));
+//    }
+
     @PostMapping
-    public ResponseObject create(@Valid @RequestBody AdDepartmentCreateRequest request) {
+    public ResponseObject create(@RequestBody AdDepartmentCreateRequest request) {
         return new ResponseObject(adDepartmentsService.create(request));
     }
 

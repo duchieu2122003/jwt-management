@@ -26,4 +26,6 @@ public class AdEmployeesCustomRequest extends PageableRequest {
 
     String status;
 
+    String role;
+
 }

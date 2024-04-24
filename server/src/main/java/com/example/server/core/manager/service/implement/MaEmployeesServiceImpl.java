@@ -8,6 +8,7 @@ import com.example.server.infrastructure.constant.Message;
 import com.example.server.infrastructure.exception.RestApiException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -32,6 +33,13 @@ public class MaEmployeesServiceImpl implements MaEmployeesService {
     public boolean deleteMissionsAnDepartmentForEmployees(String id) {
         Employees employees = maEmployeesRepository.findById(id)
                 .orElseThrow(() -> new RestApiException(Message.EMPLOYEE_NOT_EXIST));
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (email != null) {
+            if (email.equals(employees.getEmail())) {
+                throw new RestApiException("Bạn không thể xóa bản thân bạn khỏi phòng ban");
+            }
+        }
+
         employees.setMissions(new HashSet<>());
         employees.setDepartments(null);
         maEmployeesRepository.save(employees);

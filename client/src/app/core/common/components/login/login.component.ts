@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/staff']);
       }
     }
-
   }
 
   showPassword: boolean = false;
@@ -58,13 +57,18 @@ export class LoginComponent implements OnInit {
       this.errorLogin = "";
       this.loginService.login(this.request).subscribe({
         next: (response) => {
-          if (response.data.authenticated == true) {
-            this.toast.success('Đăng nhập thành công', 'Thông báo', {
-              timeOut: 2000,
-              positionClass: 'toast-top-center',
-              progressBar: true
-            });
-          }
+          // if (response.data.authenticated == true) {
+          //   this.toast.success('Đăng nhập thành công', 'Thông báo', {
+          //     timeOut: 2000,
+          //     positionClass: 'toast-top-center',
+          //     progressBar: true
+          //   });
+          // }
+          this.toast.success('Đăng nhập thành công', 'Thông báo', {
+                timeOut: 2000,
+            positionClass: 'toast-top-center',
+            progressBar: true
+          });
           localStorage.setItem('token', response.data.token);
           this.userCurrent = jwtDecode(response.data.token);
           if (this.userCurrent.role == "ADMIN") {
@@ -73,7 +77,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate(["/manager"]);
           } else {
             this.router.navigate(["/staff"]);
-
           }
         }, error: (err) => {
           this.toast.error(err.error.message, 'Thông báo', {

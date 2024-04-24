@@ -15,7 +15,9 @@ export class AdDepartmentManagementComponent implements OnInit {
    listDepartments: {
     stt: number,
     id: string,
-    name: string, descriptions: string, status: string
+    name: string,
+    descriptions: string,
+     status: string
   }[] = [];
 
   constructor(private adDepartmentsService: AdDepartmentService,

@@ -2,8 +2,8 @@ package com.example.server.core.admin.service;
 
 import com.example.server.core.admin.model.request.AdDepartmentCreateRequest;
 import com.example.server.core.admin.model.request.AdDepartmentUpdateRequest;
+import com.example.server.core.admin.model.response.AdDepartmentsCustomResponse;
 import com.example.server.core.admin.model.response.AdDepartmentsGetResponse;
-import com.example.server.core.admin.model.response.AdDepartmentsResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface AdDepartmentsService {
 
-    List<AdDepartmentsResponse> getAllDepartmentActive();
+    List<AdDepartmentsCustomResponse> getAllDepartmentActive();
 
-    List<AdDepartmentsGetResponse> getAll();
+    List<AdDepartmentsCustomResponse> getAll();
 
     AdDepartmentsGetResponse detail(String id);
 

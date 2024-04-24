@@ -30,4 +30,5 @@ public interface CoEmployeesLoginResponse {
 
     @Value("#{target.password}")
     String getPassword();
+
 }

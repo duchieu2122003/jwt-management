@@ -61,10 +61,10 @@ public class CoEmployeesServiceImpl implements CoEmployeesService {
         }
         String token = jwtTokenProvider.generateToken(employee);
         SimpleGrantedAuthority authorities = new SimpleGrantedAuthority(employee.getRole().name());
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(employee, null, Collections.singletonList(authorities));
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken
+                (employee, null, Collections.singletonList(authorities));
         SecurityContextHolder.getContext().setAuthentication(auth);
         return AuthenticationResponse.builder()
-                .authenticated(true)
                 .token(token)
                 .build();
     }
