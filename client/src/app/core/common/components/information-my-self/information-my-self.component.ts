@@ -25,7 +25,7 @@ export class InformationMySelfComponent implements OnInit {
     city: string,
     country: string,
     role: string,
-    nameDepartment: string,
+    departmentName: string,
     statusBoolean: boolean,
     status: string
   } = {
@@ -41,7 +41,7 @@ export class InformationMySelfComponent implements OnInit {
     city: "",
     country: "",
     role: "STAFF",
-    nameDepartment: "",
+    departmentName: "",
     statusBoolean: true,
     status: "ACTIVE"
   };
@@ -114,9 +114,7 @@ export class InformationMySelfComponent implements OnInit {
   handleUpdateEmployeesCurrent() {
     this.coEmployeesService.updateUserCurrent(this.objUpdate).subscribe({
       next: (response) => {
-        this.objUpdate = response.data;
-        this.objUpdate.statusBoolean = response.data.status === "ACTIVE";
-        this.objUpdate.birthday = moment(response.data.birthday).format('YYYY-MM-DD');
+        sessionStorage.setItem('token', response.data.token);
         this.toast.success("Sửa thông tin thành công", "Thông báo");
         this.edit = false;
       }, error: (err) => {

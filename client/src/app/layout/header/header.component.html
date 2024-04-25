@@ -2,45 +2,45 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li *ngIf="token != '' && role =='ADMIN'">
+        <li *ngIf="employeeCurrent.token != '' && employeeCurrent.role =='ADMIN'">
           <a [routerLink]="['/admin/employees-management']" class="nav-link px-2 link-body-emphasis">
             <span class="text-light">Quản lý tài khoản</span>
           </a>
         </li>
-        <li *ngIf="token != '' && role =='ADMIN'">
+        <li *ngIf="employeeCurrent.token != '' && employeeCurrent.role =='ADMIN'">
           <a [routerLink]="['/admin/departments-management']"
              class="nav-link px-2 link-body-emphasis">
             <span class="text-light">Quản lý phòng ban</span>
           </a>
         </li>
-        <li *ngIf="token != '' && role =='MANAGER'">
+        <li *ngIf="employeeCurrent.token != '' && employeeCurrent.role =='MANAGER'">
           <a [routerLink]="['/manager/employees-missions-on-department']"
              class="nav-link px-2 link-body-emphasis">
             <span class="text-light">Phòng ban của tôi</span>
           </a>
         </li>
-        <li *ngIf="token != '' && role =='MANAGER'">
+        <li *ngIf="employeeCurrent.token != '' && employeeCurrent.role =='MANAGER'">
           <a [routerLink]="['/manager/missions-management']"
              class="nav-link px-2 link-body-emphasis">
             <span class="text-light">Quản lý nhiệm vụ</span>
           </a>
         </li>
-        <li *ngIf="token != '' && role =='STAFF'">
+        <li *ngIf="employeeCurrent.token != '' && employeeCurrent.role =='STAFF'">
           <a [routerLink]="['/staff/department-my-self']" class="nav-link px-2 link-body-emphasis">
             <span class="text-light">Chi tiết phòng ban</span>
           </a>
         </li>
       </ul>
       <div class="dropdown text-end">
-        <div *ngIf="token==''">
+        <div *ngIf="employeeCurrent.token==''">
           <a class="nav-link active" [routerLink]="['/common/login']">
             <mat-icon>login</mat-icon>
           </a>
         </div>
-        <div *ngIf="token!==''">
+        <div *ngIf="employeeCurrent.token!==''">
           <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>account_circle</mat-icon>
-            <span style="color: white">Xin chào {{ lastName }}</span>
+            <span style="color: white">Xin chào {{ employeeCurrent.lastName }}</span>
             <!--            <span style="color: white" *ngIf="role!= ''"> - {{ role }}</span>-->
           </button>
           <mat-menu #menu="matMenu">

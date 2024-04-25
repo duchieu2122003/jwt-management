@@ -1,6 +1,7 @@
 package com.example.server.infrastructure.security;
 
-import com.example.server.core.common.model.response.CoEmployeesLoginResponse;
+import com.example.server.core.common.model.response.CoEmployeeLoginResponse;
+import com.example.server.entity.Employees;
 import com.example.server.infrastructure.constant.Message;
 import com.example.server.infrastructure.exception.RestApiException;
 import com.example.server.repositoty.EmployeesRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtTokenProvider {
@@ -29,7 +31,7 @@ public class JwtTokenProvider {
         this.employeesRepository = employeesRepository;
     }
 
-    public String generateToken(CoEmployeesLoginResponse employee) {
+    public String generateToken(CoEmployeeLoginResponse employee) {
         return Jwts.builder()
                 .setSubject(employee.getEmail())
                 .claim("id", employee.getId())
@@ -39,7 +41,8 @@ public class JwtTokenProvider {
                 .claim("fullName", employee.getFirstName() + " " + employee.getLastName())
                 .claim("birthday", employee.getBirthday())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)))
+                .setExpiration(new Date(System.currentTimeMillis() + (2 * 1000)))
+//                .setExpiration(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
@@ -57,22 +60,26 @@ public class JwtTokenProvider {
     }
 
     public String validateToken(String token) {
-        try {
+//        try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
             String email = claims.get("email", String.class);
-            CoEmployeesLoginResponse employees = employeesRepository.findEmployeesByEmailToLogin(email)
-                    .orElseThrow(() -> new RestApiException(Message.EMAIL_NOT_EXIST));
+            Optional<Employees> employee = employeesRepository.findEmployeesByEmailToLogin(email);
+            if (employee.isEmpty()) {
+                return Message.EMAIL_NOT_EXIST.getMessage();
+            }
             if (claims.getExpiration().getTime() < System.currentTimeMillis()) {
-                throw new RestApiException("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
+                throw new RestApiException("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại validations");
             }
             return "ok";
-        } catch (JwtException | IllegalArgumentException e) {
-            e.printStackTrace();
-            throw new RestApiException("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
-        }
+//        } catch (JwtException | IllegalArgumentException e) {
+//            e.printStackTrace();
+//            System.err.println("===================================");
+//            System.err.println(e.getMessage());
+//            return "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại";
+//        }
     }
 }

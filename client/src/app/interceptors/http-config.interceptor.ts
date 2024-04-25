@@ -14,7 +14,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       request = request.clone({
         setHeaders: {
@@ -29,8 +29,11 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       } else if (error.status == 403) {
         this.toast.error('Không có quyền đăng nhập chức vụ này, vui lòng đăng nhập lại', 'Thông báo');
         this.router.navigate(['/403'])
+      } else if (error.status == 500) {
+        this.toast.error('Không có quyền đăng nhập chức vụ này, vui lòng đăng nhập lại', 'Thông báo');
+        this.router.navigate(['/403'])
       }
-      return throwError(error);
+      return throwError(error.message);
     }));
   }
 

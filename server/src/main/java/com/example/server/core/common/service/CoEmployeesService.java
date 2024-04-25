@@ -3,9 +3,9 @@ package com.example.server.core.common.service;
 import com.example.server.core.common.model.request.AuthenticationRequest;
 import com.example.server.core.common.model.request.CoChangePasswordRequest;
 import com.example.server.core.common.model.request.CoUpdateEmployeeRequest;
+import com.example.server.core.common.model.response.AuthenticationHeaderResponse;
 import com.example.server.core.common.model.response.AuthenticationResponse;
-import com.example.server.core.common.model.response.CoDetailCustomEmployeeResponse;
-import com.example.server.core.common.model.response.CoEmployeesInformationResponse;
+import com.example.server.core.common.model.response.CoEmployeesCurrentResponse;
 import jakarta.validation.Valid;
 
 /**
@@ -17,9 +17,11 @@ public interface CoEmployeesService {
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
 
-    CoEmployeesInformationResponse updateEmployeeCurrent(@Valid CoUpdateEmployeeRequest request);
+    AuthenticationResponse updateEmployeeCurrent(@Valid CoUpdateEmployeeRequest request);
 
-    CoDetailCustomEmployeeResponse detailCustomEmployeeCurrent();
+    AuthenticationHeaderResponse detailEmployeesCurrentForHeader();
+
+    CoEmployeesCurrentResponse detailCustomEmployeeCurrent();
 
     boolean updatePassword(@Valid CoChangePasswordRequest request);
 

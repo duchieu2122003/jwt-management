@@ -18,11 +18,11 @@ export class CoEmployeesService {
     return this.http.get(api);
   }
 
-  updateUserCurrent(data: any):Observable<any> {
+  updateUserCurrent(data: any): Observable<any> {
     return this.http.put(api, data);
   }
 
-  changePasswordUserCurrent(data: any):Observable<any> {
+  changePasswordUserCurrent(data: any): Observable<any> {
     return this.http.put(api + `/change-password`, data);
   }
 
@@ -38,5 +38,9 @@ export class CoEmployeesService {
           province_id: provinceId
         }
       })
+  }
+
+  detailEmployeesForHeader(): Observable<any> {
+    return this.http.get(api + '/get-auth');
   }
 }

@@ -18,8 +18,6 @@ import {
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatButton} from "@angular/material/button";
 import {ForbiddenComponent} from './page/forbidden/forbidden.component';
-import {AdminComponent} from './core/admin/admin.component';
-import {ManagerComponent} from './core/manager/manager.component';
 import {StaffComponent} from './core/staff/staff.component';
 import {MatCard, MatCardContent, MatCardTitle} from "@angular/material/card";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -67,6 +65,8 @@ import {
 import {
   MaUpdateMissionComponent
 } from './core/manager/components/ma-missions-management/ma-update-mission/ma-update-mission.component';
+import {StoreModule} from "@ngrx/store";
+import {employeeCurrentLogin} from "./store/employees-current.reduce";
 
 @NgModule({
   declarations: [
@@ -86,14 +86,13 @@ import {
     MaMissionsManagementComponent,
     MaCreateMissionComponent,
     MaUpdateMissionComponent,
-    ManagerComponent,
+
     AdDepartmentManagementComponent,
     AdDepartmentCreateComponent,
     AdDepartmentUpdateComponent,
     AdEmployeesManagementComponent,
     AdCreateEmployeesComponent,
     AdUpdateEmployeesComponent,
-    AdminComponent,
 
   ],
   imports: [
@@ -117,6 +116,7 @@ import {
     NgOptimizedImage,
     NgSelectModule,
     ToastrModule.forRoot(),
+    StoreModule.forRoot({employeeCurrent: employeeCurrentLogin}),
   ],
   providers: [
     provideAnimationsAsync(),

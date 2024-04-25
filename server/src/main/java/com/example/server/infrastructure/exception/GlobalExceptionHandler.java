@@ -1,6 +1,7 @@
 package com.example.server.infrastructure.exception;
 
 import com.example.server.model.response.ApiErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,23 +43,34 @@ public class GlobalExceptionHandler {
             ApiErrorResponse apiErrorResponse = new ApiErrorResponse(e.getMessage());
             return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
         } else {
+            log.error("==================Internal================ " + e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex) {
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("==================handleAccessDeniedException================ " + e.getMessage());
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse("Không có quyền truy cập");
-        return new ResponseEntity<>(apiErrorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<?> handleNHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        log.error("==================handleNHttpRequestMethodNotSupportedException================ " + ex.getMessage());
+
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse("Đường dẫn không hợp lệ 404");
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<?> handleExpiredJwtExceptionException(HttpRequestMethodNotSupportedException ex) {
+        log.error("==================handleExpiredJwtExceptionException================ " + ex.getMessage());
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse("Phiên đăng nhập đã hết hạn hoặc lỗi hệ thống" + ex.getMessage());
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
 
 

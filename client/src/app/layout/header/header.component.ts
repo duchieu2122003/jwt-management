@@ -1,8 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {jwtDecode} from "jwt-decode";
 import {AuthenticatedService} from "../../core/common/service/authenticated.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+import {EmployeeLogin} from "../../entitis/EmployeeLogin";
+import {select, Store} from "@ngrx/store";
+import {CoEmployeesService} from "../../core/common/service/co-employees.service";
+import {setEmployeeCurrent} from "../../store/employees-current.reduce";
 
 @Component({
   selector: 'app-common-header',
@@ -11,25 +15,41 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
 
-  lastName: string = "";
-  token: string = "";
-  role: string = ""
-  userCurrent: any;
+  employeeLogin$: Observable<EmployeeLogin>;
+  employeeCurrent: EmployeeLogin = {
+    token: '',
+    role: '',
+    lastName: ''
+  };
 
-  constructor(private authenticated: AuthenticatedService, private toast: ToastrService,
-              private router: Router) {
+  constructor(private authenticated: AuthenticatedService,
+              private toast: ToastrService,
+              private coEmployeesService: CoEmployeesService,
+              private router: Router,
+              private store: Store<{ employeeCurrent: EmployeeLogin }>
+  ) {
+    this.employeeLogin$ = store.pipe(select('employeeCurrent'));
+    this.employeeLogin$.subscribe((data: EmployeeLogin) => {
+      this.employeeCurrent = data;
+    })
   }
 
   ngOnInit(): void {
-    const token = localStorage.getItem("token");
-    if (token != null) {
-      this.token = token;
-      if (jwtDecode(token) != null) {
-        this.userCurrent = jwtDecode(token);
-        this.role = this.userCurrent.role;
-        this.lastName = this.userCurrent.name;
-      }
+    const token = sessionStorage.getItem("token");
+    if (this.employeeCurrent.role === '' && token) {
+      this.refreshHeader();
     }
+  }
+
+  refreshHeader() {
+    this.coEmployeesService.detailEmployeesForHeader().subscribe({
+      next: (response) => {
+        this.store.dispatch(setEmployeeCurrent({...response.data, token: sessionStorage.getItem('token')}));
+      },error:(err)=>{
+        console.log(err);
+        console.log("aaaaaaaaaaaaa")
+      }
+    })
   }
 
   logout() {
@@ -41,7 +61,7 @@ export class HeaderComponent implements OnInit {
           progressBar: true
         });
         this.router.navigate(["/common/login"]);
-        localStorage.clear();
+        sessionStorage.clear();
       } else {
         this.toast.info('Lỗi hệ thống, đăng xuất thất bại', 'Thông báo', {
           timeOut: 2000,
@@ -50,6 +70,6 @@ export class HeaderComponent implements OnInit {
         });
       }
     });
-
   }
+
 }

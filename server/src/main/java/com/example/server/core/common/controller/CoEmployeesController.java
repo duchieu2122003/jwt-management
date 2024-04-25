@@ -29,6 +29,11 @@ public class CoEmployeesController {
         return new ResponseObject(coEmployeesService.detailCustomEmployeeCurrent());
     }
 
+    @GetMapping("/get-auth")
+    public ResponseObject detailForHeader() {
+        return new ResponseObject(coEmployeesService.detailEmployeesCurrentForHeader());
+    }
+
     @PutMapping()
     public ResponseObject update(@Valid @RequestBody CoUpdateEmployeeRequest request) {
         return new ResponseObject(coEmployeesService.updateEmployeeCurrent(request));

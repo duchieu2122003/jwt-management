@@ -12,7 +12,7 @@ export class ForbiddenComponent {
   }
 
   redirectLogin() {
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['common/login'])
   }
 }

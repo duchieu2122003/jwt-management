@@ -57,14 +57,14 @@ export class AdEmployeesManagementComponent implements OnInit {
         if (response.data != null) {
           this.listEmployees = response.data.content;
         }
-        console.log(response)
         this.listTotalsPage = [];
         this.totalsPage = response.data.totalPages;
         for (let i = 1; i <= this.totalsPage; i++) {
           this.listTotalsPage.push(i);
         }
       }, error: (err) => {
-        this.toast.error(err.message);
+        const errorMessage = err.error && err.error.message ? err.error.message : 'Unknown error';
+        this.toast.error(errorMessage, 'Thông báo');
       }
     })
   }
@@ -134,9 +134,6 @@ export class AdEmployeesManagementComponent implements OnInit {
       next: (response) => {
         if (response.data == true) {
           this.listEmployees = this.listEmployees.filter(employee => employee.id !== id);
-          // this.listEmployees.forEach((employee, index) => {
-          //   employee.stt = index + 1;
-          // });
           this.toast.success("Xóa thành công")
         } else {
           this.toast.error("Xóa thất bại")
