@@ -1,6 +1,5 @@
 package com.example.server.core.manager.repository;
 
-import com.example.server.core.manager.model.response.MaMissionsResponse;
 import com.example.server.entity.Missions;
 import com.example.server.repositoty.MissionsRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,10 +16,10 @@ import java.util.Optional;
 public interface MaMissionsRepository extends MissionsRepository {
 
     @Query(value = """
-                    SELECT m.id as id, m.name as name, m.descriptions as descriptions
+                    SELECT m
                      FROM Missions m
             """)
-    List<MaMissionsResponse> getAllMissions();
+    List<Missions> getAllMissions();
 
     Optional<Missions> findByName(String name);
 

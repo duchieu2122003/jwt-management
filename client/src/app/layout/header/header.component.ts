@@ -19,7 +19,8 @@ export class HeaderComponent implements OnInit {
   employeeCurrent: EmployeeLogin = {
     token: '',
     role: '',
-    lastName: ''
+    lastName: '',
+    id: ''
   };
 
   constructor(private authenticated: AuthenticatedService,
@@ -45,9 +46,6 @@ export class HeaderComponent implements OnInit {
     this.coEmployeesService.detailEmployeesForHeader().subscribe({
       next: (response) => {
         this.store.dispatch(setEmployeeCurrent({...response.data, token: sessionStorage.getItem('token')}));
-      },error:(err)=>{
-        console.log(err);
-        console.log("aaaaaaaaaaaaa")
       }
     })
   }

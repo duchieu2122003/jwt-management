@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 /**
  * @author duchieu212
  */
-public interface MaEmployeesMissionGetResponse {
+public interface MaEmployeeMissionGetResponse {
 
     @Value("#{target.employee_id}")
     String getEmployeeId();
 
     @Value("#{target.mission_id}")
     String getMissionId();
+
 }

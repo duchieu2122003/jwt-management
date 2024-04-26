@@ -1,7 +1,7 @@
 package com.example.server.core.manager.service;
 
+import com.example.server.core.manager.model.response.MaDepartmentEmployeesCurrentResponse;
 import com.example.server.core.manager.model.response.MaDepartmentResponse;
-import com.example.server.core.manager.model.response.MaDepartmentUserCurrentResponse;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ public interface MaDepartmentService {
 
     List<MaDepartmentResponse> getAll();
 
-    MaDepartmentUserCurrentResponse getDepartmentByUserCurrent();
+    MaDepartmentEmployeesCurrentResponse getDepartmentByUserCurrent();
 
 }

@@ -1,7 +1,8 @@
 package com.example.server.core.manager.service.implement;
 
+import com.example.server.core.manager.model.mapper.MaDepartmentMapper;
+import com.example.server.core.manager.model.response.MaDepartmentEmployeesCurrentResponse;
 import com.example.server.core.manager.model.response.MaDepartmentResponse;
-import com.example.server.core.manager.model.response.MaDepartmentUserCurrentResponse;
 import com.example.server.core.manager.repository.MaDepartmentRepository;
 import com.example.server.core.manager.service.MaDepartmentService;
 import com.example.server.entity.Departments;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author duchieu212
@@ -23,6 +25,8 @@ import java.util.List;
 public class MaDepartmentServiceImpl implements MaDepartmentService {
 
     private final MaDepartmentRepository maDepartmentRepository;
+
+    private final MaDepartmentMapper maDepartmentMapper;
 
     @Override
     public List<MaDepartmentResponse> getAll() {
@@ -41,9 +45,13 @@ public class MaDepartmentServiceImpl implements MaDepartmentService {
     }
 
     @Override
-    public MaDepartmentUserCurrentResponse getDepartmentByUserCurrent() {
+    public MaDepartmentEmployeesCurrentResponse getDepartmentByUserCurrent() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return maDepartmentRepository
-                .getDepartmentByUserCurrent(email).orElseThrow(() -> new RestApiException(Message.YOU_HAVENT_DEPARTMENT));
+        Optional<Departments> departmentsOptional = maDepartmentRepository
+                .getDepartmentByUserCurrent(email);
+        if (departmentsOptional.isEmpty()) {
+            throw new RestApiException(Message.YOU_HAVENT_DEPARTMENT);
+        }
+        return maDepartmentMapper.departmentToMaDepartmentEmployeesCurrentResponse(departmentsOptional.get());
     }
 }

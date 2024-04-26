@@ -41,8 +41,8 @@ public class JwtTokenProvider {
                 .claim("fullName", employee.getFirstName() + " " + employee.getLastName())
                 .claim("birthday", employee.getBirthday())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + (2 * 1000)))
-//                .setExpiration(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)))
+//                .setExpiration(new Date(System.currentTimeMillis() + (2 * 1000)))
+                .setExpiration(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }

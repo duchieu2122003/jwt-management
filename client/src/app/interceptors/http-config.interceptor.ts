@@ -29,11 +29,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       } else if (error.status == 403) {
         this.toast.error('Không có quyền đăng nhập chức vụ này, vui lòng đăng nhập lại', 'Thông báo');
         this.router.navigate(['/403'])
-      } else if (error.status == 500) {
-        this.toast.error('Không có quyền đăng nhập chức vụ này, vui lòng đăng nhập lại', 'Thông báo');
-        this.router.navigate(['/403'])
       }
-      return throwError(error.message);
+      return throwError(error);
     }));
   }
 

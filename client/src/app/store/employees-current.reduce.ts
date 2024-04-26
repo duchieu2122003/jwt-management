@@ -4,7 +4,8 @@ import {createAction, createReducer, on, props} from "@ngrx/store";
 const initEmployeesLoginState: EmployeeLogin = {
   token: '',
   lastName: '',
-  role: ''
+  role: '',
+  id:''
 }
 export const setEmployeeCurrent = createAction(
   '[Set EmployeeLogin] Set EmployeeLogin',

@@ -1,9 +1,9 @@
 package com.example.server.core.manager.service.implement;
 
+import com.example.server.core.manager.model.mapper.MaMissionMapper;
 import com.example.server.core.manager.model.request.MaMissionsCreateRequest;
 import com.example.server.core.manager.model.request.MaMissionsUpdateRequest;
-import com.example.server.core.manager.model.response.MaMissionsResponse;
-import com.example.server.core.manager.model.response.MaMissionsSaveResponse;
+import com.example.server.core.manager.model.response.MaMissionResponse;
 import com.example.server.core.manager.repository.MaMissionsRepository;
 import com.example.server.core.manager.service.MaMissionsService;
 import com.example.server.entity.Missions;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author duchieu212
@@ -25,14 +26,17 @@ public class MaMissionsServiceImpl implements MaMissionsService {
 
     private final MaMissionsRepository maMissionsRepository;
 
+    private final MaMissionMapper maMissionMapper;
+
     @Override
-    public List<MaMissionsResponse> getAll() {
-        return maMissionsRepository.getAllMissions();
+    public List<MaMissionResponse> getAll() {
+        return maMissionsRepository.getAllMissions().stream()
+                .map(maMissionMapper::missionToMaMissionResponse).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public MaMissionsSaveResponse create(MaMissionsCreateRequest request) {
+    public MaMissionResponse create(MaMissionsCreateRequest request) {
         Optional<Missions> missionsFind = maMissionsRepository.findByName(request.getName());
         if (missionsFind.isEmpty()) {
             Missions missionsAdd = Missions.builder()
@@ -40,7 +44,7 @@ public class MaMissionsServiceImpl implements MaMissionsService {
                     .descriptions(request.getDescriptions())
                     .build();
             Missions save = maMissionsRepository.save(missionsAdd);
-            return MaMissionsSaveResponse.builder()
+            return MaMissionResponse.builder()
                     .id(save.getId())
                     .name(save.getName())
                     .descriptions(save.getDescriptions())
@@ -53,7 +57,7 @@ public class MaMissionsServiceImpl implements MaMissionsService {
 
     @Override
     @Transactional
-    public MaMissionsSaveResponse update(MaMissionsUpdateRequest request) {
+    public MaMissionResponse update(MaMissionsUpdateRequest request) {
         Missions findMissions = maMissionsRepository
                 .findById(request.getId()).orElseThrow(() -> new RestApiException(Message.MISSIONS_NOT_EXSIST));
         Optional<Missions> findMissionsName = maMissionsRepository
@@ -67,7 +71,7 @@ public class MaMissionsServiceImpl implements MaMissionsService {
                 .descriptions(request.getDescriptions())
                 .build();
         Missions saved = maMissionsRepository.save(save);
-        return MaMissionsSaveResponse.builder()
+        return MaMissionResponse.builder()
                 .id(saved.getId())
                 .name(saved.getName())
                 .descriptions(saved.getDescriptions())

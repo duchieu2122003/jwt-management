@@ -3,12 +3,11 @@ package com.example.server.core.manager.service.implement;
 import com.example.server.core.manager.model.request.MaEmployeesMissionsDeleteRequest;
 import com.example.server.core.manager.model.request.MaEmployeesMissionsRequest;
 import com.example.server.core.manager.model.request.MaEmployeesMissionsUpdateRequest;
+import com.example.server.core.manager.model.response.MaEmployeeMissionGetResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionDetailResponse;
-import com.example.server.core.manager.model.response.MaEmployeesMissionGetResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionUpdateResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionsCreateResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionsResponse;
-import com.example.server.core.manager.model.response.MaEmployeesResponse;
 import com.example.server.core.manager.repository.MaDepartmentRepository;
 import com.example.server.core.manager.repository.MaEmployeesRepository;
 import com.example.server.core.manager.repository.MaMissionsRepository;
@@ -140,8 +139,8 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
 
     @Override
     public MaEmployeesMissionDetailResponse getDetailToUpdateByEmployeeId(String id) {
-        Optional<MaEmployeesResponse> employees = maEmployeesRepository.getEmployeesById(id);
-        List<MaEmployeesMissionGetResponse> missionList = maEmployeesRepository.getMissionEmployeeByIdEmployee(id);
+        Optional<Employees> employees = maEmployeesRepository.getEmployeesById(id);
+        List<MaEmployeeMissionGetResponse> missionList = maEmployeesRepository.getMissionEmployeeByIdEmployee(id);
         if (employees.isEmpty()) {
             throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
         }
@@ -149,7 +148,7 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
         result.setEmployeesId(employees.get().getId());
         result.setCode(employees.get().getCode());
         result.setEmail(employees.get().getEmail());
-        result.setFullName(employees.get().getFullName());
+        result.setFullName(employees.get().getFirstName() + " " + employees.get().getLastName());
         List<String> missionsListId = new ArrayList<>();
         missionList.forEach(i -> missionsListId.add(i.getMissionId()));
         result.setMissionsListId(missionsListId);

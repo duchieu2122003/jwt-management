@@ -1,9 +1,8 @@
 package com.example.server.core.manager.repository;
 
-import com.example.server.core.manager.model.response.MaEmployeesMissionGetResponse;
+import com.example.server.core.manager.model.response.MaEmployeeMissionGetResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionUpdateResponse;
 import com.example.server.core.manager.model.response.MaEmployeesMissionsResponse;
-import com.example.server.core.manager.model.response.MaEmployeesResponse;
 import com.example.server.entity.Employees;
 import com.example.server.repositoty.EmployeesRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,35 +19,29 @@ import java.util.Optional;
 public interface MaEmployeesRepository extends EmployeesRepository {
 
     @Query(value = """
-            SELECT e.id as id, 
-                e.code as code,
-                CONCAT(e.firstName, ' ', e.lastName) as full_name,
-                e.email as email
+            SELECT e
              FROM Employees e WHERE e.departments IS NULL and e.role = 'STAFF'
             """)
-    List<MaEmployeesResponse> getAllEmployeesNotDepartment();
+    List<Employees> getAllEmployeesNotDepartment();
 
     @Query(value = """
-            SELECT e.id as id, 
-                e.code as code,
-                CONCAT(e.firstName, ' ', e.lastName) as full_name,
-                e.email as email
+            SELECT e
              FROM Employees e WHERE e.id = :id
             """)
-    Optional<MaEmployeesResponse> getEmployeesById(@Param("id") String id);
-
-    @Query(value = """
-                        SELECT em.employee_id as employee_id,
-                                em.mission_id as mission_id
-                         FROM employees_missions em WHERE em.employee_id = :id
-            """, nativeQuery = true)
-    List<MaEmployeesMissionGetResponse> getMissionEmployeeByIdEmployee(@Param("id") String id);
+    Optional<Employees> getEmployeesById(@Param("id") String id);
 
     @Query(value = """
             SELECT e
              FROM Employees e WHERE e.departments IS NULL
             """)
     List<Employees> getListEmployeesNotDepartment();
+
+    @Query(value = """
+                        SELECT em.employee_id as employee_id,
+                                em.mission_id as mission_id
+                         FROM employees_missions em WHERE em.employee_id = :id
+            """, nativeQuery = true)
+    List<MaEmployeeMissionGetResponse> getMissionEmployeeByIdEmployee(@Param("id") String id);
 
     @Query(value = """
             SELECT DISTINCT ROW_NUMBER() over (ORDER BY e.code ASC)  as stt,

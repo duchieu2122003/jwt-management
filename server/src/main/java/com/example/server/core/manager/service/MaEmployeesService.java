@@ -1,6 +1,6 @@
 package com.example.server.core.manager.service;
 
-import com.example.server.core.manager.model.response.MaEmployeesResponse;
+import com.example.server.core.manager.model.response.MaEmployeesResponses;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface MaEmployeesService {
 
-    List<MaEmployeesResponse> getAllEmployeesNotDepartment();
+    List<MaEmployeesResponses> getAllEmployeesNotDepartment();
 
 
     boolean deleteMissionsAnDepartmentForEmployees(String id);

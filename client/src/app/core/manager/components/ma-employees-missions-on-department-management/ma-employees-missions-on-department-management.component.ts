@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {
@@ -10,19 +10,17 @@ import {
 import {MaDepartmentsService} from "../../service/ma-departments.service";
 import {MaEmployeesMissionsService} from "../../service/ma-employees-missions.service";
 import {MaEmployeesService} from "../../service/ma-employees.service";
-import {jwtDecode} from "jwt-decode";
+import {select, Store} from "@ngrx/store";
+import {EmployeeLogin} from "../../../../entitis/EmployeeLogin";
+import {Observable, Subscription} from "rxjs";
 
-
-interface UserDecode {
-  id: string;
-}
 
 @Component({
   selector: 'app-ma-employees-missions-on-department-management',
   templateUrl: './ma-employees-missions-on-department-management.component.html',
   styleUrl: './ma-employees-missions-on-department-management.component.css'
 })
-export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnInit {
+export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnInit, OnDestroy {
 
   departments = {
     id: '',
@@ -43,30 +41,38 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     gender: string,
     status: string;
   }[] = [];
-  employeeCurrent: UserDecode = {
-    id: '',
+
+  employeeLogin$: Observable<EmployeeLogin>;
+  employeeCurrent: EmployeeLogin = {
+    token: '',
+    role: '',
+    lastName: '',
+    id: ''
   };
+  subscription: Subscription;
 
   constructor(private maDepartmentsService: MaDepartmentsService,
               private maEmployeesMissionsService: MaEmployeesMissionsService,
               private maEmployeesService: MaEmployeesService,
               private toast: ToastrService,
               private dialogRef: MatDialog,
+              private store: Store<{ employeeCurrent: EmployeeLogin }>
   ) {
+    this.employeeLogin$ = store.pipe(select('employeeCurrent'));
+    this.subscription = this.employeeLogin$.subscribe((data: EmployeeLogin) =>
+      this.employeeCurrent = data
+    )
   }
 
   ngOnInit(): void {
-    this.getIdEmployeesGenToken();
     this.getDepartmentsUserCurrent();
   }
 
-  getIdEmployeesGenToken() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.employeeCurrent = jwtDecode(token);
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
-
   getDepartmentsUserCurrent() {
     this.maDepartmentsService.getDepartmentsUserCurrent().subscribe({
       next: (response) => {
@@ -136,6 +142,7 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
           this.toast.error("Xóa nhân viên khỏi phòng ban thất bại", "Thông báo");
         }
       }, error: (err) => {
+        console.log(err)
         this.toast.error(err.error.message, "Thông báo");
       }
     })

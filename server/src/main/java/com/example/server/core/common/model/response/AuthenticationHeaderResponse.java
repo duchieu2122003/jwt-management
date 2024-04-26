@@ -17,6 +17,8 @@ import lombok.Setter;
 @Builder
 public class AuthenticationHeaderResponse {
 
+    private String id;
+
     private Role role;
 
     private String lastName;

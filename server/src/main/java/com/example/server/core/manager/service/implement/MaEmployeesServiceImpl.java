@@ -1,6 +1,7 @@
 package com.example.server.core.manager.service.implement;
 
-import com.example.server.core.manager.model.response.MaEmployeesResponse;
+import com.example.server.core.manager.model.mapper.MaEmployeeMapper;
+import com.example.server.core.manager.model.response.MaEmployeesResponses;
 import com.example.server.core.manager.repository.MaEmployeesRepository;
 import com.example.server.core.manager.service.MaEmployeesService;
 import com.example.server.entity.Employees;
@@ -11,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author duchieu212
@@ -23,9 +26,12 @@ public class MaEmployeesServiceImpl implements MaEmployeesService {
 
     private final MaEmployeesRepository maEmployeesRepository;
 
+    private final MaEmployeeMapper maEmployeeMapper;
+
     @Override
-    public List<MaEmployeesResponse> getAllEmployeesNotDepartment() {
-        return maEmployeesRepository.getAllEmployeesNotDepartment();
+    public List<MaEmployeesResponses> getAllEmployeesNotDepartment() {
+        return maEmployeesRepository.getAllEmployeesNotDepartment().stream()
+                .map(maEmployeeMapper::employeeToMaEmployeesResponses).collect(Collectors.toList());
     }
 
     @Override

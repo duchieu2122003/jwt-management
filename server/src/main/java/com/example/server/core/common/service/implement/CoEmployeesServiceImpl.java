@@ -70,6 +70,7 @@ public class CoEmployeesServiceImpl implements CoEmployeesService {
         SecurityContextHolder.getContext().setAuthentication(auth);
         return AuthenticationResponse.builder()
                 .token(token)
+                .id(employee.getId())
                 .lastName(employee.getLastName())
                 .role(employee.getRole())
                 .build();
@@ -98,6 +99,7 @@ public class CoEmployeesServiceImpl implements CoEmployeesService {
         employeesId.setCountry(request.getCountry());
         Employees employeeSave = coEmployeesRepository.save(employeesId);
         return AuthenticationResponse.builder()
+                .id(employeeSave.getId())
                 .lastName(employeeSave.getLastName())
                 .role(employeeSave.getRole())
                 .token(jwtTokenProvider.generateToken(coEmployeesMapper
@@ -113,6 +115,7 @@ public class CoEmployeesServiceImpl implements CoEmployeesService {
         if (employee.isEmpty())
             throw new RestApiException(Message.EMPLOYEE_NOT_EXIST);
         return AuthenticationHeaderResponse.builder()
+                .id(employee.get().getId())
                 .role(employee.get().getRole())
                 .lastName(employee.get().getLastName())
                 .build();

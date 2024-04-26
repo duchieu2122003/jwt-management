@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   employeeCurrent: EmployeeLogin = {
     token: '',
     lastName: '',
-    role: ''
+    role: '',
+    id: ''
   };
 
   constructor(private toast: ToastrService,
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {
     this.employeeLogin$ = store.pipe(select('employeeCurrent'));
     this.subscription = this.employeeLogin$.subscribe((data: EmployeeLogin) => {
-        this.employeeCurrent = data;
+      this.employeeCurrent = data;
     });
   }
 
