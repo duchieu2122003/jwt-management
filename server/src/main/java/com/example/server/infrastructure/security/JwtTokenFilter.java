@@ -40,9 +40,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 throw new RestApiException(message);
             }
         }
-//        else {
-//            throw new RestApiException("Token hệ thống lỗi, vui lòng đăng nhập lại");
-//        }
         filterChain.doFilter(request, response);
     }
 

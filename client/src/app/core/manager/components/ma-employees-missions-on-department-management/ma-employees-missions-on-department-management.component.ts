@@ -40,6 +40,7 @@ export class MaEmployeesMissionsOnDepartmentManagementComponent implements OnIni
     fullName: string,
     gender: string,
     status: string;
+    totalSalary:number
   }[] = [];
 
   employeeLogin$: Observable<EmployeeLogin>;

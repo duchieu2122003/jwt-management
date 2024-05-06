@@ -3,7 +3,9 @@ package com.example.server.core.admin.repository;
 import com.example.server.entity.Departments;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import com.example.server.repositoty.DepartmentsRepository;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -25,4 +27,8 @@ public interface AdDepartmentsRepository extends DepartmentsRepository {
             WHERE e.department_id LIKE :id
             """, nativeQuery = true)
     List<String> getIdEmployeeOnIdDepartment(@Param("id") String id);
+
+    @Override
+    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+    List<Departments> findAll();
 }

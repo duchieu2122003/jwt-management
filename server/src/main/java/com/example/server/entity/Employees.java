@@ -4,6 +4,7 @@ import com.example.server.infrastructure.constant.EntityProperties;
 import com.example.server.infrastructure.constant.Gender;
 import com.example.server.infrastructure.constant.Role;
 import com.example.server.infrastructure.constant.StatusEmployee;
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,8 +25,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Nationalized;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -40,7 +44,9 @@ import java.util.Set;
 @Entity
 @Table(name = "employees")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Employees {
+@Cacheable
+@Cache(region = "employeesCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Employees implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -95,8 +101,9 @@ public class Employees {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @Cache(region = "employeesCache", usage = CacheConcurrencyStrategy.READ_WRITE)
     Departments departments;
 
     @ManyToMany(fetch = FetchType.EAGER)

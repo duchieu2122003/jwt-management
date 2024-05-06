@@ -40,22 +40,26 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
     }
 
     @Override
+//    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
     public List<AdDepartmentsCustomResponse> getAll() {
         List<Departments> list = adDepartmentsRepository.findAll();
-        return list.stream().map(adDepartmentMapper::departmentsToCustomResponse).collect(Collectors.toList());
+        List<AdDepartmentsCustomResponse> result = list.stream().map(adDepartmentMapper::departmentsToCustomResponse).collect(Collectors.toList());
+        return result;
     }
 
     @Override
     public AdDepartmentsGetResponse detail(String id) {
         Departments departments = adDepartmentsRepository.findById(id)
                 .orElseThrow(() -> new RestApiException(Message.DEPARTMENT_NOT_EXSIST));
-        return AdDepartmentsGetResponse.builder()
+        AdDepartmentsGetResponse result = AdDepartmentsGetResponse.builder()
                 .id(departments.getId())
                 .name(departments.getName())
                 .descriptions(departments.getDescriptions())
                 .status(departments.getStatus())
                 .build();
+        return result;
     }
+
 
     @Override
     @Transactional
@@ -88,9 +92,6 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
     public AdDepartmentsGetResponse update(AdDepartmentUpdateRequest request) {
         Optional<Departments> findDepartments = adDepartmentsRepository
                 .findById(request.getId());
-        if (findDepartments.isEmpty()) {
-            throw new RestApiException(Message.DEPARTMENT_NOT_EXSIST);
-        }
         Optional<Departments> findDepartmentsName = adDepartmentsRepository
                 .findDepartmentsByName(request.getName());
         if (findDepartmentsName.isPresent() && !findDepartments.get().getId().equals(findDepartmentsName.get().getId())) {
@@ -101,7 +102,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
                     exist.setId(request.getId());
                     exist.setName(request.getName());
                     exist.setDescriptions(request.getDescriptions());
-                    exist.setStatus(request.getStatus());
+                    exist.setStatus(StatusDepartment.ACTIVE);
                     return adDepartmentsRepository.save(exist);
                 })
                 .orElse(findDepartments.get());
@@ -109,7 +110,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentsService {
                 .id(save.getId())
                 .name(save.getName())
                 .descriptions(save.getDescriptions())
-                .status(save.getStatus())
+                .status(StatusDepartment.ACTIVE)
                 .build();
     }
 

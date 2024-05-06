@@ -24,4 +24,6 @@ public class MaMissionsCreateRequest {
 
     @Size(max = EntityProperties.LENGTH_DESCRIPTIONS,message = "Mô tả không được quá 1000 ký tự")
     String descriptions;
+
+    Integer salary;
 }

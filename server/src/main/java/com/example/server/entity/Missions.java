@@ -1,6 +1,7 @@
 package com.example.server.entity;
 
 import com.example.server.infrastructure.constant.EntityProperties;
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @AllArgsConstructor
@@ -24,6 +27,8 @@ import lombok.experimental.FieldDefaults;
 @ToString
 @Getter
 @Table(name = "missions")
+@Cacheable
+@Cache(region = "missionsCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Missions {
 
     @Id
@@ -37,4 +42,6 @@ public class Missions {
     @Column(name = "descriptions", length = EntityProperties.LENGTH_DESCRIPTIONS)
     String descriptions;
 
+    @Column(name = "salary")
+    Integer salary;
 }

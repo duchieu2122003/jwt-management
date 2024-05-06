@@ -51,7 +51,8 @@ public class AdEmployeesServiceImpl implements AdEmployeesService {
         }
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<Employees> pageEmployees = adEmployeesRepository.getAdPageEmployeeCustom(request, pageable);
-        return pageEmployees.map(e -> adEmployeesMapper.employeesToAdEmployeesCustom(e));
+        Page<AdEmployeesCustomResponse> pageResult = pageEmployees.map(e -> adEmployeesMapper.employeesToAdEmployeesCustom(e));
+        return pageResult;
     }
 
     @Override

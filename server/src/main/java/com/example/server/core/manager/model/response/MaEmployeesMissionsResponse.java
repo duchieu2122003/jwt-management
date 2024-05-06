@@ -40,4 +40,7 @@ public interface MaEmployeesMissionsResponse {
 
     @Value("#{target.full_missions}")
     String getFullMissions();
+
+    @Value("#{target.total_salary}")
+    Integer getTotalSalary();
 }

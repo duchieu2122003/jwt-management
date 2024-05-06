@@ -15,6 +15,7 @@ export class MaCreateMissionComponent {
     id: '',
     name: '',
     descriptions: '',
+    salary:0
   }
 
   constructor(private maMissionsService: MaMissionsService,

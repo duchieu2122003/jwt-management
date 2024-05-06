@@ -9,9 +9,17 @@
       <div class="modal-body">
         <div class="was-validated">
           <div class="row">
-            <div class="mb-3 d-flex align-items-start col-12 flex-column">
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
               <label class="form-label">Tên nhiệm vụ</label>
               <input [(ngModel)]="objUpdate.name" class="form-control" placeholder="Nhập tên"
+                     required>
+              <div class="invalid-feedback">
+                Không được để trống
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start col-6 flex-column">
+              <label class="form-label">Lương</label>
+              <input type="number" [(ngModel)]="objUpdate.salary" class="form-control" placeholder="Nhập lương"
                      required>
               <div class="invalid-feedback">
                 Không được để trống

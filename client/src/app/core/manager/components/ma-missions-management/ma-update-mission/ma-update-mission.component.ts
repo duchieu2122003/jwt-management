@@ -14,7 +14,8 @@ export class MaUpdateMissionComponent implements OnInit {
   objUpdate: Missions = {
     id: '',
     name: '',
-    descriptions: ''
+    descriptions: '',
+    salary:0
   };
 
 
@@ -30,6 +31,7 @@ export class MaUpdateMissionComponent implements OnInit {
     this.objUpdate = {
       id: this.data.missionUpdate.id,
       name: this.data.missionUpdate.name,
+      salary:this.data.missionUpdate.salary,
       descriptions: this.data.missionUpdate.descriptions
     };
   }

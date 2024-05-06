@@ -41,12 +41,14 @@ public class MaMissionsServiceImpl implements MaMissionsService {
         if (missionsFind.isEmpty()) {
             Missions missionsAdd = Missions.builder()
                     .name(request.getName())
+                    .salary(request.getSalary())
                     .descriptions(request.getDescriptions())
                     .build();
             Missions save = maMissionsRepository.save(missionsAdd);
             return MaMissionResponse.builder()
                     .id(save.getId())
                     .name(save.getName())
+                    .salary(save.getSalary())
                     .descriptions(save.getDescriptions())
                     .build();
         } else {
@@ -69,11 +71,13 @@ public class MaMissionsServiceImpl implements MaMissionsService {
                 .id(findMissions.getId())
                 .name(request.getName())
                 .descriptions(request.getDescriptions())
+                .descriptions(request.getDescriptions())
                 .build();
         Missions saved = maMissionsRepository.save(save);
         return MaMissionResponse.builder()
                 .id(saved.getId())
                 .name(saved.getName())
+                .salary(save.getSalary())
                 .descriptions(saved.getDescriptions())
                 .build();
     }

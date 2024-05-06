@@ -57,4 +57,5 @@ public class AdEmployeesController {
     public ResponseObject update(@PathVariable String id) {
         return new ResponseObject(adEmployeesService.setEmployeeQuit(id));
     }
+
 }

@@ -14,7 +14,8 @@ export  class MaMissionsService {
   missionCreate: BehaviorSubject<Missions> = new BehaviorSubject<Missions>({
     id: '',
     name: '',
-    descriptions: ''
+    descriptions: '',
+    salary:0
   });
    $missionCreate = this.missionCreate.asObservable();
 

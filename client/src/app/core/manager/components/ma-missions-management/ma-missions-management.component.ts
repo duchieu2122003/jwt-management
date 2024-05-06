@@ -9,7 +9,8 @@ import {MaUpdateMissionComponent} from "./ma-update-mission/ma-update-mission.co
 interface Missions {
   id: string,
   name: string,
-  descriptions: string
+  descriptions: string,
+  salary:number
 }
 
 @Component({

@@ -1,7 +1,6 @@
 package com.example.server.core.manager.model.request;
 
 import com.example.server.infrastructure.constant.EntityProperties;
-import com.example.server.infrastructure.constant.StatusDepartment;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -28,4 +27,5 @@ public class MaMissionsUpdateRequest {
     @Size(max = EntityProperties.LENGTH_DESCRIPTIONS, message = "Mô tả không được quá 1000 ký tự")
     String descriptions;
 
+    Integer salary;
 }

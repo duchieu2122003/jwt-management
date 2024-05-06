@@ -64,13 +64,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(value = ExpiredJwtException.class)
-//    public ResponseEntity<?> handleExpiredJwtExceptionException(HttpRequestMethodNotSupportedException ex) {
-//        log.error("==================handleExpiredJwtExceptionException================ " + ex.getMessage());
-//
-//        ApiErrorResponse apiErrorResponse = new ApiErrorResponse("Phiên đăng nhập đã hết hạn hoặc lỗi hệ thống" + ex.getMessage());
-//        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<?> handleExpiredJwtExceptionException(HttpRequestMethodNotSupportedException ex) {
+        log.error("==================handleExpiredJwtExceptionException================ " + ex.getMessage());
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse("Phiên đăng nhập đã hết hạn hoặc lỗi hệ thống" + ex.getMessage());
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
 
 

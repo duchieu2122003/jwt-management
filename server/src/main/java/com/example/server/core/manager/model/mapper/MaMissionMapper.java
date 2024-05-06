@@ -15,6 +15,7 @@ public class MaMissionMapper {
                 .id(missions.getId())
                 .name(missions.getName())
                 .descriptions(missions.getDescriptions())
+                .salary(missions.getSalary())
                 .build();
     }
 }

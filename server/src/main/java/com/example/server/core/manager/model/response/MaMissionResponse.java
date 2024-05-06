@@ -24,4 +24,6 @@ public class MaMissionResponse {
     String name;
 
     String descriptions;
+
+    Integer salary;
 }

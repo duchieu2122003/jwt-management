@@ -33,7 +33,7 @@ public class AdDepartmentsController {
     }
 
     @GetMapping("/get-all")
-    public ResponseObject getAllDepartment() {
+    public ResponseObject getAllDepartment(){
         return new ResponseObject(adDepartmentsService.getAll());
     }
 

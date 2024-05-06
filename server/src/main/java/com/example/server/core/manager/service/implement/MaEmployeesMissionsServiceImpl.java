@@ -91,6 +91,11 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
             Set<String> missionsJoin = i.getMissions().stream()
                     .map(Missions::getName)
                     .collect(Collectors.toSet());
+            Integer totalSalary = i.getMissions().stream()
+                    .filter(mission -> mission.getSalary() != null)
+                    .mapToInt(Missions::getSalary)
+                    .sum();
+
             String missionsString = String.join(", ", missionsJoin);
             MaEmployeesMissionsCreateResponse obj = MaEmployeesMissionsCreateResponse.builder()
                     .id(i.getId())
@@ -102,6 +107,7 @@ public class MaEmployeesMissionsServiceImpl implements MaEmployeesMissionsServic
                     .gender(i.getGender())
                     .status(i.getStatus())
                     .fullMissions(missionsString)
+                    .totalSalary(totalSalary)
                     .build();
             result.add(obj);
         });

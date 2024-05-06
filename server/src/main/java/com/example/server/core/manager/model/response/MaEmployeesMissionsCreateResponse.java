@@ -36,5 +36,8 @@ public class MaEmployeesMissionsCreateResponse {
     StatusEmployee status;
 
     String fullMissions;
+
+    Integer totalSalary;
+
 }
 

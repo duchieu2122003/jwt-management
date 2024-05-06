@@ -27,8 +27,7 @@ export class HeaderComponent implements OnInit {
               private toast: ToastrService,
               private coEmployeesService: CoEmployeesService,
               private router: Router,
-              private store: Store<{ employeeCurrent: EmployeeLogin }>
-  ) {
+              private store: Store<{ employeeCurrent: EmployeeLogin }>) {
     this.employeeLogin$ = store.pipe(select('employeeCurrent'));
     this.employeeLogin$.subscribe((data: EmployeeLogin) => {
       this.employeeCurrent = data;
@@ -56,7 +55,6 @@ export class HeaderComponent implements OnInit {
         this.toast.success('Đăng xuất thành công', 'Thông báo', {
           timeOut: 2000,
           positionClass: 'toast-top-center',
-          progressBar: true
         });
         this.router.navigate(["/common/login"]);
         sessionStorage.clear();
@@ -64,7 +62,6 @@ export class HeaderComponent implements OnInit {
         this.toast.info('Lỗi hệ thống, đăng xuất thất bại', 'Thông báo', {
           timeOut: 2000,
           positionClass: 'toast-top-center',
-          progressBar: true
         });
       }
     });
