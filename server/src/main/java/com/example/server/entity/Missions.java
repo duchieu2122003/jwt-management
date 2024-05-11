@@ -28,7 +28,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Getter
 @Table(name = "missions")
 @Cacheable
-@Cache(region = "missionsCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "missions", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Missions {
 
     @Id

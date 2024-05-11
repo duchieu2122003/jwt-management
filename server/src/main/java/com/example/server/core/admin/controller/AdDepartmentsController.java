@@ -27,10 +27,10 @@ public class AdDepartmentsController {
 
     private final AdDepartmentsService adDepartmentsService;
 
-    @GetMapping()
-    public ResponseObject getAllDepartmentActive() {
-        return new ResponseObject(adDepartmentsService.getAllDepartmentActive());
-    }
+//    @GetMapping()
+//    public ResponseObject getAllDepartmentActive() {
+//        return new ResponseObject(adDepartmentsService.getAllDepartmentActive());
+//    }
 
     @GetMapping("/get-all")
     public ResponseObject getAllDepartment(){

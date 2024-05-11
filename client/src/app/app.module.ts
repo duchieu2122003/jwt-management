@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FooterComponent} from './layout/footer/footer.component';
@@ -26,7 +25,7 @@ import {MatInput} from "@angular/material/input";
 import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {NgOptimizedImage} from "@angular/common";
 import {ToastrModule} from "ngx-toastr";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {HttpConfigInterceptor} from "./interceptors/http-config.interceptor";
 import {
   AdCreateEmployeesComponent
@@ -67,6 +66,8 @@ import {
 } from './core/manager/components/ma-missions-management/ma-update-mission/ma-update-mission.component';
 import {StoreModule} from "@ngrx/store";
 import {employeeCurrentLogin} from "./store/employees-current.reduce";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 @NgModule({
   declarations: [
@@ -117,13 +118,23 @@ import {employeeCurrentLogin} from "./store/employees-current.reduce";
     NgSelectModule,
     ToastrModule.forRoot(),
     StoreModule.forRoot({employeeCurrent: employeeCurrentLogin}),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactoryInit,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     provideAnimationsAsync(),
     {provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+export function httpLoaderFactoryInit(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }

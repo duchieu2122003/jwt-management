@@ -45,7 +45,7 @@ import java.util.Set;
 @Table(name = "employees")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Cacheable
-@Cache(region = "employeesCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "employees", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employees implements Serializable {
 
     @Id
@@ -101,11 +101,12 @@ public class Employees implements Serializable {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    @Cache(region = "employees", usage = CacheConcurrencyStrategy.READ_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
-    @Cache(region = "employeesCache", usage = CacheConcurrencyStrategy.READ_WRITE)
     Departments departments;
 
+    @Cache(region = "employees", usage = CacheConcurrencyStrategy.READ_ONLY)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employees_missions",

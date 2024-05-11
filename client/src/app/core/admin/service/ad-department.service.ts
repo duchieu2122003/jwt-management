@@ -13,10 +13,6 @@ export class AdDepartmentService {
   constructor(private http: HttpClient) {
   }
 
-  getAllDepartment(): Observable<any> {
-    return this.http.get(api);
-  }
-
   getAllDepartmentView(): Observable<any> {
     return this.http.get(api + '/get-all');
   }

@@ -32,12 +32,12 @@ import java.io.Serializable;
 @Builder
 @Entity
 @ToString
-@Table(name = "departments")
 @Cacheable
-@Cache(region = "departmentsCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "departments", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "departments")
 public class Departments implements Serializable {
 
-    private static final long serialVersionUID = -3885948600652210064L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

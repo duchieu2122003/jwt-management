@@ -4,6 +4,8 @@ import com.example.server.entity.Departments;
 import com.example.server.infrastructure.constant.StatusDepartment;
 import com.example.server.repositoty.DepartmentsRepository;
 import jakarta.persistence.QueryHint;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
@@ -18,10 +20,25 @@ import java.util.Optional;
 @Repository
 public interface AdDepartmentsRepository extends DepartmentsRepository {
 
+    @QueryHints(value = {
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
+    })
     List<Departments> findAllByStatus(StatusDepartment statusDepartment);
 
+    @QueryHints(value = {
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
+    })
     Optional<Departments> findDepartmentsByName(String name);
 
+    @Override
+    @QueryHints(value = {
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
+    })
+    List<Departments> findAll();
+
+    @QueryHints(value = {
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
+    })
     @Query(value = """
             SELECT e.id FROM employees e 
             WHERE e.department_id LIKE :id
@@ -29,6 +46,15 @@ public interface AdDepartmentsRepository extends DepartmentsRepository {
     List<String> getIdEmployeeOnIdDepartment(@Param("id") String id);
 
     @Override
-    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
-    List<Departments> findAll();
+    @Transactional(value = Transactional.TxType.REQUIRED)
+    Departments save(Departments departments);
+
+    @Override
+    @Transactional
+    @Modifying
+    void delete(Departments departments);
+
+//    @Override
+//    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+//    List<Departments> findAll();
 }
