@@ -55,12 +55,16 @@ export class AdUpdateEmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.adDepartmentsService.getAllDepartment().subscribe({
+    this.adDepartmentsService.getAllDepartmentView().subscribe({
       next: (response) => {
         this.listDepartments = response.data;
       }
     })
-
+    // this.adDepartmentsService.getAllDepartment().subscribe({
+    //   next: (response) => {
+    //     this.listDepartments = response.data;
+    //   }
+    // })
     this.adEmployeesService.getDetailEmployees(this.data.id).subscribe({
       next: (response) => {
         this.objUpdate = response.data;

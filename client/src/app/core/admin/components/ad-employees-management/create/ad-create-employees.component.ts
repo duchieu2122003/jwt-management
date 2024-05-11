@@ -49,7 +49,7 @@ export class AdCreateEmployeesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.adDepartmentService.getAllDepartment().subscribe({
+    this.adDepartmentService.getAllDepartmentView().subscribe({
       next: (response) => {
         this.listDepartments = response.data;
       }

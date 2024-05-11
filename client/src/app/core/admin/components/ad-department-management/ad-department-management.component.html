@@ -1,4 +1,26 @@
 <app-common-header></app-common-header>
+<div>
+<!--  DOM-->
+<!--  <button (click)="changeLng('en')">-->
+<!--    english-->
+<!--  </button>-->
+<!--  <button (click)="changeLng('de')">-->
+<!--    german-->
+<!--  </button>-->
+<!--  <hr />-->
+<!--  <div id="title_name"></div>-->
+<!--  <button id="saveBtn"></button>-->
+<!--  <hr />-->
+<!--  <div id="info"></div>-->
+<!--  <hr/>-->
+<!--  <br>-->
+  <button type="button" class="btn btn-outline-primary" (click)="changeLanguage('en')">English</button>
+  <button type="button" class="btn btn-outline-warning" (click)="changeLanguage('vi')">Vietnamese</button>
+  <h1>{{"departments.title_1"|translate}}</h1>
+  <h2 style="color: red">{{'departments.title_2'|translate}}</h2>
+  <h3 style="color: green">{{'departments.title_3'|translate}}</h3>
+  <h4 class="strong" style="color: midnightblue">{{'departments.language'|translate}}</h4>
+</div>
 <div class="container">
   <div class="d-flex justify-content-center" style="font-size: 30px; padding:20px">
     <span>Quản lý phòng ban</span>

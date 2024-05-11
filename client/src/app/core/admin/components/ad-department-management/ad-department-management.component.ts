@@ -4,7 +4,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AdDepartmentService} from "../../service/ad-department.service";
 import {AdDepartmentCreateComponent} from "./ad-department-create/ad-department-create.component";
 import {AdDepartmentUpdateComponent} from "./ad-department-update/ad-department-update.component";
-
+import {TranslateService} from "@ngx-translate/core";
+import {LoadTranslationService} from "../../../../../assets/i18n/load-translation.service";
 @Component({
   selector: 'app-ad-department-management',
   templateUrl: './ad-department-management.component.html',
@@ -12,20 +13,23 @@ import {AdDepartmentUpdateComponent} from "./ad-department-update/ad-department-
 })
 export class AdDepartmentManagementComponent implements OnInit {
 
-   listDepartments: {
-    stt: number,
+  listDepartments: {
     id: string,
+    stt: number,
     name: string,
     descriptions: string,
-     status: string
+    status: string
   }[] = [];
 
   constructor(private adDepartmentsService: AdDepartmentService,
               private toast: ToastrService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private translationService: TranslateService,
+              private loadTranslationService: LoadTranslationService) {
   }
 
   ngOnInit(): void {
+    this.translationService.use(this.loadTranslationService.langStorage()+'departments');
     this.adDepartmentsService.getAllDepartmentView().subscribe({
       next: (response) => {
         this.listDepartments = response.data
@@ -78,5 +82,37 @@ export class AdDepartmentManagementComponent implements OnInit {
         }
       }
     });
+  }
+
+  createInstance() {
+    // i18next.init({}, (err, t) => {
+    //   // Hàm này sẽ được gọi khi i18next đã hoàn tất khởi tạo
+    //   if (err) {
+    //     console.error('Error initializing i18next:', err);
+    //     return;
+    //   }
+    // });
+
+    // i18next.on('languageChanged', () => {
+    //   this.updateContent();
+    // });
+
+  }
+
+  // updateContent() {
+  //   document.getElementById('title_name')!.innerHTML = i18next.t('title', { what: 'i18next' });
+  //   document.getElementById('saveBtn')!.innerHTML = i18next.t('common:button.save', { count: Math.floor(Math.random() * 2 + 1) });
+  //   document.getElementById('info')!.innerHTML = `Chuyển : "${i18next.language}"  --> qua: "${i18next.languages.join(', ')}"`;
+  // }
+  // changeLng(lng: any) {
+  //   if (typeof i18next !== 'undefined') {
+  //     i18next.changeLanguage(lng).then(r => this.toast.info("Chuyển đổi ngôn ngữ qua: "+i18next.language));
+  //   } else {
+  //    this.toast.error("Lỗi i18");
+  //   }
+  // }
+  changeLanguage(lang: string): void {
+    localStorage.setItem('lang', lang);
+    this.loadTranslationService.switchLanguage(lang, 'departments');
   }
 }

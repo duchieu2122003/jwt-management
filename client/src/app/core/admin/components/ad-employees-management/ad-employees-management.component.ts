@@ -77,6 +77,8 @@ export class AdEmployeesManagementComponent implements OnInit {
             return i.ProvinceName;
           });
         }
+      },error:(err)=>{
+        console.log(err);
       }
     })
   }

@@ -4,6 +4,13 @@
   "newProjectRoot": "projects",
   "projects": {
     "client": {
+      "i18n": {
+        "sourceLocale": "de",
+        "locales": {
+          "vi": "src/locale/messages.vi.json",
+          "en": "src/locale/messages.en.json"
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -32,7 +39,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/i18next/dist",
+                "output": "/assets/i18next"
+              }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
