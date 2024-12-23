@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class StaffComponent {
 
   registerAll(){
+    let b = true;
     let a = 1;
   }
 }
