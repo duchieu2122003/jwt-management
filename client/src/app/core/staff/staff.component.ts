@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class StaffComponent {
 
+  registerAll(){
+    let a = 1;
+  }
 }
